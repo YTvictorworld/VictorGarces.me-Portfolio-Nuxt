@@ -1,13 +1,12 @@
 <script setup lang="ts">
 import type { IndexCollectionItem } from '@nuxt/content'
+const { footer } = useAppConfig()
 
 // Ajusta el query para que coincida con tu content.config.ts
 const { data: page } = await useAsyncData('index-page', () =>
   queryCollection('index').first(), 
   { default: () => ({}) as IndexCollectionItem }
 )
-
-
 /* if (!page.value) {
   throw createError({
     statusCode: 404,
@@ -29,6 +28,9 @@ useSeoMeta({
 
 <!--     <LandingHero :page="page as IndexCollectionItem" />
  -->
+
+
+
   <div v-if="page && page.hero">
   
   </div>
