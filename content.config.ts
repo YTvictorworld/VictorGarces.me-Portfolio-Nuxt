@@ -126,6 +126,24 @@ export default defineContentConfig({
         content: z.object({}),
         images: z.array(createImageSchema())
       })
+    }),
+    bag: defineCollection({
+      type: 'data',
+      source: 'bag.yml',
+      schema: z.object({
+        categories: z.array(
+          z.object({
+            title: z.string().nonempty(),
+            items: z.array(
+              z.object({
+                title: z.string().nonempty(),
+                url: z.string().url().optional(),
+                description: z.string().optional()
+              })
+            )
+          })
+        )
+      })
     })
   }
 })

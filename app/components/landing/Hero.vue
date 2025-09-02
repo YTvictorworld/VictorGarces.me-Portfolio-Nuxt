@@ -32,10 +32,10 @@ defineProps<{
         >
           <!-- Alternativa a UColorModeAvatar -->
           <UAvatar
-            class="size-22 ring-4 ring-primary-500/20 ring-offset-4 ring-offset-white dark:ring-offset-gray-900"
+            class="size-24 ring-4 ring-primary-500/20 ring-offset-4 ring-offset-white dark:ring-offset-gray-900"
             :src="$colorMode.value === 'dark' ? global?.picture?.dark : global?.picture?.light"
             :alt="global?.picture?.alt"
-            size="3xl"
+            
           />
         </Motion>
       </div>
