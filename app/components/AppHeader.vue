@@ -44,7 +44,7 @@ defineProps<{
         </li>
         <li class="flex-1"></li>
         <li>
-          <ColorModeButton class="pl-4"/>
+          <ColorModeButton/>
         </li>
       </ul>
     </nav>

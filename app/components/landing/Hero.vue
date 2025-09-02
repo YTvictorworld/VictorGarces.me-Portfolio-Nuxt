@@ -6,6 +6,7 @@ const { footer, global } = useAppConfig()
 defineProps<{
   page: IndexCollectionItem
 }>()
+
 </script>
 
 <template>
@@ -31,7 +32,7 @@ defineProps<{
         >
           <!-- Alternativa a UColorModeAvatar -->
           <UAvatar
-            class="size-18 ring-4 ring-primary-500/20 ring-offset-4 ring-offset-white dark:ring-offset-gray-900"
+            class="size-22 ring-4 ring-primary-500/20 ring-offset-4 ring-offset-white dark:ring-offset-gray-900"
             :src="$colorMode.value === 'dark' ? global?.picture?.dark : global?.picture?.light"
             :alt="global?.picture?.alt"
             size="3xl"
@@ -56,7 +57,7 @@ defineProps<{
           delay: 0.1
         }"
       >
-        <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold mb-6 max-w-4xl mx-auto leading-tight text-shadow-md">
+        <h1 class="text-4x1 sm:text-4xl md:text-5xl font-bold mb-6 max-w-4xl mx-auto leading-tight text-shadow-md">
           {{ page.title }}
         </h1>
       </Motion>
@@ -102,12 +103,18 @@ defineProps<{
       >
         <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-8">
           <!-- Main CTA Button -->
+        
           <UButton
-            v-if="page?.hero?.links?.[0]"
-            v-bind="page.hero.links"
+            :color="page?.hero?.links?.[0]?.color || 'neutral'"
             size="lg"
-            class="px-8"
-          />
+            class="gap-2"
+            :to="page?.hero?.links?.[0]?.to"
+            :label="page?.hero?.links?.[0]?.label"
+          >
+          </UButton>
+
+      <!-- Social Links -->
+        
           
           <!-- Availability Status -->
           <UButton

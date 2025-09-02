@@ -38,7 +38,7 @@ export default defineContentConfig({
   collections: {
     index: defineCollection({
       type: 'page',
-      source: '**/*.md',
+      source: 'index.yml',
       schema: z.object({
         hero: z.object({
           links: z.array(createButtonSchema()),
@@ -47,7 +47,7 @@ export default defineContentConfig({
         about: createBaseSchema(),
         experience: createBaseSchema().extend({
           items: z.array(z.object({
-            date: z.date(),
+            date: z.string(),
             position: z.string(),
             company: z.object({
               name: z.string(),

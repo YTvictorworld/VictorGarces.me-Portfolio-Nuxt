@@ -27,6 +27,10 @@ export const navLinks: navLinksOpts[] = [
   label: 'About',
   icon: 'i-lucide-user',
   to: '/about'
+},  {
+  label: 'What is in my bag?',
+  icon: 'i-lucide-backpack',
+  to: '/bag'
 } 
 
 ]
