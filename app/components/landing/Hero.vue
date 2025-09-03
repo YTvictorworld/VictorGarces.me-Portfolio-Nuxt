@@ -12,8 +12,8 @@ defineProps<{
 <template>
   <section class="relative py-24 text-center overflow-hidden">
     <UContainer>
-      <!-- Avatar/Picture -->
-      <div class="flex items-center justify-center mb-8">
+       <div class="flex items-center justify-center mb-8">
+      <!-- Avatar/Picture 
         <Motion
           :initial="{
             scale: 1.1,
@@ -30,17 +30,16 @@ defineProps<{
             delay: 0.1
           }"
         >
-          <!-- Alternativa a UColorModeAvatar -->
-          <UAvatar
+        </Motion> -->
+        <UAvatar
             class="size-24 ring-4 ring-primary-500/20 ring-offset-4 ring-offset-white dark:ring-offset-gray-900"
+            :chip="{ inset: true, color: 'success', size: '2xl'}"
             :src="$colorMode.value === 'dark' ? global?.picture?.dark : global?.picture?.light"
             :alt="global?.picture?.alt"
-            
           />
-        </Motion>
       </div>
 
-      <!-- Title -->
+      <!-- 
       <Motion
         :initial="{
           scale: 1.1,
@@ -57,12 +56,12 @@ defineProps<{
           delay: 0.1
         }"
       >
-        <h1 class="text-4x1 sm:text-4xl md:text-5xl font-bold mb-6 max-w-4xl mx-auto leading-tight text-shadow-md">
-          {{ page.title }}
-        </h1>
-      </Motion>
+    </Motion> Title -->
+    <h1 class="text-4x1 sm:text-4xl md:text-5xl font-bold mb-6 max-w-4xl mx-auto leading-tight text-shadow-md">
+      {{ page.title }}
+    </h1>
 
-      <!-- Description -->
+      <!-- Description 
       <Motion
         :initial="{
           scale: 1.1,
@@ -79,13 +78,13 @@ defineProps<{
           delay: 0.3
         }"
       >
-        <p class="text-lg md:text-xl text-gray-600 dark:text-gray-300 mb-8 max-w-2xl mx-auto">
-          {{ page.description }}
-        </p>
-      </Motion>
+    </Motion>-->
+    <p class="text-lg md:text-xl text-gray-600 dark:text-gray-300 mb-8 max-w-2xl mx-auto">
+      {{ page.description }}
+    </p>
 
       <!-- Action Buttons -->
-      <Motion
+   <!--    <Motion
         :initial="{
           scale: 1.1,
           opacity: 0,
@@ -100,7 +99,7 @@ defineProps<{
           duration: 0.6,
           delay: 0.5
         }"
-      >
+      > -->
         <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-8">
           <!-- Main CTA Button -->
         
@@ -115,7 +114,7 @@ defineProps<{
 
       <!-- Social Links -->
         
-          
+            
           <!-- Availability Status -->
           <UButton
             :color="global?.available ? 'success' : 'error'"
@@ -139,13 +138,12 @@ defineProps<{
             </template>
           </UButton>
         </div>
-      </Motion>
+     <!--  </Motion> -->
 
       <!-- Social Links -->
       <div class="flex items-center justify-center gap-4 mb-12">
-        <Motion
-          v-for="(link, index) of footer?.links"
-          :key="index"
+        <!-- <Motion
+         
           :initial="{
             scale: 1.1,
             opacity: 0,
@@ -160,18 +158,20 @@ defineProps<{
             duration: 0.6,
             delay: 0.5 + index * 0.1
           }"
-        >
+        > -->
           <UButton
+            v-for="(link, index) of footer?.links"
+            :key="index"
             v-bind="{ size: 'md', color: 'neutral', variant: 'ghost', ...link }"
           />
-        </Motion>
+        <!-- </Motion> -->
       </div>
 
       <!-- Image Marquee (alternativa a UPageMarquee) -->
       <div class="relative -mx-4 sm:-mx-6 lg:-mx-8 overflow-hidden">
         <div class="flex animate-marquee gap-6 py-4 hover:pause">
           <template v-for="(img, index) in page?.hero?.images" :key="index">
-            <Motion
+            <!-- <Motion
               :initial="{
                 scale: 1.1,
                 opacity: 0,
@@ -186,7 +186,7 @@ defineProps<{
                 duration: 0.6,
                 delay: index * 0.1
               }"
-            >
+            > -->
               <img
                 v-bind="img"
                 width="234"
@@ -194,7 +194,7 @@ defineProps<{
                 class="rounded-lg shadow-lg flex-shrink-0"
                 :class="index % 2 === 0 ? '-rotate-2' : 'rotate-2'"
               />
-            </Motion>
+           <!--  </Motion> -->
           </template>
           
           <!-- Duplicate for seamless loop -->
@@ -223,7 +223,6 @@ defineProps<{
     transform: translateX(-50%);
   }
 }
-
 .animate-marquee {
   animation: marquee 40s linear infinite;
 }

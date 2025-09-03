@@ -1,12 +1,12 @@
 export default defineAppConfig({
   global: {
     picture: {
-      dark: 'https://images.unsplash.com/photo-1701615004837-40d8573b6652?q=80&w=1480&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-      light: 'https://images.unsplash.com/photo-1701615004837-40d8573b6652?q=80&w=1480&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+      dark: 'https://mir-s3-cdn-cf.behance.net/project_modules/disp/49f056206375265.68b77ee9dd6a7.jpg',
+      light: 'https://mir-s3-cdn-cf.behance.net/project_modules/disp/49f056206375265.68b77ee9dd6a7.jpg',
       alt: 'My profile picture'
     },
-    meetingLink: 'https://cal.com/',
-    email: 'ui-pro@nuxt.com',
+    meetingLink: 'https://www.linkedin.com/in/vgfilm07/',
+    email: 'victorericksongv@gmail.com',
     available: true
   },
   ui: {
@@ -31,12 +31,19 @@ export default defineAppConfig({
       'icon': 'i-simple-icons-linkedin',
       'to': 'https://www.linkedin.com/in/vgfilm07/',
       'target': '_blank',
-      'aria-label': 'Nuxt on X'
+      'aria-label': 'LinkedIn'
     }, {
       'icon': 'i-simple-icons-github',
       'to': 'https://github.com/YTvictorworld',
       'target': '_blank',
       'aria-label': 'Nuxt UI on GitHub'
-    }]
+    },
+    {
+      'icon': 'i-simple-icons-instagram',
+      'to': 'https://www.instagram.com/victorg.v0/',
+      'target': '_blank',
+      'aria-label': 'Social Media'
+    }
+  ]
   }
 })

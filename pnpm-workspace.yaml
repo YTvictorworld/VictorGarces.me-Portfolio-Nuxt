@@ -1,6 +1,0 @@
-ignoredBuiltDependencies:
-  - vue-demi
-
-onlyBuiltDependencies:
-  - '@tailwindcss/oxide'
-  - better-sqlite3

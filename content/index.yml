@@ -1,32 +1,29 @@
 seo:
   title: "Victor Garces"
   description: "Hi! I'm Victor, known as VictorWorld in the digital world. a front-end developer based in Santo Domingo, Republica Dominicana.  I specialize in Vue.js ecosystem development with a focus on creating responsive, performant user interfaces. My expertise spans from component architecture to database integration, always prioritizing clean code and user experience."
-title: "Hey, I'm Victor Garces Front-End Developer & Filmmaker"
+title: "Hey, I'm Victor Garces, Front-End Developer & Filmmaker"
 description: "I craft intuitive digital experiences where design meets functionality. Based in Dominican Republic, bringing ideas and feelings to life through code, pics and creativity."
 hero:
   links:
     - label: "Use this template"
-      to: https://github.com/YTvictorworld/VictorWorld.me-NuxtUI
+      to: https://github.com/YTvictorworld/VictorGarces.me-Portfolio-Nuxt
       color: "neutral"
   images:
-    - src: https://mir-s3-cdn-cf.behance.net/project_modules/fs_webp/06895b212781749.673b4e14df4a8.jpg
+    - src: https://mir-s3-cdn-cf.behance.net/project_modules/2800_webp/4255dc233842739.68b76fb853545.jpg
       alt: Random Image 1
-    - src: https://media.licdn.com/dms/image/v2/D4E2DAQG4XIGAGORwug/profile-treasury-image-shrink_8192_8192/B4EZiKl.AWGoAk-/0/1754671867137?e=1755820800&v=beta&t=NFZBOoAZ8HYSnJ6LaH26lpSzlD6dpxuw8WIpSD0iMOQ
+    - src: https://mir-s3-cdn-cf.behance.net/project_modules/2800_webp/6a876d233842845.68b77038f15ed.jpg
       alt: Random Image 2
-    - src: https://picsum.photos/468/468?random=3
+    - src: https://mir-s3-cdn-cf.behance.net/project_modules/hd_webp/6bd644233842611.68b76ec5d2866.jpg
       alt: Random Image 3
-    - src: https://picsum.photos/468/468?random=4
+    - src: https://mir-s3-cdn-cf.behance.net/project_modules/hd_webp/7c43b9233842611.68b76ec5d56e1.jpg
       alt: Random Image 4
-    - src: https://picsum.photos/468/468?random=5
+    - src: 	https://mir-s3-cdn-cf.behance.net/project_modules/hd_webp/28c737233842611.68b76ec5c72b8.jpg
       alt: Random Image 5
-    - src: https://picsum.photos/468/468?random=6
+    - src: https://mir-s3-cdn-cf.behance.net/project_modules/fs_webp/06895b212781749.673b4e14df4a8.jpg
       alt: Random Image 6
-    - src: https://picsum.photos/468/468?random=6
+    - src: https://mir-s3-cdn-cf.behance.net/project_modules/2800_opt_1/1389a2212781749.673b4e14dcafc.jpg
       alt: Random Image 6
-    - src: https://picsum.photos/468/468?random=7
-      alt: Random Image 7
-    - src: https://picsum.photos/468/468?random=8
-      alt: Random Image 8
+
 about:
   title: "About Me"
   description: Hi! I'm Victor, also known as VictorWorld, a front-end developer from Santo Domingo, Dominican Republic, currently studying Computer Science. With a Technical Degree and over three years of experience, I specialize in creating modern, responsive, and interactive web experiences. Beyond coding, I am a passionate filmmaker, photographer, and video editor, skilled in cinematography, storytelling, composition, lighting, and post-production using tools like Adobe Premiere Pro. I merge my technical expertise with my creative vision to deliver visually captivating and functional digital experiences.
@@ -49,27 +46,27 @@ experience:
         color: "#00DC82"
     
 testimonials:
-  - quote: "Emma's approach to UX design completely transformed our product. She has a rare ability to balance beautiful aesthetics with functional simplicity. The redesign not only looked better, but it reduced our customer support tickets by 40% and increased conversion rates across all key metrics."
+  - quote: "Victor's vision for Filmmaking is impressive. His creativity and ability to tell stories through video exceed all expectations. The work he did for our program captured the audience's attention and emotions in a unique way. He is definitely a reference in audiovisual production."
     author:
-      name: 'Sarah Chen'
-      description: 'Product Director at Bloom Finance'
+      name: 'Derwin Eusebio'
+      description: 'Audiovisual Coordinator, PLERD'
       avatar:
-        src: 'https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=40&h=40&q=80'
-        srcset: 'https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=80&h=80&q=80 2x'
-  - quote: "Working with Emma was the best decision we made for our startup. She didn't just deliver designs—she challenged our assumptions, conducted thorough user research, and created an experience that truly resonated with our audience. Her technical knowledge of front-end development meant the handoff to our engineering team was seamless."
+        src: ''
+        srcset: ''
+  - quote: "Victor has an extraordinary eye for photography. Each image conveys feelings and manages to narrate impactful visual stories. His professional approach ensured our educational events were recorded with quality and beauty. It's a pleasure to collaborate on projects with him."
     author:
-      name: 'Michael Rodriguez'
-      description: 'Co-founder of Wavelength Music'
+      name: 'Elcilia Del Carme Torres G.'
+      description: 'Educational Manager and Trainer'
       avatar:
-        src: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=40&h=40&q=80'
-        srcset: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=80&h=80&q=80 2x'
-  - quote: "Emma stands out in her ability to translate complex sustainability data into intuitive interfaces. Her work on EcoTrack wasn't just visually stunning—it fundamentally changed how our users interact with environmental information. She approaches each problem with both creativity and analytical rigor, which is exactly what we needed."
+        src: ''
+        srcset: ''
+  - quote: "Victor's web development allowed us to improve our team's digital presence. His solutions are functional, modern, and user-centered. The website he designed is fast and easy to use, which has facilitated communication and project management."
     author:
-      name: 'Dr. Aisha Johnson'
-      description: 'Chief Innovation Officer at GreenTech Solutions'
+      name: 'Victor J. Garces'
+      description: 'Software Engineer'
       avatar:
-        src: 'https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=40&h=40&q=80'
-        srcset: 'https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=80&h=80&q=80 2x'
+        src: ''
+        srcset: ''
 blog:
   title: "Latest Articles"
   description: "Some of my recent thoughts"
