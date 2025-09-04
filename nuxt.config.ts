@@ -9,6 +9,9 @@ export default defineNuxtConfig({
     '@vueuse/motion/nuxt'
   ],
 
+  app: {
+    baseURL: '/'
+  },
 
   typescript: {
     strict: true,
