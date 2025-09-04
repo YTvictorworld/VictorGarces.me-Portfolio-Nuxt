@@ -7,7 +7,7 @@ defineProps<{
 </script>
 
 <template>
-  <section class="py-24">
+  <section class="py-12">
     <UContainer class="px-0 !pt-0">
       <UCarousel
         :items="page.testimonials"

@@ -10,7 +10,7 @@ defineProps<Props>()
 </script>
 
 <template>
-  <section class="py-12 grid md:grid-cols-1 gap-6 items-start">
+  <section class="pb-12 grid md:grid-cols-1 gap-6 items-start">
     <div class="text-gray-600 dark:text-gray-300 leading-relaxed text-lg">
       <Motion
         :initial="{ opacity: 0, y: 100 }"
@@ -18,13 +18,13 @@ defineProps<Props>()
         :delay="200"
         :duration="100"
       >
-      <h2 class="text-3xl font-bold mb-6 text-pretty text-md">{{ data?.title }}</h2>
+      <h2 class="text-3xl font-bold mb-6 text-pretty text-md text-center">{{ data?.title }}</h2>
       </Motion>
       <Motion
-      v-motion-pop-visible
+      v-motion-pop-visible-once
       :duration="200"
       >
-        <p class="text-pretty text-md">{{ data?.description }}</p>
+        <p class="text-pretty text-center text-md">{{ data?.description }}</p>
       </Motion>
     </div>
   </section>

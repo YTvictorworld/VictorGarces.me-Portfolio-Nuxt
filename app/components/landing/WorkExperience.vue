@@ -22,10 +22,17 @@ defineProps<Props>()
 </script>
 
 <template>
-    <section class="py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div>
-            <h2 class="text-3xl font-bold mb-12 text-center md:text-left">{{ data?.title }}</h2>
-        </div>
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <Motion
+        :initial="{ opacity: 0, y: 100 }"
+        :enter="{ opacity: 1, y: 0, scale: 1 }"
+        :delay="200"
+        :duration="100"
+      >
+      <div>
+          <h2 class="text-3xl font-bold mb-12 text-center md:text-left">{{ data?.title }}</h2>
+      </div>
+    </Motion>
 
         <div class="space-y-12">
             <div v-for="item in data?.items" :key="item.company.name + item.position"

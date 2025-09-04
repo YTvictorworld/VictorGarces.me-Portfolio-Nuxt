@@ -1,7 +1,8 @@
 seo:
   title: "Victor Garces"
   description: "Hi! I'm Victor, known as VictorWorld in the digital world. a front-end developer based in Santo Domingo, Republica Dominicana.  I specialize in Vue.js ecosystem development with a focus on creating responsive, performant user interfaces. My expertise spans from component architecture to database integration, always prioritizing clean code and user experience."
-title: "Hey, I'm Victor Garces, Front-End Developer & Filmmaker"
+title: "Hey, I'm Victor Garces"
+roles: "Front-End Developer & Filmmaker"
 description: "I craft intuitive digital experiences where design meets functionality. Based in Dominican Republic, bringing ideas and feelings to life through code, pics and creativity."
 hero:
   links:

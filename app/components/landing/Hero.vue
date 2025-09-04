@@ -23,9 +23,10 @@ defineProps<{
       </div>
       <!-- Title -->
       <Motion :initial="{ opacity: 0, y: 100 }" :enter="{ opacity: 1, y: 0, scale: 1 }" :delay="400" :duration="1200">
-        <h1 class="text-4x1 sm:text-4xl md:text-5xl font-bold mb-6 max-w-4xl mx-auto leading-tight text-shadow-md">
+        <h1 class="text-4x1 sm:text-4xl md:text-5xl font-bold mb-4 max-w-4xl mx-auto leading-tight text-shadow-md">
           {{ page.title }}
         </h1>
+        <span class="font-mono">{{ page?.roles }}</span>
       </Motion>
 
       <!-- Description -->

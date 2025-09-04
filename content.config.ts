@@ -44,6 +44,7 @@ export default defineContentConfig({
           links: z.array(createButtonSchema()),
           images: z.array(createImageSchema())
         }),
+        roles: z.string().optional(),
         about: createBaseSchema(),
         experience: createBaseSchema().extend({
           items: z.array(z.object({
