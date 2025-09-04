@@ -101,7 +101,7 @@ defineProps<{
   }
 
   100% {
-    transform: translateX(-40%);
+    transform: translateX(-50%);
   }
 }
 
