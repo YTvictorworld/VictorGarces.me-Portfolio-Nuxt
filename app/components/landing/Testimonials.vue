@@ -17,7 +17,7 @@ defineProps<{
         class="overflow-visible"
         v-slot="{ item }"
       >
-        <div class="w-full flex-shrink-0 px-4 sm:px-12 lg:px-16">
+        <div  class="w-full flex-shrink-0 px-4 sm:px-12 lg:px-16">
           <div class="sm:py-12 lg:py-12 sm:gap-8 flex flex-col items-center text-center gap-4">
             <!-- Quote -->
             <p class="!text-xl text-balance relative before:content-['“'] before:text-6xl lg:before:text-7xl before:absolute before:-left-6 lg:before:-left-1 before:-top-2 lg:before:-top-4 after:content-['”'] after:text-5xl lg:after:text-7xl after:absolute after:-right-4 lg:after:-right-1 after:mt-1 lg:after:mt-0">

@@ -38,21 +38,23 @@ defineProps<Props>()
 
                 <!-- Posición y empresa -->
                 <div class="flex-1">
-                    <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-1">{{ item.position }}</h3>
-                    <a :href="item.company.url" target="_blank" rel="noopener noreferrer"
-                        class="inline-flex items-center gap-2 font-medium text-gray-600 dark:text-gray-400 transition-colors duration-300"
-                        :style="{
-                            '--company-color': item.company.color
-                        }" @mouseenter="(e) => { (e.currentTarget as HTMLElement).style.color = item.company.color }"
-                        @mouseleave="(e) => { (e.currentTarget as HTMLElement).style.color = '' }">
-                        <span class="inline-block w-3 h-3 rounded-full" :style="{ backgroundColor: item.company.color }"
-                            aria-hidden="true"></span>
-                        {{ item.company.name }}
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 inline-block" fill="none"
-                            viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M14 3h7v7m0 0L10 21l-7-7 11-11z" />
-                        </svg>
-                    </a>
+                    <Motion is="p" preset="slideVisibleLeft">
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-1">{{ item.position }}</h3>
+                        <a :href="item.company.url" target="_blank" rel="noopener noreferrer"
+                            class="inline-flex items-center gap-2 font-medium text-gray-600 dark:text-gray-400 transition-colors duration-300"
+                            :style="{
+                                '--company-color': item.company.color
+                            }" @mouseenter="(e) => { (e.currentTarget as HTMLElement).style.color = item.company.color }"
+                            @mouseleave="(e) => { (e.currentTarget as HTMLElement).style.color = '' }">
+                            <span class="inline-block w-3 h-3 rounded-full" :style="{ backgroundColor: item.company.color }"
+                                aria-hidden="true"></span>
+                            {{ item.company.name }}
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 inline-block" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M14 3h7v7m0 0L10 21l-7-7 11-11z" />
+                            </svg>
+                        </a>
+                    </Motion>
 
         
                 </div>

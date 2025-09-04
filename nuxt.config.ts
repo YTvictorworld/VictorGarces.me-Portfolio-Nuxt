@@ -6,7 +6,9 @@ export default defineNuxtConfig({
     '@nuxt/content',
     '@nuxt/image',
     '@vueuse/nuxt',
+    '@vueuse/motion/nuxt'
   ],
+
 
   typescript: {
     strict: true,
