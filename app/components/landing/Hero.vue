@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { IndexCollectionItem } from '@nuxt/content'
+import ImageMarquee from '../ImageMarquee.vue'
 
 const { footer, global } = useAppConfig()
 
@@ -70,49 +71,27 @@ defineProps<{
         </Motion>
       </div>
 
-      <!-- Image Marquee (alternativa a UPageMarquee) -->
-      <div v-motion :initial="{ opacity: 0, y: 100 }" :enter="{ opacity: 1, y: 0, scale: 1 }"
-        :variants="{ custom: { scale: 2 } }" :hovered="{ scale: 1.2 }" :delay="1200" :duration="1200"
-        class="relative -mx-4 sm:-mx-6 lg:-mx-8 overflow-hidden">
-        <div class="flex animate-marquee gap-6 py-4 hover:pause">
-          <template v-for="(img, index) in page?.hero?.images" :key="index">
-            <Motion is="p" preset="slideVisibleLeft">
-              <img v-bind="img" width="234" height="234" class="rounded-lg shadow-lg flex-shrink-0"
-                :class="index % 2 === 0 ? '-rotate-2' : 'rotate-2'" />
-            </Motion>
-          </template>
-
-          <!-- Duplicate for seamless loop -->
-          <template v-for="(img, index) in page?.hero?.images" :key="`dup-${index}`">
-            <img preset="slideVisibleLeft" v-bind="img" width="234" height="234"
-              class="rounded-lg shadow-lg flex-shrink-0" :class="index % 2 === 0 ? '-rotate-2' : 'rotate-2'" />
-          </template>
-        </div>
+      <!-- Image Marquee (JavaScript-based for reliable mobile performance) -->
+      <div class="relative -mx-4 sm:-mx-6 lg:-mx-8">
+        <Motion v-motion :initial="{ opacity: 0, y: 100 }" :enter="{ opacity: 1, y: 0, scale: 1 }"
+        :delay="1200" :duration="1200">
+          <ImageMarquee 
+            :images="page?.hero?.images?.map(img => ({ 
+              src: img.src, 
+              alt: img.alt, 
+              width: 234, 
+              height: 280 
+            }))" 
+            :speed="50" 
+            :pause-on-hover="true" 
+          />
+        </Motion>
       </div>
     </UContainer>
   </section>
 </template>
 
 <style scoped>
-/* Alternativa CSS para el marquee */
-@keyframes marquee {
-  0% {
-    transform: translateX(0);
-  }
-
-  100% {
-    transform: translateX(-50%);
-  }
-}
-
-.animate-marquee {
-  animation: marquee 50s linear infinite;
-}
-
-.animate-marquee:hover {
-  animation-play-state: paused;
-}
-
 /* Text shadow utility */
 .text-shadow-md {
   text-shadow: 0 4px 8px rgba(0, 0, 0, 0.12), 0 2px 4px rgba(0, 0, 0, 0.08);
