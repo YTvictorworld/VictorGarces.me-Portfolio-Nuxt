@@ -1,17 +1,23 @@
-
 export default defineNuxtConfig({
   compatibilityDate: '2025-08-15',
   modules: [
     '@nuxt/ui',
     '@nuxt/content',
     '@nuxt/image',
-    '@vueuse/nuxt',
-    '@vueuse/motion/nuxt'
+    '@vueuse/nuxt'
   ],
-  nitro: { preset: "static" },
-  ssr: false,
+  nitro: {
+    preset: 'static',
+    prerender: {
+      // /bag is intentionally off-nav, so the crawler never finds it
+      routes: ['/bag']
+    }
+  },
+  // Prerender full HTML at build time: crawlers and no-JS users get real content
+  ssr: true,
   app: {
-    baseURL: '/'
+    baseURL: '/',
+    pageTransition: { name: 'page', mode: 'out-in' }
   },
 
   typescript: {
@@ -20,6 +26,6 @@ export default defineNuxtConfig({
   },
 
   css: [
-     '/assets/css/main.css'
+    '~/assets/css/main.css'
   ]
 })

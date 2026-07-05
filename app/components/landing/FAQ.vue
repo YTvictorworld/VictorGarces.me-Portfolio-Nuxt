@@ -5,59 +5,66 @@ const props = defineProps<{
   page: IndexCollectionItem
 }>()
 
-const items = computed(() => {
-  return props.page.faq?.categories.map((faq) => {
-    return {
-      label: faq.title,
-      key: faq.title.toLowerCase(),
-      questions: faq.questions
-    }
-  })
+const tabs = computed(() => {
+  return props.page.faq?.categories.map(category => ({
+    label: category.title,
+    key: category.title.toLowerCase(),
+    questions: category.questions.map(q => ({
+      label: q.label,
+      content: q.content
+    }))
+  })) ?? []
 })
 
-const ui = {
-  root: 'flex items-center gap-4 w-full',
-  list: 'relative flex bg-transparent dark:bg-transparent gap-2 px-0',
-  indicator: 'absolute top-[4px] duration-200 ease-out focus:outline-none rounded-lg bg-elevated/60',
-  trigger: 'px-3 py-2 rounded-lg hover:bg-muted/50 data-[state=active]:text-highlighted data-[state=inactive]:text-muted',
-  label: 'truncate'
-}
+// The answers only use **bold**, rendered inline instead of relying on
+// <MDC>, whose async client-side parsing never resolves on this static setup.
+const renderAnswer = (md: string): string =>
+  md
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/\*\*([^*]+)\*\*/g, '<strong class="font-semibold text-neutral-900 dark:text-white">$1</strong>')
+    .trim()
 </script>
 
 <template>
-  <UPageSection
-    :title="page.faq.title"
-    :description="page.faq.description"
-    :ui="{
-      container: 'px-0 !pt-0 gap-4 sm:gap-4',
-      title: 'text-left text-xl sm:text-xl lg:text-2xl font-medium',
-      description: 'text-left mt-2 text-sm sm:text-md lg:text-sm text-muted'
-    }"
-  >
-    <UTabs
-      :items
-      orientation="horizontal"
-      :ui
-    >
-      <template #content="{ item }">
-        <UPageAccordion
-          trailing-icon="lucide:plus"
-          :items="item.questions"
-          :ui="{
-            item: 'border-none',
-            trigger: 'mb-2 border-0 group px-4 transform-gpu rounded-lg bg-elevated/60 will-change-transform hover:bg-muted/50',
-            trailingIcon: 'group-data-[state=closed]:rotate-0 group-data-[state=open]:rotate-135'
-          }"
-        >
-          <template #body="{ item: _item }">
-            <MDC
-              :value="_item.content"
-              unwrap="p"
-              class="px-4"
-            />
-          </template>
-        </UPageAccordion>
-      </template>
-    </UTabs>
-  </UPageSection>
+  <section v-if="page.faq" class="py-12">
+    <Reveal :duration="600">
+      <div class="mb-8">
+        <p class="font-mono text-xs uppercase tracking-[0.25em] text-primary-600 dark:text-primary-400 mb-3">
+          FAQ
+        </p>
+        <h2 class="text-3xl font-bold tracking-tight mb-2">{{ page.faq.title }}</h2>
+        <p class="text-neutral-600 dark:text-neutral-300">{{ page.faq.description }}</p>
+      </div>
+    </Reveal>
+
+    <Reveal :delay="100" :duration="600">
+      <UTabs
+        :items="tabs"
+        orientation="horizontal"
+        :ui="{
+          list: 'bg-transparent dark:bg-transparent gap-2 px-0',
+          trigger: 'px-3 py-2 rounded-lg data-[state=inactive]:text-neutral-500 dark:data-[state=inactive]:text-neutral-400'
+        }"
+      >
+        <template #content="{ item }">
+          <UAccordion
+            :items="item.questions"
+            trailing-icon="i-lucide-plus"
+            :ui="{
+              item: 'border-none mb-2',
+              trigger: 'group px-4 rounded-lg bg-neutral-50 dark:bg-white/5 hover:bg-neutral-100 dark:hover:bg-white/10 transition-colors',
+              trailingIcon: 'transition-transform group-data-[state=closed]:rotate-0 group-data-[state=open]:rotate-45'
+            }"
+          >
+            <template #body="{ item: question }">
+              <!-- content is our own YAML, escaped above before the v-html -->
+              <p class="px-4 pb-2 leading-relaxed text-neutral-600 dark:text-neutral-300" v-html="renderAnswer(question.content)" />
+            </template>
+          </UAccordion>
+        </template>
+      </UTabs>
+    </Reveal>
+  </section>
 </template>

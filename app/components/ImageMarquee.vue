@@ -1,7 +1,4 @@
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted, onActivated, onDeactivated, nextTick } from 'vue'
-
-// TypeScript interfaces
 interface ImageItem {
   src: string
   alt: string
@@ -11,174 +8,161 @@ interface ImageItem {
 
 interface Props {
   images: ImageItem[]
+  /** Scroll speed in px/second. */
   speed?: number
   pauseOnHover?: boolean
 }
 
-// Props with defaults
 const props = withDefaults(defineProps<Props>(), {
   speed: 50,
   pauseOnHover: true
 })
 
-// Reactive references with proper TypeScript types
-const marqueeRef = ref<HTMLElement | null>(null)
-const isAnimating = ref<boolean>(true)
-const animationId = ref<number | undefined>(undefined)
+const containerRef = ref<HTMLElement | null>(null)
+const contentRef = ref<HTMLElement | null>(null)
 
-// Animation state variables
-const currentTranslateX = ref<number>(0)
-const containerWidth = ref<number>(0)
-const contentWidth = ref<number>(0)
+const reducedMotion = usePreferredReducedMotion()
+// gated behind mount so server and client render the same structure (hydration-safe)
+const mounted = ref(false)
+const prefersStatic = computed(() => mounted.value && reducedMotion.value === 'reduce')
 
-// Function to update container and content dimensions
+let rafId: number | undefined
+let lastTime: number | null = null
+let translateX = 0
+let contentWidth = 0
+let hovered = false
+let inView = true
+
 const updateDimensions = (): void => {
-  if (!marqueeRef.value) return
-  
-  const container = marqueeRef.value.querySelector('.marquee-track') as HTMLElement | null
-  const content = marqueeRef.value.querySelector('.marquee-content') as HTMLElement | null
-  
-  if (container && content) {
-    containerWidth.value = container.offsetWidth
-    // Divide by 2 because we have duplicated content
-    contentWidth.value = content.scrollWidth / 2
-  }
+  if (!contentRef.value) return
+  // Content is duplicated once, so a full loop is half the scroll width
+  contentWidth = contentRef.value.scrollWidth / 2
 }
 
-// Main animation function
-const animate = (): void => {
-  if (!isAnimating.value) return
-  
-  // Move at 60fps
-  currentTranslateX.value -= props.speed / 60
-  
-  // Reset position when we've moved a full content width
-  if (Math.abs(currentTranslateX.value) >= contentWidth.value) {
-    currentTranslateX.value = 0
+const tick = (now: number): void => {
+  if (lastTime === null) lastTime = now
+  const dt = (now - lastTime) / 1000
+  lastTime = now
+
+  translateX -= props.speed * dt
+  if (contentWidth > 0 && Math.abs(translateX) >= contentWidth) {
+    translateX += contentWidth
   }
-  
-  // Apply transform to the content
-  if (marqueeRef.value) {
-    const content = marqueeRef.value.querySelector('.marquee-content') as HTMLElement | null
-    if (content) {
-      content.style.transform = `translateX(${currentTranslateX.value}px)`
-    }
+
+  if (contentRef.value) {
+    contentRef.value.style.transform = `translate3d(${translateX}px, 0, 0)`
   }
-  
-  // Continue animation
-  animationId.value = requestAnimationFrame(animate)
+  rafId = requestAnimationFrame(tick)
 }
 
-// Start the animation
 const startAnimation = (): void => {
-  if (animationId.value !== undefined) return
-  isAnimating.value = true
-  animate()
+  if (rafId !== undefined || prefersStatic.value || hovered || !inView) return
+  lastTime = null
+  rafId = requestAnimationFrame(tick)
 }
 
-// Stop the animation
 const stopAnimation = (): void => {
-  isAnimating.value = false
-  if (animationId.value !== undefined) {
-    cancelAnimationFrame(animationId.value)
-    animationId.value = undefined
+  if (rafId !== undefined) {
+    cancelAnimationFrame(rafId)
+    rafId = undefined
   }
 }
 
-// Mouse event handlers
 const handleMouseEnter = (): void => {
-  if (props.pauseOnHover) {
-    stopAnimation()
-  }
+  if (!props.pauseOnHover) return
+  hovered = true
+  stopAnimation()
 }
 
 const handleMouseLeave = (): void => {
-  if (props.pauseOnHover) {
-    startAnimation()
-  }
+  if (!props.pauseOnHover) return
+  hovered = false
+  startAnimation()
 }
 
-// Resize handler with proper typing
-const handleResize = (): void => {
-  updateDimensions()
-}
+let observer: IntersectionObserver | undefined
+let cleanupResize: (() => void) | undefined
 
-// Lifecycle hooks
 onMounted(() => {
+  mounted.value = true
   nextTick(() => {
     updateDimensions()
     startAnimation()
   })
-  
-  // Add resize listener
-  window.addEventListener('resize', handleResize)
+
+  const onResize = () => updateDimensions()
+  window.addEventListener('resize', onResize)
+  cleanupResize = () => window.removeEventListener('resize', onResize)
+
+  // Don't burn frames while the marquee is offscreen
+  if (containerRef.value && 'IntersectionObserver' in window) {
+    observer = new IntersectionObserver(([entry]) => {
+      inView = entry?.isIntersecting ?? true
+      if (inView) startAnimation()
+      else stopAnimation()
+    })
+    observer.observe(containerRef.value)
+  }
 })
 
 onUnmounted(() => {
   stopAnimation()
-  window.removeEventListener('resize', handleResize)
+  cleanupResize?.()
+  observer?.disconnect()
 })
 
-// Keep alive hooks
-onActivated(() => {
-  startAnimation()
-})
-
-onDeactivated(() => {
-  stopAnimation()
-})
+onActivated(startAnimation)
+onDeactivated(stopAnimation)
 </script>
 
 <template>
-  <div 
-    ref="marqueeRef"
-    class="js-marquee-container"
+  <div
+    ref="containerRef"
+    class="marquee-container"
+    :class="{ 'marquee-static': prefersStatic }"
     @mouseenter="handleMouseEnter"
     @mouseleave="handleMouseLeave"
   >
-    <div class="marquee-track">
-      <div class="marquee-content">
-        <!-- Primera copia -->
-        <div v-for="(img, index) in images" :key="`first-${index}`" class="marquee-item">
-          <img 
-            :src="img.src" 
-            :alt="img.alt" 
-            :width="img.width || 234" 
-            :height="img.height || 234"
-            loading="eager"
-            class="rounded-lg shadow-lg flex-shrink-0"
+    <div ref="contentRef" class="marquee-content">
+      <template v-for="copy in (prefersStatic ? 1 : 2)" :key="copy">
+        <div
+          v-for="(img, index) in images"
+          :key="`${copy}-${index}`"
+          class="marquee-item"
+          :aria-hidden="copy === 2 ? 'true' : undefined"
+        >
+          <AppImage
+            :src="img.src"
+            :alt="copy === 2 ? '' : img.alt"
+            :width="img.width || 234"
+            :height="img.height || 280"
+            :loading="copy === 1 && index < 3 ? 'eager' : 'lazy'"
+            :fetchpriority="copy === 1 && index < 2 ? 'high' : 'auto'"
+            class="marquee-photo rounded-lg shadow-lg w-fit"
             :class="index % 2 === 0 ? '-rotate-2' : 'rotate-2'"
+            img-class="rounded-lg"
           />
         </div>
-        
-        <!-- Segunda copia para loop continuo -->
-        <div v-for="(img, index) in images" :key="`second-${index}`" class="marquee-item">
-          <img 
-            :src="img.src" 
-            :alt="img.alt" 
-            :width="img.width || 234" 
-            :height="img.height || 234"
-            loading="eager"
-            class="rounded-lg shadow-lg flex-shrink-0"
-            :class="index % 2 === 0 ? '-rotate-2' : 'rotate-2'"
-          />
-        </div>
-      </div>
+      </template>
     </div>
   </div>
 </template>
 
 <style scoped>
-.js-marquee-container {
+.marquee-container {
   position: relative;
   overflow: hidden;
   width: 100%;
+  /* Fade edges so images slide in/out of nothing */
+  mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
 }
 
-.marquee-track {
-  display: flex;
-  width: 100%;
-  overflow: hidden;
+/* Reduced motion: a normal scrollable strip, no animation */
+.marquee-static {
+  overflow-x: auto;
+  mask-image: none;
+  -webkit-mask-image: none;
 }
 
 .marquee-content {
@@ -191,30 +175,32 @@ onDeactivated(() => {
 
 .marquee-item {
   flex-shrink: 0;
-  display: inline-block;
 }
 
-.marquee-item img {
+.marquee-photo {
+  transition: transform 0.3s ease;
+  transform: translateZ(0);
+}
+
+.marquee-item :deep(.marquee-photo img) {
   display: block;
   object-fit: cover;
-  transition: transform 0.3s ease;
-  transform: translateZ(0); /* Force hardware acceleration */
 }
 
-/* Mobile optimizations */
 @media (max-width: 640px) {
-  .marquee-item img {
+  .marquee-item :deep(.marquee-photo img) {
     width: 180px !important;
     height: 284px !important;
   }
-  
+
   .marquee-content {
     gap: 1rem;
   }
 }
 
-/* Hover effects */
-.marquee-item:hover img {
-  transform: translateZ(0) scale(1.05);
+@media (prefers-reduced-motion: no-preference) {
+  .marquee-item:hover .marquee-photo {
+    transform: translateZ(0) scale(1.05);
+  }
 }
 </style>

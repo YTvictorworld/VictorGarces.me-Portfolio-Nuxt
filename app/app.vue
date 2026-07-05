@@ -1,7 +1,10 @@
 <script setup lang="ts">
 const colorMode = useColorMode()
+const { global } = useAppConfig()
+const route = useRoute()
 
-const color = computed(() => colorMode.value === 'dark' ? '#020618' : 'white')
+const color = computed(() => colorMode.value === 'dark' ? '#0a0a0a' : 'white')
+const canonicalUrl = computed(() => `${SITE_URL}${route.path === '/' ? '' : route.path.replace(/\/$/, '')}`)
 
 useHead({
   meta: [
@@ -10,7 +13,9 @@ useHead({
     { key: 'theme-color', name: 'theme-color', content: color }
   ],
   link: [
-    { rel: 'icon', href: '/favicon.ico' }
+    { rel: 'icon', href: '/favicon.ico' },
+    { rel: 'preconnect', href: 'https://mir-s3-cdn-cf.behance.net', crossorigin: '' },
+    { rel: 'canonical', href: canonicalUrl }
   ],
   htmlAttrs: {
     lang: 'en'
@@ -18,18 +23,19 @@ useHead({
 })
 
 useSeoMeta({
-  titleTemplate: 'Victor - Portfolio',
-  ogImage: 'https://assets.hub.nuxt.com/eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJodHRwczovL3BvcnRmb2xpby10ZW1wbGF0ZS5udXh0LmRldiIsImlhdCI6MTc0NTkzNDczMX0.XDWnQoyVy3XVtKQD6PLQ8RFUwr4yr1QnVwPxRrjCrro.jpg?theme=light',
-  twitterImage: 'https://assets.hub.nuxt.com/eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJodHRwczovL3BvcnRmb2xpby10ZW1wbGF0ZS5udXh0LmRldiIsImlhdCI6MTc0NTkzNDczMX0.XDWnQoyVy3XVtKQD6PLQ8RFUwr4yr1QnVwPxRrjCrro.jpg?theme=light',
+  titleTemplate: `%s · ${SITE_NAME}`,
+  title: `${SITE_NAME} | Full-Stack Developer & Filmmaker`,
+  ogSiteName: SITE_NAME,
+  ogType: 'website',
+  ogUrl: canonicalUrl,
+  ogImage: global?.picture?.light,
+  twitterImage: global?.picture?.light,
   twitterCard: 'summary_large_image'
 })
-
 </script>
 
 <template>
-<UApp>
-  <NuxtLayout />
-</UApp>
+  <UApp>
+    <NuxtLayout />
+  </UApp>
 </template>
-
-

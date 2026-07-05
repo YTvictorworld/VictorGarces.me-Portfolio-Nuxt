@@ -22,56 +22,52 @@ defineProps<Props>()
 </script>
 
 <template>
-    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <Motion
-        :initial="{ opacity: 0, y: 100 }"
-        :enter="{ opacity: 1, y: 0, scale: 1 }"
-        :delay="200"
-        :duration="100"
-      >
-      <div>
-          <h2 class="text-3xl font-bold mb-12 text-center md:text-left">{{ data?.title }}</h2>
-      </div>
-    </Motion>
+    <section>
+        <Reveal :duration="600">
+            <p class="font-mono text-xs uppercase tracking-[0.25em] text-primary-600 dark:text-primary-400 mb-3">
+                Career
+            </p>
+            <h2 class="text-3xl font-bold tracking-tight mb-10">{{ data?.title }}</h2>
+        </Reveal>
 
-        <div class="space-y-12">
-            <div v-for="item in data?.items" :key="item.company.name + item.position"
-                class="flex flex-col md:flex-row md:justify-between items-start gap-6">
-                <!-- Fecha con línea vertical -->
-                <div class="flex flex-col items-center md:items-start text-gray-500 dark:text-gray-400 min-w-[60px]">
-                    <span class="text-sm font-mono">{{ item.date }}</span>
-                    <div class="w-px flex-1 bg-gray-300 dark:bg-gray-700 mt-1"></div>
-                </div>
+        <ol class="relative flex flex-col gap-10">
+            <!-- Timeline line: first child so it paints behind the dots -->
+            <ScrollBeam class="inset-y-0 left-0" :anchor="0.7" :glow="false" :fade-top="false" />
+            <Reveal v-for="(item, index) in data?.items" :key="item.company.name + item.position" :delay="index * 120"
+                :duration="600">
+                <li class="ms-6 relative">
+                    <!-- Timeline dot -->
+                    <span
+                        class="absolute -start-[29px] top-1.5 flex size-3 items-center justify-center rounded-full"
+                        :style="{
+                            backgroundColor: item.company.color,
+                            boxShadow: `0 0 0 1px rgb(255 255 255 / 0.35), 0 0 0 5px var(--ui-bg), 0 0 14px 2px ${item.company.color}`
+                        }" aria-hidden="true"></span>
 
-                <!-- Posición y empresa -->
-                <div class="flex-1">
-                    <Motion is="p" preset="slideVisibleLeft">
-                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-1">{{ item.position }}</h3>
-                        <a :href="item.company.url" target="_blank" rel="noopener noreferrer"
-                            class="inline-flex items-center gap-2 font-medium text-gray-600 dark:text-gray-400 transition-colors duration-300"
-                            :style="{
-                                '--company-color': item.company.color
-                            }" @mouseenter="(e) => { (e.currentTarget as HTMLElement).style.color = item.company.color }"
-                            @mouseleave="(e) => { (e.currentTarget as HTMLElement).style.color = '' }">
-                            <span class="inline-block w-3 h-3 rounded-full" :style="{ backgroundColor: item.company.color }"
-                                aria-hidden="true"></span>
-                            {{ item.company.name }}
-                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 inline-block" fill="none"
-                                viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M14 3h7v7m0 0L10 21l-7-7 11-11z" />
-                            </svg>
-                        </a>
-                    </Motion>
-
-        
-                </div>
-            </div>
-        </div>
+                    <time class="text-sm font-mono text-neutral-500 dark:text-neutral-400">{{ item.date }}</time>
+                    <h3 class="text-lg font-semibold text-neutral-900 dark:text-white mt-1">
+                        {{ item.position }}
+                    </h3>
+                    <component :is="item.company.url ? 'a' : 'span'"
+                        :href="item.company.url || undefined"
+                        :target="item.company.url ? '_blank' : undefined"
+                        :rel="item.company.url ? 'noopener noreferrer' : undefined"
+                        class="company-link group inline-flex items-center gap-2 font-medium text-neutral-600 dark:text-neutral-400 transition-colors duration-300"
+                        :style="{ '--company-color': item.company.color }">
+                        {{ item.company.name }}
+                        <svg v-if="item.company.url" xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 inline-block transition-transform duration-300 group-hover:translate-x-0.5"
+                            fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M7 17L17 7M17 7H8m9 0v9" />
+                        </svg>
+                    </component>
+                </li>
+            </Reveal>
+        </ol>
     </section>
 </template>
 
 <style scoped>
 .company-link:hover {
-  color: var(--company-color);
+    color: var(--company-color);
 }
 </style>
