@@ -3,11 +3,11 @@ const { footer } = useAppConfig()
 </script>
 
 <template>
-  <footer class="z-10 bg-transparent border-gray-200 dark:border-gray-800">
+  <footer class="z-10 bg-transparent border-neutral-200 dark:border-neutral-800">
     <UContainer class="py-8">
       <div class="flex flex-col md:flex-row justify-between items-center gap-4">
         <!-- Left side - Credits -->
-        <div class="text-xs text-gray-600 dark:text-gray-400 order-2 md:order-1">
+        <div class="text-xs text-neutral-600 dark:text-neutral-400 order-2 md:order-1">
           {{ footer?.credits }}
         </div>
         

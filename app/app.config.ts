@@ -11,7 +11,7 @@ export default defineAppConfig({
   },
   ui: {
     colors: {
-      primary: 'blue',
+      primary: 'ember',
       neutral: 'neutral'
     }
   },
@@ -36,7 +36,7 @@ export default defineAppConfig({
       'icon': 'i-simple-icons-github',
       'to': 'https://github.com/YTvictorworld',
       'target': '_blank',
-      'aria-label': 'Nuxt UI on GitHub'
+      'aria-label': 'GitHub'
     },
     {
       'icon': 'i-simple-icons-instagram',
