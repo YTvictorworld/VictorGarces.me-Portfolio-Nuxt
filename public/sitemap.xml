@@ -13,8 +13,14 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://victorgarces.me/blog/my-first-post</loc>
-    <lastmod>2025-11-12</lastmod>
+    <loc>https://victorgarces.me/blog/ai-and-my-two-crafts</loc>
+    <lastmod>2026-07-04</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://victorgarces.me/blog/machine-learning-talk-unapec</loc>
+    <lastmod>2026-07-15</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.6</priority>
   </url>
