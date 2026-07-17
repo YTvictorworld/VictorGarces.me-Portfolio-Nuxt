@@ -26,6 +26,10 @@ useSeoMeta({
 
 const searchQuery = ref('')
 
+const clearSearch = (): void => {
+    searchQuery.value = ''
+}
+
 const filteredPosts = computed(() => {
     const all = posts.value || []
     if (!searchQuery.value) return all
@@ -128,7 +132,7 @@ const filteredPosts = computed(() => {
                     <p class="text-xl text-neutral-600 dark:text-neutral-300 mb-6">
                         No posts found matching your search.
                     </p>
-                    <UButton color="primary" @click="searchQuery = ''">Clear search</UButton>
+                    <UButton color="primary" @click="clearSearch">Clear search</UButton>
                 </div>
             </div>
         </section>

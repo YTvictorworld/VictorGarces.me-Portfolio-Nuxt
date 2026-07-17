@@ -22,6 +22,14 @@ const imgRef = ref<HTMLImageElement | null>(null)
 const loaded = ref(false)
 const failed = ref(false)
 
+const onLoad = (): void => {
+  loaded.value = true
+}
+
+const onError = (): void => {
+  failed.value = true
+}
+
 // cached images may be complete before hydration attaches @load
 onMounted(() => {
   const el = imgRef.value
@@ -45,8 +53,8 @@ onMounted(() => {
       decoding="async"
       :class="props.imgClass"
       :style="{ opacity: loaded ? 1 : 0, transition: 'opacity 0.5s ease, transform 0.5s ease' }"
-      @load="loaded = true"
-      @error="failed = true"
+      @load="onLoad"
+      @error="onError"
     />
 
     <!-- Shimmer skeleton while loading -->
