@@ -4,8 +4,19 @@ export default defineNuxtConfig({
     '@nuxt/ui',
     '@nuxt/content',
     '@nuxt/image',
-    '@vueuse/nuxt'
+    '@vueuse/nuxt',
+    '@nuxtjs/i18n'
   ],
+
+  i18n: {
+    baseUrl: 'https://victorgarces.me',
+    defaultLocale: 'en',
+    strategy: 'prefix_except_default',
+    locales: [
+      { code: 'en', language: 'en-US', name: 'English', file: 'en.json' },
+      { code: 'es', language: 'es-DO', name: 'Español', file: 'es.json' }
+    ]
+  },
   nitro: {
     preset: 'static',
     prerender: {

@@ -11,9 +11,11 @@ if (!page.value) {
   })
 }
 
+const { t } = useI18n()
+
 useSeoMeta({
-  title: 'What is in my bag?',
-  description: 'The hardware, software and gear I use every day for development, photography and filmmaking.'
+  title: () => t('bag.title'),
+  description: () => t('bag.description')
 })
 </script>
 
@@ -22,13 +24,13 @@ useSeoMeta({
     <div class="max-w-3xl mx-auto">
       <Reveal immediate :duration="600">
         <p class="font-mono text-xs uppercase tracking-[0.25em] text-primary-600 dark:text-primary-400 mb-3">
-          Gear
+          {{ $t('bag.eyebrow') }}
         </p>
         <h1 class="text-4xl sm:text-5xl font-bold tracking-tight text-neutral-900 dark:text-white mb-6">
-          What is in my bag?
+          {{ $t('bag.title') }}
         </h1>
         <p class="text-xl text-neutral-600 dark:text-neutral-300 mb-12 text-pretty">
-          The hardware, software and gear I use every day.
+          {{ $t('bag.description') }}
         </p>
       </Reveal>
 

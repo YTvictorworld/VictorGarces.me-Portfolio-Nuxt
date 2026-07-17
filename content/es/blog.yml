@@ -1,0 +1,8 @@
+title: Blog
+description: Ideas sobre desarrollo web, fotografía y creación de contenido. Aquí comparto mi camino y mis aprendizajes.
+links:
+  - label: Escríbeme
+    icon: i-lucide-mail
+    to: "mailto:victorericksongv@gmail.com"
+    color: primary
+    variant: solid

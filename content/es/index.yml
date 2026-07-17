@@ -1,0 +1,131 @@
+seo:
+  title: "Víctor Garcés | Desarrollador Full-Stack & Filmmaker"
+  description: "¡Hola! Soy Víctor Garcés, desarrollador full-stack y filmmaker en Santo Domingo, República Dominicana. Construyo front-ends responsivos y de alto rendimiento con Vue.js y Nuxt, y back-ends con C#, microservicios, Docker y AWS, siempre priorizando el código limpio y la experiencia de usuario."
+title: "Hola, soy Víctor Garcés"
+roles: "Desarrollador Full-Stack & Filmmaker"
+description: "Creo experiencias digitales intuitivas donde el diseño se encuentra con la funcionalidad. Desde República Dominicana, dando vida a ideas y emociones a través del código, la fotografía y la creatividad."
+hero:
+  links:
+    - label: "Escríbeme"
+      to: "mailto:victorericksongv@gmail.com"
+      icon: "i-lucide-mail"
+      color: "primary"
+      variant: "solid"
+    - label: "Mira mi trabajo en GitHub"
+      to: "https://github.com/YTvictorworld"
+      icon: "i-simple-icons-github"
+      color: "neutral"
+      variant: "outline"
+      target: "_blank"
+  images:
+    - src: https://mir-s3-cdn-cf.behance.net/project_modules/hd_webp/4255dc233842739.68b76fb853545.jpg
+      alt: "Fotografía de Víctor Garcés: sesión de retrato"
+    - src: https://mir-s3-cdn-cf.behance.net/project_modules/hd_webp/6a876d233842845.68b77038f15ed.jpg
+      alt: "Fotografía de Víctor Garcés: foto editorial"
+    - src: https://mir-s3-cdn-cf.behance.net/project_modules/hd_webp/6bd644233842611.68b76ec5d2866.jpg
+      alt: "Fotografía de Víctor Garcés: detrás de cámaras"
+    - src: https://mir-s3-cdn-cf.behance.net/project_modules/hd_webp/7c43b9233842611.68b76ec5d56e1.jpg
+      alt: "Fotografía de Víctor Garcés: cobertura de evento"
+    - src: https://mir-s3-cdn-cf.behance.net/project_modules/hd_webp/28c737233842611.68b76ec5c72b8.jpg
+      alt: "Fotografía de Víctor Garcés: composición creativa"
+    - src: https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/06895b212781749.673b4e14df4a8.jpg
+      alt: "Fotografía de Víctor Garcés: encuadre cinematográfico"
+    - src: https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/1389a2212781749.673b4e14dcafc.jpg
+      alt: "Fotografía de Víctor Garcés: narrativa visual"
+
+about:
+  title: "Sobre mí"
+  description: ¡Hola! Soy Víctor Garcés, desarrollador full-stack de Santo Domingo, República Dominicana, actualmente estudiando Ciencias de la Computación. Con un grado técnico y más de tres años de experiencia front-end creando experiencias web modernas y responsivas, más casi un año construyendo back-ends con C#, bases de datos, AWS, Docker y microservicios, cubro todo el stack, desde la interfaz hasta la infraestructura. Más allá del código, soy un apasionado del cine, la fotografía y la edición de video, con dominio de cinematografía, narrativa, composición, iluminación y postproducción con herramientas como Adobe Premiere Pro. Combino mi experiencia técnica con mi visión creativa para entregar experiencias digitales funcionales y visualmente cautivadoras.
+experience:
+  title: Experiencia laboral
+  items:
+    - position: "Desarrollador Back-End en"
+      date: "2025 - Presente"
+      company:
+        name: Sigmedic
+        logo: ""
+        url: ""
+        color: "#2dd4bf"
+    - position: "Voluntario en"
+      date: "Actualmente"
+      company:
+        name: PLERD
+        logo: ""
+        url: "https://plerd.minerd.gob.do"
+        color: "#033b74"
+    - position: "Desarrollador Front-End en"
+      date: "2024 - 2025"
+      company:
+        name: As de Picas
+        logo: ""
+        url: "https://asdepicassalones.es"
+        color: "#00DC82"
+
+testimonials:
+  - quote: "La visión de Víctor para el cine es impresionante. Su creatividad y su capacidad de contar historias a través del video superan todas las expectativas. El trabajo que hizo para nuestro programa capturó la atención y las emociones de la audiencia de una forma única. Es sin duda un referente en la producción audiovisual."
+    author:
+      name: 'Derwin Eusebio'
+      description: 'Coordinador Audiovisual, PLERD'
+      avatar:
+        src: ''
+        srcset: ''
+  - quote: "Víctor tiene un ojo extraordinario para la fotografía. Cada imagen transmite emociones y logra narrar historias visuales impactantes. Su enfoque profesional aseguró que nuestros eventos educativos quedaran registrados con calidad y belleza. Es un placer colaborar en proyectos con él."
+    author:
+      name: 'Elcilia Del Carme Torres G.'
+      description: 'Gestora Educativa y Formadora'
+      avatar:
+        src: ''
+        srcset: ''
+  - quote: "El desarrollo web de Víctor nos permitió mejorar la presencia digital de nuestro equipo. Sus soluciones son funcionales, modernas y centradas en el usuario. El sitio que diseñó es rápido y fácil de usar, lo que ha facilitado la comunicación y la gestión de proyectos."
+    author:
+      name: 'Victor J. Garces'
+      description: 'Ingeniero de Software'
+      avatar:
+        src: ''
+        srcset: ''
+blog:
+  title: "Últimos artículos"
+  description: "Algunas de mis ideas recientes"
+faq:
+  title: Preguntas frecuentes
+  description: Respuestas a las dudas más comunes sobre mi proceso y mis servicios.
+  categories:
+    - title: Servicios y proceso
+      questions:
+        - label: ¿Qué servicios ofreces?
+          content: |
+            Ofrezco desarrollo web full-stack. En el front-end: diseño UX/UI, prototipado interactivo y sitios y aplicaciones web responsivas con Vue.js/Nuxt.js. En el back-end: APIs REST y microservicios con C#/.NET, diseño de bases de datos, contenedores con Docker y despliegues en AWS. Mi objetivo es crear experiencias digitales completas, del concepto al despliegue.
+        - label: ¿Con qué tecnologías trabajas?
+          content: |
+            **Front-end:** Vue.js, Nuxt, TypeScript y Tailwind CSS. **Back-end:** C#/.NET, bases de datos SQL, arquitectura de microservicios, Docker y AWS. Llevo casi un año construyendo sistemas back-end profesionalmente. **Más allá del código:** fotografía, cine y edición de video con Adobe Premiere Pro.
+        - label: ¿Cómo trabajas?
+          content: |
+            El proyecto se desarrolla por **fases**: entregables funcionales que se completan de forma secuencial. Al concluir cada semana presento el avance en una reunión breve, para mantener la transparencia del proceso y permitir tu retroalimentación oportuna. Una fase nueva inicia cuando la anterior está entregada, pagada y aprobada.
+        - label: ¿Qué necesitaré de ti?
+          content: |
+            Para que el proyecto avance necesitaré el **contenido** (textos, imágenes, audios y videos), tus **referencias de diseño** (colores, estilo y logotipo), un **medio de pago** para cubrir el costo mensual de los servicios de operación (alojamiento, dominio y similares), y tu retroalimentación en las presentaciones semanales. El retraso en la entrega de estos elementos desplaza las fechas de entrega.
+    - title: Precios y plazos
+      questions:
+        - label: ¿Cómo se cotiza y factura un proyecto?
+          content: |
+            El pago se realiza **por fases**: cada fase se abona de forma íntegra al inicio, y el trabajo de una fase no comienza hasta recibir su pago. Todos los montos se expresan en USD. Los montos y plazos corresponden al alcance acordado. Toda función nueva o cambio importante en los requisitos se cotiza y acuerda por separado, antes de ejecutarse.
+        - label: ¿Cuánto tarda un proyecto?
+          content: |
+            Los proyectos se planifican en **semanas**, con un número de horas de dedicación acordado por semana. Los plazos son estimaciones de buena fe y dependen de recibir a tiempo el contenido, los accesos y las aprobaciones; el retraso en esos elementos desplaza las fechas. Respondo consultas en un plazo de hasta tres días hábiles, y existe un plan de soporte prioritario si necesitas tiempos de respuesta menores.
+        - label: ¿Cuántas revisiones incluye?
+          content: |
+            Cada fase incluye hasta **dos rondas de ajustes** sobre lo acordado para esa fase. Una fase se considera aprobada cuando confirmas tu conformidad, o cuando transcurren cinco días hábiles desde su entrega sin observaciones. Las revisiones adicionales, y los cambios sobre elementos ya aprobados, se cotizan de forma independiente.
+        - label: ¿Qué pasa con el alojamiento, el dominio y otros servicios?
+          content: |
+            Yo **configuro y administro** los servicios que tu proyecto necesita para operar (servidor, dominio, procesamiento de pagos y similares); su costo mensual lo cubres tú mediante un medio de pago que proporciones. El procesamiento de pagos se registra a **tu nombre**, de modo que los cobros se depositan directamente en tu cuenta. La configuración inicial de estos servicios está incluida dentro de las fases del proyecto. Liquidado el pago en su totalidad, todo lo entregado es **tuyo**: archivos, credenciales y accesos incluidos.
+        - label: ¿Ofreces mantenimiento y soporte?
+          content: |
+            Sí. Una vez el proyecto entra en producción, el mantenimiento se factura como una **cuota mensual**: disponibilidad del sitio, actualizaciones de seguridad, copias de seguridad y un margen de pequeños ajustes y correcciones. En proyectos que gestionan pagos o cuentas de usuario, el mantenimiento de seguridad es un componente necesario del servicio, no una prestación opcional. Los plazos de respuesta dependen del plan contratado.
+    - title: Sobre mí
+      questions:
+        - label: ¿Qué es lo que más disfrutas de tu trabajo?
+          content: |
+            Me encanta el reto de resolver problemas complejos a través del diseño y la tecnología. Es enormemente gratificante ver a alguien interactuar con algo que construí y que le resulte genuinamente útil y fácil de usar. Tender el puente entre las necesidades de las personas y las posibilidades técnicas es lo que de verdad me emociona.
+        - label: ¿Cuáles son tus pasatiempos fuera del trabajo?
+          content: |
+            Cuando no estoy programando, normalmente estoy detrás de una cámara: haciendo fotografía, filmando o editando video. Me apasionan el cine y la narrativa visual, y me encanta explorar Santo Domingo buscando nuevos lugares e historias que capturar.

@@ -1,0 +1,59 @@
+{
+  "nav": {
+    "home": "Inicio",
+    "about": "Sobre mí",
+    "experience": "Experiencia",
+    "blog": "Blog",
+    "contact": "Contacto",
+    "main": "Navegación principal",
+    "switchLocale": "English"
+  },
+  "hero": {
+    "available": "Disponible para nuevos proyectos",
+    "unavailable": "No disponible por el momento"
+  },
+  "about": {
+    "eyebrow": "Quién soy"
+  },
+  "experience": {
+    "eyebrow": "Trayectoria"
+  },
+  "testimonials": {
+    "eyebrow": "Testimonios",
+    "title": "Palabras de quienes han trabajado conmigo"
+  },
+  "faq": {
+    "eyebrow": "Preguntas"
+  },
+  "blog": {
+    "eyebrow": "Blog",
+    "searchPlaceholder": "Buscar artículos...",
+    "postsFound": "{count} artículo encontrado | {count} artículos encontrados",
+    "noResults": "No hay artículos que coincidan con tu búsqueda.",
+    "clearSearch": "Limpiar búsqueda",
+    "allPosts": "Todos los artículos",
+    "minRead": "{min} min de lectura",
+    "thanks": "¡Gracias por leer!",
+    "backToPosts": "Volver a los artículos"
+  },
+  "contact": {
+    "eyebrow": "Contacto",
+    "title": "Trabajemos juntos",
+    "intro": "¿Tienes un proyecto en mente, como una web, un video o una sesión de fotos? Cuéntame. Suelo responder en menos de 24 horas.",
+    "emailMe": "Escríbeme un correo",
+    "writeMe": "Escribir",
+    "copy": "Copiar dirección",
+    "copied": "¡Copiado!",
+    "copyAria": "Copiar dirección de correo",
+    "copiedAria": "Correo copiado",
+    "linkedinDesc": "Ideal para oportunidades laborales y consultas profesionales.",
+    "githubDesc": "Mi código, proyectos y actividad open-source.",
+    "instagramDesc": "Fotografía, filmmaking y detrás de cámaras.",
+    "location": "Santo Domingo, República Dominicana · Trabajo con clientes de todo el mundo"
+  },
+  "bag": {
+    "eyebrow": "Equipo",
+    "title": "¿Qué hay en mi mochila?",
+    "description": "El hardware, software y equipo que uso todos los días."
+  }
+}

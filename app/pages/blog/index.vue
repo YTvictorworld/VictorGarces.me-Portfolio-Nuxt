@@ -1,8 +1,13 @@
 <script setup lang="ts">
 import { formatDate } from '~/utils/format'
 
-const { data: page } = await useAsyncData('blog-page', () =>
-    queryCollection('pages').path('/blog').first()
+const { t, locale } = useI18n()
+
+const pagesCollection = (locale.value === 'es' ? 'pages_es' : 'pages_en') as 'pages_en'
+const blogCollection = (locale.value === 'es' ? 'blog_es' : 'blog_en') as 'blog_en'
+
+const { data: page } = await useAsyncData(`blog-page-${locale.value}`, () =>
+    queryCollection(pagesCollection).first()
 )
 
 if (!page.value) {
@@ -13,8 +18,8 @@ if (!page.value) {
     })
 }
 
-const { data: posts } = await useAsyncData('blog-posts', () =>
-    queryCollection('blog').order('date', 'DESC').all()
+const { data: posts } = await useAsyncData(`blog-posts-${locale.value}`, () =>
+    queryCollection(blogCollection).order('date', 'DESC').all()
 )
 
 useSeoMeta({
@@ -40,6 +45,8 @@ const filteredPosts = computed(() => {
         post.description?.toLowerCase().includes(query)
     )
 })
+
+const dateLocale = computed(() => locale.value === 'es' ? 'es-DO' : 'en-US')
 </script>
 
 <template>
@@ -49,7 +56,7 @@ const filteredPosts = computed(() => {
             <div class="max-w-4xl mx-auto">
                 <Reveal immediate :duration="600">
                     <p class="font-mono text-xs uppercase tracking-[0.25em] text-primary-600 dark:text-primary-400 mb-3">
-                        Writing
+                        {{ t('blog.eyebrow') }}
                     </p>
                     <h1 class="text-4xl sm:text-5xl font-bold tracking-tight text-neutral-900 dark:text-white mb-6">
                         {{ page.title }}
@@ -74,10 +81,10 @@ const filteredPosts = computed(() => {
                 <Reveal immediate :delay="250" :duration="600">
                     <div class="mb-12">
                         <UInput v-model="searchQuery" type="search" icon="i-lucide-search"
-                            placeholder="Search blog posts..." size="lg" class="w-full"
+                            :placeholder="t('blog.searchPlaceholder')" size="lg" class="w-full"
                             :ui="{ base: 'rounded-full' }" />
                         <p class="text-sm text-neutral-500 dark:text-neutral-400 mt-4" role="status">
-                            {{ filteredPosts.length }} {{ filteredPosts.length === 1 ? 'post' : 'posts' }} found
+                            {{ t('blog.postsFound', { count: filteredPosts.length }, filteredPosts.length) }}
                         </p>
                     </div>
                 </Reveal>
@@ -107,11 +114,11 @@ const filteredPosts = computed(() => {
 
                                 <div class="flex items-center gap-6 text-sm text-neutral-500 dark:text-neutral-400">
                                     <time :datetime="post.date?.toString()">
-                                        {{ formatDate(post.date) }}
+                                        {{ formatDate(post.date, dateLocale) }}
                                     </time>
                                     <span v-if="post.minRead" class="flex items-center gap-1.5">
                                         <UIcon name="i-lucide-clock" class="size-4" aria-hidden="true" />
-                                        {{ post.minRead }} min read
+                                        {{ t('blog.minRead', { min: post.minRead }) }}
                                     </span>
                                 </div>
                             </div>
@@ -130,9 +137,9 @@ const filteredPosts = computed(() => {
                 <div v-else class="py-20 text-center">
                     <UIcon name="i-lucide-search-x" class="mx-auto size-12 text-neutral-400 mb-4" aria-hidden="true" />
                     <p class="text-xl text-neutral-600 dark:text-neutral-300 mb-6">
-                        No posts found matching your search.
+                        {{ t('blog.noResults') }}
                     </p>
-                    <UButton color="primary" @click="clearSearch">Clear search</UButton>
+                    <UButton color="primary" @click="clearSearch">{{ t('blog.clearSearch') }}</UButton>
                 </div>
             </div>
         </section>
