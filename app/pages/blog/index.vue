@@ -47,6 +47,13 @@ const filteredPosts = computed(() => {
 })
 
 const dateLocale = computed(() => locale.value === 'es' ? 'es-DO' : 'en-US')
+
+const localePath = useLocalePath()
+
+// content paths carry the collection prefix (/en/blog/x, /es/blog/x);
+// the actual route is the localized /blog/<slug>
+const postLink = (contentPath: string): string =>
+    localePath(`/blog/${contentPath.split('/').pop()}`)
 </script>
 
 <template>
@@ -92,7 +99,7 @@ const dateLocale = computed(() => locale.value === 'es' ? 'es-DO' : 'en-US')
                 <!-- Post cards -->
                 <div v-if="filteredPosts.length > 0" class="space-y-10">
                     <Reveal v-for="(post, index) in filteredPosts" :key="post.path" :delay="index * 80" :duration="600">
-                        <NuxtLink :to="post.path"
+                        <NuxtLink :to="postLink(post.path)"
                             class="group flex flex-col md:flex-row gap-6 md:gap-8 overflow-hidden rounded-xl border border-neutral-200 dark:border-neutral-800 hover:border-primary-300 dark:hover:border-primary-800 hover:shadow-lg transition-all duration-300 hover:-translate-y-1 p-6 md:p-8">
                             <!-- Cover -->
                             <div v-if="post.image" class="flex-shrink-0 w-full md:w-64 h-48 md:h-auto overflow-hidden rounded-lg">
