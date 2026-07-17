@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { IndexCollectionItem } from '@nuxt/content'
+import type { IndexEnCollectionItem as IndexCollectionItem } from '@nuxt/content'
 
 const { footer, global } = useAppConfig()
 
@@ -56,7 +56,7 @@ defineProps<{
           <!-- Availability status -->
           <UButton :color="global?.available ? 'success' : 'error'" variant="ghost" size="lg" class="gap-2"
             :to="global?.available ? global?.meetingLink : ''"
-            :label="global?.available ? 'Available for new projects' : 'Not available at the moment'">
+            :label="global?.available ? $t('hero.available') : $t('hero.unavailable')">
             <template #leading>
               <span class="relative flex size-2">
                 <span class="absolute inline-flex size-full rounded-full opacity-75 motion-safe:animate-ping"

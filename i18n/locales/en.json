@@ -1,0 +1,59 @@
+{
+  "nav": {
+    "home": "Home",
+    "about": "About",
+    "experience": "Experience",
+    "blog": "Blog",
+    "contact": "Contact",
+    "main": "Main navigation",
+    "switchLocale": "Español"
+  },
+  "hero": {
+    "available": "Available for new projects",
+    "unavailable": "Not available at the moment"
+  },
+  "about": {
+    "eyebrow": "Who I am"
+  },
+  "experience": {
+    "eyebrow": "Career"
+  },
+  "testimonials": {
+    "eyebrow": "Testimonials",
+    "title": "Kind words from collaborators"
+  },
+  "faq": {
+    "eyebrow": "FAQ"
+  },
+  "blog": {
+    "eyebrow": "Writing",
+    "searchPlaceholder": "Search blog posts...",
+    "postsFound": "{count} post found | {count} posts found",
+    "noResults": "No posts found matching your search.",
+    "clearSearch": "Clear search",
+    "allPosts": "All posts",
+    "minRead": "{min} min read",
+    "thanks": "Thanks for reading!",
+    "backToPosts": "Back to all posts"
+  },
+  "contact": {
+    "eyebrow": "Contact",
+    "title": "Let's work together",
+    "intro": "Have a project in mind, like a website, a film or a photo session? Tell me about it. I usually reply within 24 hours.",
+    "emailMe": "Email me",
+    "writeMe": "Write me",
+    "copy": "Copy address",
+    "copied": "Copied!",
+    "copyAria": "Copy email address",
+    "copiedAria": "Email copied",
+    "linkedinDesc": "Best for work opportunities and professional inquiries.",
+    "githubDesc": "My code, projects and open-source activity.",
+    "instagramDesc": "Photography, filmmaking and behind-the-scenes.",
+    "location": "Santo Domingo, Dominican Republic · Working with clients worldwide"
+  },
+  "bag": {
+    "eyebrow": "Gear",
+    "title": "What is in my bag?",
+    "description": "The hardware, software and gear I use every day."
+  }
+}

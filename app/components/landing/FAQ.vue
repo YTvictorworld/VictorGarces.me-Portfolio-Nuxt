@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { IndexCollectionItem } from '@nuxt/content'
+import type { IndexEnCollectionItem as IndexCollectionItem } from '@nuxt/content'
 
 const props = defineProps<{
   page: IndexCollectionItem
@@ -32,7 +32,7 @@ const renderAnswer = (md: string): string =>
     <Reveal :duration="600">
       <div class="mb-8">
         <p class="font-mono text-xs uppercase tracking-[0.25em] text-primary-600 dark:text-primary-400 mb-3">
-          FAQ
+          {{ $t('faq.eyebrow') }}
         </p>
         <h2 class="text-3xl font-bold tracking-tight mb-2">{{ page.faq.title }}</h2>
         <p class="text-neutral-600 dark:text-neutral-300">{{ page.faq.description }}</p>
@@ -60,7 +60,7 @@ const renderAnswer = (md: string): string =>
           >
             <template #body="{ item: question }">
               <!-- content is our own YAML, escaped above before the v-html -->
-              <p class="px-4 pb-2 leading-relaxed text-neutral-600 dark:text-neutral-300" v-html="renderAnswer(question.content)" />
+              <p class="px-4 pb-2 leading-relaxed text-neutral-600 dark:text-neutral-300" v-html="renderAnswer(question.content ?? '')" />
             </template>
           </UAccordion>
         </template>
