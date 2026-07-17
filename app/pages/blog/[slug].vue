@@ -15,12 +15,17 @@ if (!post.value) {
     })
 }
 
+// social crawlers require absolute URLs for og:image
+const ogImage = post.value?.image?.startsWith('/')
+    ? `${SITE_URL}${post.value.image}`
+    : post.value?.image
+
 useSeoMeta({
     title: post.value?.seo?.title || post.value?.title,
     ogTitle: post.value?.seo?.title || post.value?.title,
     description: post.value?.seo?.description || post.value?.description,
     ogDescription: post.value?.seo?.description || post.value?.description,
-    ogImage: post.value?.image,
+    ogImage,
     twitterCard: 'summary_large_image'
 })
 </script>
