@@ -1,38 +1,87 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://victorgarces.me/</loc>
-    <lastmod>2026-07-04</lastmod>
+    <xhtml:link rel="alternate" hreflang="es" href="https://victorgarces.me/es"/>
+    <lastmod>2026-07-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://victorgarces.me/es</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://victorgarces.me/"/>
+    <lastmod>2026-07-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://victorgarces.me/blog</loc>
-    <lastmod>2026-07-04</lastmod>
+    <xhtml:link rel="alternate" hreflang="es" href="https://victorgarces.me/es/blog"/>
+    <lastmod>2026-07-17</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://victorgarces.me/es/blog</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://victorgarces.me/blog"/>
+    <lastmod>2026-07-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://victorgarces.me/blog/ai-and-my-two-crafts</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://victorgarces.me/es/blog/ai-and-my-two-crafts"/>
+    <lastmod>2026-07-04</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://victorgarces.me/es/blog/ai-and-my-two-crafts</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://victorgarces.me/blog/ai-and-my-two-crafts"/>
     <lastmod>2026-07-04</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://victorgarces.me/blog/machine-learning-talk-unapec</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://victorgarces.me/es/blog/machine-learning-talk-unapec"/>
+    <lastmod>2026-07-15</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://victorgarces.me/es/blog/machine-learning-talk-unapec</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://victorgarces.me/blog/machine-learning-talk-unapec"/>
     <lastmod>2026-07-15</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://victorgarces.me/contact</loc>
-    <lastmod>2026-07-04</lastmod>
+    <xhtml:link rel="alternate" hreflang="es" href="https://victorgarces.me/es/contact"/>
+    <lastmod>2026-07-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://victorgarces.me/es/contact</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://victorgarces.me/contact"/>
+    <lastmod>2026-07-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://victorgarces.me/bag</loc>
-    <lastmod>2026-07-04</lastmod>
+    <xhtml:link rel="alternate" hreflang="es" href="https://victorgarces.me/es/bag"/>
+    <lastmod>2026-07-17</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+  <url>
+    <loc>https://victorgarces.me/es/bag</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://victorgarces.me/bag"/>
+    <lastmod>2026-07-17</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>

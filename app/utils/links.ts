@@ -1,33 +1,17 @@
-interface navLinksOpts {
-  readonly label: string;
-  readonly icon: string;
-  readonly to: string;
+export interface NavLink {
+  /** i18n key under `nav.` */
+  readonly key: string
+  readonly icon: string
+  /** Route path (unlocalized — AppHeader runs it through localePath). */
+  readonly to: string
+  /** Optional in-page anchor appended to the localized route. */
+  readonly hash?: string
 }
 
-export const navLinks: navLinksOpts[] = [
-  {
-    label: "Home",
-    icon: "i-lucide-home",
-    to: "/",
-  },
-  {
-    label: "About",
-    icon: "i-lucide-user",
-    to: "/#about",
-  },
-  {
-    label: "Experience",
-    icon: "i-lucide-briefcase",
-    to: "/#experience",
-  },
-  {
-    label: "Blog",
-    icon: "i-lucide-file-text",
-    to: "/blog",
-  },
-  {
-    label: "Contact",
-    icon: "i-lucide-mail",
-    to: "/contact",
-  },
-];
+export const navLinks: NavLink[] = [
+  { key: 'home', icon: 'i-lucide-home', to: '/' },
+  { key: 'about', icon: 'i-lucide-user', to: '/', hash: '#about' },
+  { key: 'experience', icon: 'i-lucide-briefcase', to: '/', hash: '#experience' },
+  { key: 'blog', icon: 'i-lucide-file-text', to: '/blog' },
+  { key: 'contact', icon: 'i-lucide-mail', to: '/contact' },
+]

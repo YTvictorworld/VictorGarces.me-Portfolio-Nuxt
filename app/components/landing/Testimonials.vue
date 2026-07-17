@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { IndexCollectionItem } from '@nuxt/content'
+import type { IndexEnCollectionItem as IndexCollectionItem } from '@nuxt/content'
 
 defineProps<{
   page: IndexCollectionItem
@@ -12,9 +12,9 @@ defineProps<{
       <Reveal :duration="600">
         <div class="text-center mb-4">
           <p class="font-mono text-xs uppercase tracking-[0.25em] text-primary-600 dark:text-primary-400 mb-3">
-            Testimonials
+            {{ $t('testimonials.eyebrow') }}
           </p>
-          <h2 class="text-3xl font-bold tracking-tight">Kind words from collaborators</h2>
+          <h2 class="text-3xl font-bold tracking-tight">{{ $t('testimonials.title') }}</h2>
         </div>
       </Reveal>
 

@@ -1,6 +1,10 @@
 <script setup lang="ts">
-const { data: page } = await useAsyncData('index-page', () =>
-  queryCollection('index').first()
+const { locale } = useI18n()
+
+const collection = (locale.value === 'es' ? 'index_es' : 'index_en') as 'index_en'
+
+const { data: page } = await useAsyncData(`index-page-${locale.value}`, () =>
+  queryCollection(collection).first()
 )
 
 if (!page.value) {
@@ -48,28 +52,23 @@ useHead({
   <div v-if="page">
     <LandingHero :page />
 
-    <div class="relative">
-      <!-- Background beam that draws itself downward on scroll -->
-      <ScrollBeam class="inset-y-0 -left-2 lg:-left-6 hidden md:block" />
+    <section id="about" class="py-16 scroll-mt-24">
+      <UContainer class="grid md:grid-cols-2 gap-12 lg:gap-16">
+        <LandingAbout :data="page.about" />
+        <div id="experience" class="scroll-mt-24">
+          <LandingWorkExperience :data="page.experience" />
+        </div>
+      </UContainer>
+    </section>
 
-      <section id="about" class="py-16 scroll-mt-24">
-        <UContainer class="grid md:grid-cols-2 gap-12 lg:gap-16">
-          <LandingAbout :data="page.about" />
-          <div id="experience" class="scroll-mt-24">
-            <LandingWorkExperience :data="page.experience" />
-          </div>
-        </UContainer>
-      </section>
+    <section>
+      <LandingTestimonials :page />
+    </section>
 
-      <section>
-        <LandingTestimonials :page />
-      </section>
-
-      <section id="faq" class="scroll-mt-24">
-        <UContainer>
-          <LandingFAQ :page />
-        </UContainer>
-      </section>
-    </div>
+    <section id="faq" class="scroll-mt-24">
+      <UContainer>
+        <LandingFAQ :page />
+      </UContainer>
+    </section>
   </div>
 </template>

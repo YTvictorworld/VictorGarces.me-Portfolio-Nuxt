@@ -25,7 +25,7 @@ defineProps<Props>()
     <section>
         <Reveal :duration="600">
             <p class="font-mono text-xs uppercase tracking-[0.25em] text-primary-600 dark:text-primary-400 mb-3">
-                Career
+                {{ $t('experience.eyebrow') }}
             </p>
             <h2 class="text-3xl font-bold tracking-tight mb-10">{{ data?.title }}</h2>
         </Reveal>

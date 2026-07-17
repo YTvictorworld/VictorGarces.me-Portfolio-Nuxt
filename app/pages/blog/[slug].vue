@@ -2,9 +2,14 @@
 import { formatDate } from '~/utils/format'
 
 const route = useRoute()
+const { t, locale } = useI18n()
+const localePath = useLocalePath()
 
-const { data: post } = await useAsyncData(`blog-post-${route.path}`, () =>
-    queryCollection('blog').path(route.path).first()
+const blogCollection = (locale.value === 'es' ? 'blog_es' : 'blog_en') as 'blog_en'
+const contentPath = `/${locale.value}/blog/${route.params.slug}`
+
+const { data: post } = await useAsyncData(`blog-post-${contentPath}`, () =>
+    queryCollection(blogCollection).path(contentPath).first()
 )
 
 if (!post.value) {
@@ -35,8 +40,8 @@ useSeoMeta({
         <div class="max-w-3xl mx-auto">
             <!-- Back link -->
             <Reveal immediate :duration="500" :y="12">
-                <UButton to="/blog" icon="i-lucide-arrow-left" variant="ghost" color="neutral" size="sm" class="mb-8">
-                    All posts
+                <UButton :to="localePath('/blog')" icon="i-lucide-arrow-left" variant="ghost" color="neutral" size="sm" class="mb-8">
+                    {{ t('blog.allPosts') }}
                 </UButton>
             </Reveal>
 
@@ -45,11 +50,11 @@ useSeoMeta({
                 <Reveal immediate :delay="100" :duration="600">
                     <div class="flex items-center gap-4 text-sm text-neutral-500 dark:text-neutral-400 mb-4">
                         <time v-if="post.date" :datetime="post.date.toString()">
-                            {{ formatDate(post.date) }}
+                            {{ formatDate(post.date, locale === 'es' ? 'es-DO' : 'en-US') }}
                         </time>
                         <span v-if="post.minRead" class="flex items-center gap-1.5">
                             <UIcon name="i-lucide-clock" class="size-4" aria-hidden="true" />
-                            {{ post.minRead }} min read
+                            {{ t('blog.minRead', { min: post.minRead }) }}
                         </span>
                     </div>
                     <h1 class="text-4xl sm:text-5xl font-bold tracking-tight text-neutral-900 dark:text-white text-balance mb-6">
@@ -91,9 +96,9 @@ useSeoMeta({
             <!-- Footer CTA -->
             <Reveal :duration="600">
                 <footer class="mt-16 pt-8 border-t border-neutral-200 dark:border-neutral-800 flex flex-col sm:flex-row items-center justify-between gap-4">
-                    <p class="text-neutral-600 dark:text-neutral-300">Thanks for reading!</p>
-                    <UButton to="/blog" icon="i-lucide-arrow-left" variant="outline" color="neutral">
-                        Back to all posts
+                    <p class="text-neutral-600 dark:text-neutral-300">{{ t('blog.thanks') }}</p>
+                    <UButton :to="localePath('/blog')" icon="i-lucide-arrow-left" variant="outline" color="neutral">
+                        {{ t('blog.backToPosts') }}
                     </UButton>
                 </footer>
             </Reveal>

@@ -1,0 +1,8 @@
+title: Blog
+description: Thoughts on web development, photography, and content creation. Here I share my journey and learnings.
+links:
+  - label: Get in touch
+    icon: i-lucide-mail
+    to: "mailto:victorericksongv@gmail.com"
+    color: primary
+    variant: solid

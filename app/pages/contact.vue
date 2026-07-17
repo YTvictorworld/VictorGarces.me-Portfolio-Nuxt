@@ -1,11 +1,14 @@
 <script setup lang="ts">
 const { global, footer } = useAppConfig()
+const { t } = useI18n()
+
+const seoDescription = computed(() => t('contact.intro'))
 
 useSeoMeta({
-  title: 'Contact',
-  description: 'Get in touch with Víctor Garcés for web development, photography or filmmaking projects. Based in Santo Domingo, Dominican Republic.',
-  ogTitle: 'Contact · Víctor Garcés',
-  ogDescription: 'Get in touch with Víctor Garcés for web development, photography or filmmaking projects.'
+  title: () => t('contact.eyebrow'),
+  description: seoDescription,
+  ogTitle: () => `${t('contact.eyebrow')} · Víctor Garcés`,
+  ogDescription: seoDescription
 })
 
 const email = computed(() => global?.email ?? '')
@@ -24,19 +27,19 @@ const copyEmail = async () => {
 const channels = computed(() => [
   {
     label: 'LinkedIn',
-    description: 'Best for work opportunities and professional inquiries.',
+    description: t('contact.linkedinDesc'),
     icon: 'i-simple-icons-linkedin',
     to: global?.meetingLink
   },
   {
     label: 'GitHub',
-    description: 'My code, projects and open-source activity.',
+    description: t('contact.githubDesc'),
     icon: 'i-simple-icons-github',
     to: footer?.links?.find(l => l.icon?.includes('github'))?.to
   },
   {
     label: 'Instagram',
-    description: 'Photography, filmmaking and behind-the-scenes.',
+    description: t('contact.instagramDesc'),
     icon: 'i-simple-icons-instagram',
     to: footer?.links?.find(l => l.icon?.includes('instagram'))?.to
   }
@@ -49,14 +52,13 @@ const channels = computed(() => [
       <!-- Header -->
       <Reveal immediate :duration="600">
         <p class="font-mono text-xs uppercase tracking-[0.25em] text-primary-600 dark:text-primary-400 mb-3">
-          Contact
+          {{ $t('contact.eyebrow') }}
         </p>
         <h1 class="text-4xl sm:text-5xl font-bold tracking-tight text-neutral-900 dark:text-white mb-6 text-balance">
-          Let's work together
+          {{ $t('contact.title') }}
         </h1>
         <p class="text-xl text-neutral-600 dark:text-neutral-300 mb-8 text-pretty">
-          Have a project in mind, like a website, a film or a photo session? Tell me about it.
-          I usually reply within 24 hours.
+          {{ $t('contact.intro') }}
         </p>
       </Reveal>
 
@@ -70,7 +72,7 @@ const channels = computed(() => [
             <span class="relative inline-flex size-2 scale-90 rounded-full"
               :class="global?.available ? 'bg-green-500' : 'bg-red-500'" />
           </span>
-          {{ global?.available ? 'Available for new projects' : 'Not available at the moment' }}
+          {{ global?.available ? $t('hero.available') : $t('hero.unavailable') }}
         </div>
       </Reveal>
 
@@ -79,16 +81,16 @@ const channels = computed(() => [
         <div
           class="flex flex-col sm:flex-row sm:items-center gap-4 p-6 rounded-xl border border-primary-300/50 dark:border-primary-800/60 bg-primary-50/50 dark:bg-primary-950/20 mb-8">
           <div class="flex-1">
-            <p class="font-semibold text-neutral-900 dark:text-white mb-1">Email me</p>
+            <p class="font-semibold text-neutral-900 dark:text-white mb-1">{{ $t('contact.emailMe') }}</p>
             <p class="font-mono text-sm text-neutral-600 dark:text-neutral-300 break-all">{{ email }}</p>
           </div>
           <div class="flex gap-2">
             <UButton :to="`mailto:${email}`" icon="i-lucide-mail" color="primary" size="lg">
-              Write me
+              {{ $t('contact.writeMe') }}
             </UButton>
-            <UTooltip :text="copied ? 'Copied!' : 'Copy address'">
+            <UTooltip :text="copied ? $t('contact.copied') : $t('contact.copy')">
               <UButton :icon="copied ? 'i-lucide-check' : 'i-lucide-copy'" color="neutral" variant="outline" size="lg"
-                :aria-label="copied ? 'Email copied' : 'Copy email address'" @click="copyEmail" />
+                :aria-label="copied ? $t('contact.copiedAria') : $t('contact.copyAria')" @click="copyEmail" />
             </UTooltip>
           </div>
         </div>
@@ -118,7 +120,7 @@ const channels = computed(() => [
       <Reveal :delay="200" :duration="600">
         <p class="flex items-center gap-2 mt-12 text-sm text-neutral-500 dark:text-neutral-400">
           <UIcon name="i-lucide-map-pin" class="size-4" aria-hidden="true" />
-          Santo Domingo, Dominican Republic · Working with clients worldwide
+          {{ $t('contact.location') }}
         </p>
       </Reveal>
     </div>
