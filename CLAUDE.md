@@ -6,7 +6,8 @@ Personal portfolio of Víctor Garcés: full-stack developer (Vue/Nuxt front-end;
 
 - **Nuxt 4** (SPA, `ssr: false`, `nitro.preset: static`) deployed to GitHub Pages via Actions (`.github/workflows/deploy.yml`)
 - **Nuxt UI 3** (free tier — do NOT use `UPage*` / Pro-only components) + Tailwind CSS v4
-- **@nuxt/content 3** — all copy lives in `content/*.yml` and `content/blog/*.md`, validated by Zod schemas in `content.config.ts`
+- **@nuxt/content 3** — all copy lives in `content/{en,es}/*.yml` and `content/{en,es}/blog/*.md`, validated by shared Zod schemas in `content.config.ts` (collections are per-locale: `index_en`/`index_es`, `blog_en`/`blog_es`, `pages_en`/`pages_es`)
+- **@nuxtjs/i18n** — English at `/` (default, prefix_except_default), Spanish under `/es`. UI strings in `i18n/locales/{en,es}.json`; nav labels come from `nav.*` keys and routes go through `localePath()`. New blog posts need BOTH `content/en/blog/<slug>.md` and `content/es/blog/<slug>.md` (same filename = linked translations). CAREFUL: Content `post.path` carries the collection prefix (`/en/blog/x`) which is NOT the route in the default locale — always build links via `localePath('/blog/' + slug)`.
 - **No animation library** — motion is hand-rolled (IntersectionObserver + CSS transitions in `Reveal.vue`, rAF in `ImageMarquee.vue`, scroll-linked beams). @vueuse/motion was removed: its `<Motion>` component (v3.0.3) throws `TypeError: reading 'state'` on vnode updates during page transitions and breaks Vue's render queue. Do not reintroduce it.
 - **@vueuse/nuxt** for composables
 
