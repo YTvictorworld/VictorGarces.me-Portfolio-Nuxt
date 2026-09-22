@@ -18,7 +18,10 @@ onMounted(update)
 </script>
 
 <template>
-  <div class="fixed top-0 inset-x-0 z-[60] h-0.5 pointer-events-none" aria-hidden="true">
+  <div
+    class="fixed top-0 inset-x-0 z-[60] h-0.5 pointer-events-none"
+    aria-hidden="true"
+  >
     <div
       class="h-full origin-left bg-gradient-to-r from-primary-400 via-primary-500 to-primary-600 will-change-transform"
       :style="{ transform: `scaleX(${progress})` }"

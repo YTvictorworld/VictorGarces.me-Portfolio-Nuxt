@@ -1,6 +1,10 @@
 @import "tailwindcss";
 @import "@nuxt/ui";
 
+/* Artboards and handoff docs are reference only: keep them out of class scanning */
+@source not "../../../design";
+@source not "../../../docs";
+
 /* --- Brand palette: "Ember" — cinematic sunset orange ---
    Victor is a filmmaker: warm highlights over cool shadows,
    the classic orange & teal film grade applied to the UI. */

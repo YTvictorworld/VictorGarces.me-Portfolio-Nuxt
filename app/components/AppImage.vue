@@ -55,10 +55,14 @@ onMounted(() => {
       :style="{ opacity: loaded ? 1 : 0, transition: 'opacity 0.5s ease, transform 0.5s ease' }"
       @load="onLoad"
       @error="onError"
-    />
+    >
 
     <!-- Shimmer skeleton while loading -->
-    <div v-if="!loaded && !failed" class="img-skeleton absolute inset-0" aria-hidden="true" />
+    <div
+      v-if="!loaded && !failed"
+      class="img-skeleton absolute inset-0"
+      aria-hidden="true"
+    />
 
     <!-- Quiet fallback when the image can't load -->
     <div
@@ -66,7 +70,10 @@ onMounted(() => {
       class="absolute inset-0 flex items-center justify-center bg-neutral-100 dark:bg-white/5"
       aria-hidden="true"
     >
-      <UIcon name="i-lucide-image-off" class="size-6 text-neutral-400 dark:text-neutral-600" />
+      <UIcon
+        name="i-lucide-image-off"
+        class="size-6 text-neutral-400 dark:text-neutral-600"
+      />
     </div>
   </div>
 </template>

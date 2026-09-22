@@ -37,7 +37,11 @@ const progress = computed(() => {
 </script>
 
 <template>
-  <div ref="trackRef" class="scroll-beam w-0.5" aria-hidden="true">
+  <div
+    ref="trackRef"
+    class="scroll-beam w-0.5"
+    aria-hidden="true"
+  >
     <!-- Track -->
     <div class="absolute inset-0 rounded-full bg-neutral-200 dark:bg-white/10" />
 

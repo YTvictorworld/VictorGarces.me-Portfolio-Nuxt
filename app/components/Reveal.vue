@@ -65,7 +65,11 @@ onMounted(() => {
 </script>
 
 <template>
-  <div ref="el" :style="style" data-allow-mismatch="style">
+  <div
+    ref="el"
+    :style="style"
+    data-allow-mismatch="style"
+  >
     <slot />
   </div>
 </template>

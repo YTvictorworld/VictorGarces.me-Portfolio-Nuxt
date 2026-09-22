@@ -52,10 +52,16 @@ useHead({
   <div v-if="page">
     <LandingHero :page />
 
-    <section id="about" class="py-16 scroll-mt-24">
+    <section
+      id="about"
+      class="py-16 scroll-mt-24"
+    >
       <UContainer class="grid md:grid-cols-2 gap-12 lg:gap-16">
         <LandingAbout :data="page.about" />
-        <div id="experience" class="scroll-mt-24">
+        <div
+          id="experience"
+          class="scroll-mt-24"
+        >
           <LandingWorkExperience :data="page.experience" />
         </div>
       </UContainer>
@@ -65,7 +71,10 @@ useHead({
       <LandingTestimonials :page />
     </section>
 
-    <section id="faq" class="scroll-mt-24">
+    <section
+      id="faq"
+      class="scroll-mt-24"
+    >
       <UContainer>
         <LandingFAQ :page />
       </UContainer>

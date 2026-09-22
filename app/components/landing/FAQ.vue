@@ -28,18 +28,28 @@ const renderAnswer = (md: string): string =>
 </script>
 
 <template>
-  <section v-if="page.faq" class="py-12">
+  <section
+    v-if="page.faq"
+    class="py-12"
+  >
     <Reveal :duration="600">
       <div class="mb-8">
         <p class="font-mono text-xs uppercase tracking-[0.25em] text-primary-600 dark:text-primary-400 mb-3">
           {{ $t('faq.eyebrow') }}
         </p>
-        <h2 class="text-3xl font-bold tracking-tight mb-2">{{ page.faq.title }}</h2>
-        <p class="text-neutral-600 dark:text-neutral-300">{{ page.faq.description }}</p>
+        <h2 class="text-3xl font-bold tracking-tight mb-2">
+          {{ page.faq.title }}
+        </h2>
+        <p class="text-neutral-600 dark:text-neutral-300">
+          {{ page.faq.description }}
+        </p>
       </div>
     </Reveal>
 
-    <Reveal :delay="100" :duration="600">
+    <Reveal
+      :delay="100"
+      :duration="600"
+    >
       <UTabs
         :items="tabs"
         orientation="horizontal"
@@ -60,7 +70,12 @@ const renderAnswer = (md: string): string =>
           >
             <template #body="{ item: question }">
               <!-- content is our own YAML, escaped above before the v-html -->
-              <p class="px-4 pb-2 leading-relaxed text-neutral-600 dark:text-neutral-300" v-html="renderAnswer(question.content ?? '')" />
+              <!-- eslint-disable vue/no-v-html -->
+              <p
+                class="px-4 pb-2 leading-relaxed text-neutral-600 dark:text-neutral-300"
+                v-html="renderAnswer(question.content ?? '')"
+              />
+              <!-- eslint-enable vue/no-v-html -->
             </template>
           </UAccordion>
         </template>

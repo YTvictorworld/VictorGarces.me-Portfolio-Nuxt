@@ -13,5 +13,5 @@ export const navLinks: NavLink[] = [
   { key: 'about', icon: 'i-lucide-user', to: '/', hash: '#about' },
   { key: 'experience', icon: 'i-lucide-briefcase', to: '/', hash: '#experience' },
   { key: 'blog', icon: 'i-lucide-file-text', to: '/blog' },
-  { key: 'contact', icon: 'i-lucide-mail', to: '/contact' },
+  { key: 'contact', icon: 'i-lucide-mail', to: '/contact' }
 ]

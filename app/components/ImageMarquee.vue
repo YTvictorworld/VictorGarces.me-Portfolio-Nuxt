@@ -123,8 +123,14 @@ onDeactivated(stopAnimation)
     @mouseenter="handleMouseEnter"
     @mouseleave="handleMouseLeave"
   >
-    <div ref="contentRef" class="marquee-content">
-      <template v-for="copy in (prefersStatic ? 1 : 2)" :key="copy">
+    <div
+      ref="contentRef"
+      class="marquee-content"
+    >
+      <template
+        v-for="copy in (prefersStatic ? 1 : 2)"
+        :key="copy"
+      >
         <div
           v-for="(img, index) in images"
           :key="`${copy}-${index}`"

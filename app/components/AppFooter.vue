@@ -10,9 +10,12 @@ const { footer } = useAppConfig()
         <div class="text-xs text-neutral-600 dark:text-neutral-400 order-2 md:order-1">
           {{ footer?.credits }}
         </div>
-        
+
         <!-- Right side - Links -->
-        <div class="flex items-center gap-2 order-1 md:order-2" v-if="footer?.links">
+        <div
+          v-if="footer?.links"
+          class="flex items-center gap-2 order-1 md:order-2"
+        >
           <UButton
             v-for="(link, index) of footer?.links"
             :key="index"

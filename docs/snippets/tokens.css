@@ -1,0 +1,98 @@
+/* app/assets/css/tokens.css
+   Mode is set on <html data-mode="day|night"> before paint (see useMode). */
+
+:root,
+[data-mode='day'] {
+  --bg: #F7F7F4;
+  --surface: #FFFFFF;
+  --raised: #E6F1EC;
+  --text: #151617;
+  --muted: #5F6266;
+  --accent: #1F7A63;
+  --on-accent: #FFFFFF;
+  --border: #E2E1DB;
+  --dark: #151617;
+  --dark-text: #F7F7F4;
+  --dark-muted: #A5A7AE;
+  --ph: rgba(31, 122, 99, 0.55);
+
+  --font-body: 'Albert Sans', system-ui, sans-serif;
+  --font-display: 'Albert Sans', system-ui, sans-serif;
+  --font-mono: 'Source Code Pro', ui-monospace, monospace;
+  --display-style: normal;
+  --display-weight: 700;
+  --display-tracking: -0.02em;
+
+  --r-card: 22px;
+  --r-stage: 28px;
+  --r-landing: 32px;
+  --r-media: 14px;
+  --r-media-lg: 18px;
+  --r-pill: 999px;
+
+  --gutter: 64px;
+  --gap: 20px;
+  --section: 40px;
+
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --t-micro: 200ms;
+  --t-card: 240ms;
+  --t-mode: 700ms;
+
+  --shadow-float: 0 16px 40px rgba(21, 22, 23, 0.28);
+  --shadow-banner: 0 20px 50px rgba(0, 0, 0, 0.25);
+
+  color-scheme: light;
+}
+
+[data-mode='night'] {
+  --bg: #121010;
+  --surface: #1C1817;
+  --raised: #262120;
+  --text: #F1EBE3;
+  --muted: #A69C91;
+  --accent: #E2A15B;
+  --on-accent: #121010;
+  --border: #2C2624;
+  --dark: #1C1817;
+  --dark-text: #F1EBE3;
+  --dark-muted: #A69C91;
+  --ph: rgba(226, 161, 91, 0.5);
+
+  --font-display: 'Newsreader', Georgia, serif;
+  --display-style: italic;
+  --display-weight: 500;
+  --display-tracking: 0;
+
+  color-scheme: dark;
+}
+
+html { background: var(--bg); color: var(--text); font-family: var(--font-body); }
+h1, h2, h3, .display {
+  font-family: var(--font-display);
+  font-style: var(--display-style);
+  font-weight: var(--display-weight);
+  letter-spacing: var(--display-tracking);
+  margin: 0;
+}
+.eyebrow { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
+
+/* Placeholder convention: dashed outline + chip. Hidden in production. */
+[data-placeholder] { position: relative; border: 1.5px dashed var(--ph); }
+[data-placeholder]::after {
+  content: 'placeholder · ' attr(data-placeholder);
+  position: absolute; left: 10px; top: 10px; z-index: 1;
+  font: 500 10px/1 var(--font-mono); letter-spacing: 0.04em;
+  color: var(--on-accent); background: var(--accent);
+  padding: 4px 8px; border-radius: var(--r-pill); white-space: nowrap;
+}
+html[data-placeholders='off'] [data-placeholder] { border-color: transparent; }
+html[data-placeholders='off'] [data-placeholder]::after { display: none; }
+
+@media (max-width: 767px) {
+  :root, [data-mode='day'], [data-mode='night'] { --gutter: 20px; --gap: 12px; --section: 24px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root, [data-mode='day'], [data-mode='night'] { --t-micro: 0ms; --t-card: 0ms; --t-mode: 150ms; }
+}
