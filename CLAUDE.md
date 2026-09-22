@@ -17,7 +17,7 @@ Both modes share components and content sources. Only the Home pages differ stru
 ## Stack
 - **Nuxt 4.5**, `ssr: true` + nitro `static` preset: every route is prerendered, deployed to GitHub Pages by `.github/workflows/deploy.yml` on push to `master`. Node 22 (Nuxt 4.5 declares `^22.19`; 22.18 works locally).
 - **Nuxt UI 4** (Pro components are free since v4) + Tailwind CSS v4. Components are styled only through the tokens.
-- **@nuxt/content 3**: collections are **per locale** (`<name>_en` / `<name>_es` from `content/en/` and `content/es/`); the one single-locale file is `content/contact.yml` (email, city, socials), so the email lives in one place. Content v3 does **not** validate the zod schema at build: validation is our own hook (M2).
+- **@nuxt/content 3**: collections are **per locale** (`<name>_en` / `<name>_es` from `content/en/` and `content/es/`); the one single-locale file is `content/profile.yml` (email, city, socials), so the email lives in one place. Schemas live in `content.schemas.ts`; Content v3 does **not** run them, so a hook in `nuxt.config.ts` validates every file and fails the build (see `docs/CONTENT.md`).
 - **@nuxtjs/i18n**: English at `/` (default, `prefix_except_default`), Spanish under `/es`. UI strings in `i18n/locales/{en,es}.json`; routes always go through `localePath()`.
 - **@nuxtjs/seo** (sitemap, robots, og-image, schema-org, link-checker), **@nuxt/scripts** (cookieless analytics), **@nuxt/image**, **@vueuse/nuxt**, **@nuxt/eslint**. `@nuxt/fonts` comes with Nuxt UI and is configured through the `fonts` key.
 - **gsap** is the only tweening library. **media-chrome** + **hls-video-element** for video. **@tresjs/*** is added only in the final 3D milestone.
@@ -42,6 +42,7 @@ Both modes share components and content sources. Only the Home pages differ stru
 - GitHub Pages cannot send HTTP headers: CSP is a `<meta http-equiv>` (no `frame-ancestors`, no `report-uri`) and redirects are prerendered meta-refresh pages listed in `nitro.prerender.routes`.
 - `deploy-static.ps1` is destructive: it deletes `.output` (and every untracked file) before copying from it, then force-pushes. Do not run it; deploys go through the Actions workflow.
 - Mode-dependent markup renders both variants with `.day-only` / `.night-only` (CSS picks by the nearest `data-mode`). Never branch templates on `mode`: prerendered pages are built in day, the pre-paint script switches them before paint, and a template branch would mismatch on hydration.
+- `useAsyncData` keys must include the locale (and slug). Nuxt shares prerendered data between pages with the same key, so a key without the locale serves English data on `/es` pages.
 - A `key` on a `useHead` meta stops unhead from claiming the prerendered tag, so it appends a duplicate that the browser ignores. Let `name` dedupe metas.
 - Tailwind v4 scans every project file: `design/` and `docs/` are excluded with `@source not` in `main.css`.
 - `gltf-transform optimize` with default flags merges the named `layer_*` meshes; use the exact command in `docs/3D.md`.
@@ -59,7 +60,9 @@ app/
   error.vue                    404 per mode (M5)
   utils/site.ts                SITE_URL / SITE_NAME
 content/{en,es}/               per-locale collections, see content.config.ts and docs/CONTENT.md
-content/contact.yml            single-locale facts: email, city, timezone, socials (M2)
+content/profile.yml            single-locale facts: email, city, timezone, socials
+content.schemas.ts             zod schemas for every collection and the media manifest
+scripts/media-ingest.mjs       local stand-in for the media pipeline (`pnpm media:ingest`)
 content/media/manifest.json    pulled from the pipeline by `pnpm media:pull` (M8)
 design/                        approved artboards (reference only)
 docs/                          plan, design system, audit, migration map, handoff snippets

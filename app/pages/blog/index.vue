@@ -7,7 +7,7 @@ const pagesCollection = (locale.value === 'es' ? 'pages_es' : 'pages_en') as 'pa
 const blogCollection = (locale.value === 'es' ? 'blog_es' : 'blog_en') as 'blog_en'
 
 const { data: page } = await useAsyncData(`blog-page-${locale.value}`, () =>
-  queryCollection(pagesCollection).first()
+  queryCollection(pagesCollection).path(`/${locale.value}/pages/blog`).first()
 )
 
 if (!page.value) {
@@ -143,12 +143,12 @@ const postLink = (contentPath: string): string =>
             >
               <!-- Cover -->
               <div
-                v-if="post.image"
+                v-if="post.cover"
                 class="flex-shrink-0 w-full md:w-64 h-48 md:h-auto overflow-hidden rounded-lg"
               >
                 <AppImage
-                  :src="post.image"
-                  :alt="post.title"
+                  :src="post.cover.src"
+                  :alt="post.cover.alt"
                   loading="lazy"
                   class="w-full h-full"
                   img-class="w-full h-full object-cover group-hover:scale-105"

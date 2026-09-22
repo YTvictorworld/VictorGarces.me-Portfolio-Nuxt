@@ -1,0 +1,31 @@
+categories:
+  - title: Hardware
+    items:
+      - title: Teclado mecánico Keychron K2
+        url: https://www.keychron.com/products/keychron-k2
+        description: Formato compacto al 75 %, switches intercambiables en caliente y RGB.
+        icon: mdi-keyboard-outline
+      - title: MacBook Pro 16"
+        url: https://www.apple.com/macbook-pro-16/
+        description: Laptop potente para desarrollo y diseño.
+  - title: Software
+    items:
+      - title: Visual Studio Code
+        url: https://code.visualstudio.com/
+        description: Editor de código ligero con extensiones para todo.
+        icon: mdi-code-brackets
+      - title: Figma
+        url: https://www.figma.com/
+        description: Herramienta de diseño de interfaces colaborativa.
+  - title: Escritorio
+    items:
+      - title: Escritorio de pie FlexiSpot
+        url: https://flexispot.com/
+        description: Escritorio ajustable en altura para trabajar con mejor ergonomía.
+        icon: mdi-table-furniture
+  - title: Otros
+    items:
+      - title: Audífonos Sony WH-1000XM4
+        url: https://www.sony.com/electronics/headband-headphones/wh-1000xm4
+        description: Audífonos con cancelación de ruido líder en la industria.
+        icon: mdi-headphones

@@ -1,0 +1,47 @@
+entries:
+  - from: "2025"
+    to: null
+    kind: work
+    current: true
+    title: Desarrollador Back-End
+    org: Sigmedic
+  - from: null
+    to: null
+    kind: work
+    current: true
+    title: Desarrollador freelance
+    summary: Aplicaciones web y plataformas para clientes, con Vue/Nuxt y .NET.
+  - from: null
+    to: null
+    kind: volunteer
+    current: true
+    title: Voluntario
+    org: PLERD
+    url: https://plerd.minerd.gob.do
+  - from: null
+    to: null
+    kind: work
+    current: true
+    title: Director de Comunicación y Mercadeo
+    org: La Voz Juvenil RD
+    summary: Marca, contenido y coordinación de equipos para una organización de liderazgo juvenil.
+  - from: null
+    to: null
+    kind: education
+    current: true
+    title: Ingeniería de Software
+    org: UNAPEC
+    summary: Clases nocturnas, Santo Domingo.
+  - from: "2024"
+    to: "2025"
+    kind: work
+    current: false
+    title: Desarrollador Front-End
+    org: As de Picas
+    url: https://asdepicassalones.es
+  - from: null
+    to: null
+    kind: education
+    current: false
+    title: Técnico en Desarrollo y Administración de Aplicaciones Informáticas
+    org: Instituto Politécnico Francisco José Peynado

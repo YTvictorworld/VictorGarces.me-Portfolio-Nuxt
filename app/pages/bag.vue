@@ -1,6 +1,9 @@
 <script setup lang="ts">
-const { data: page } = await useAsyncData('bag-page', () =>
-  queryCollection('bag').first()
+const { t, locale } = useI18n()
+
+const bagCollection = (locale.value === 'es' ? 'bag_es' : 'bag_en') as 'bag_en'
+const { data: page } = await useAsyncData(`bag-page-${locale.value}`, () =>
+  queryCollection(bagCollection).first()
 )
 
 if (!page.value) {
@@ -10,8 +13,6 @@ if (!page.value) {
     fatal: true
   })
 }
-
-const { t } = useI18n()
 
 useSeoMeta({
   title: () => t('bag.title'),

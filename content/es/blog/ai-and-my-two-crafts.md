@@ -2,7 +2,13 @@
 title: "La IA y mis dos oficios: qué cambia para desarrolladores y filmmakers"
 description: Escribo software y hago cine. La inteligencia artificial está transformando ambos a la vez. Esto es lo que he aprendido sobre dónde ayuda, dónde hace daño en silencio, y qué se mantiene tercamente humano.
 date: 2026-07-04
-image: https://mir-s3-cdn-cf.behance.net/project_modules/fs_webp/06895b212781749.673b4e14df4a8.jpg
+tags:
+  - ai
+  - development
+  - film
+cover:
+  src: /images/blog/ai-and-my-two-crafts.webp
+  alt: Retrato en contrapicado de una mujer de cabello rizado contra una pared de concreto
 minRead: 8
 author:
   name: Víctor Garcés
@@ -10,7 +16,7 @@ author:
   username: YTvictorworld
   twitter: https://twitter.com/YTvictorworld
   avatar:
-    src: https://mir-s3-cdn-cf.behance.net/project_modules/disp/49f056206375265.68b77ee9dd6a7.jpg
+    src: /media/portrait.jpg
     alt: Víctor Garcés
 ---
 
@@ -74,4 +80,4 @@ En la práctica eso significa usarla para avanzar más rápido por el boilerplat
 
 Porque al final del día, la pregunta interesante nunca fue "¿puede la máquina hacerlo?". Cada vez puede más. La pregunta es "¿qué vale la pena hacer, y por qué?". Responder eso siempre ha sido la parte humana de mis dos oficios.
 
-Gracias por leer. Si quieres hablar de IA, código, cine, o de las tres cosas a la vez, [escríbeme](mailto:victorericksongv@gmail.com).
+Gracias por leer. Si quieres hablar de IA, código, cine, o de las tres cosas a la vez, [escríbeme](/es/contact).

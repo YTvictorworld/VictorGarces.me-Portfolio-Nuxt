@@ -14,7 +14,7 @@ These override anything else in `docs/` and `design/`.
 
 ## Corrections to the handoff
 Found in the audit (`docs/AUDIT.md`, ids in brackets). Where they conflict with the other docs, these win.
-- **Content is per locale** [content-locale-strategy]: every collection exists as `<name>_en` / `<name>_es` with sources under `content/en/` and `content/es/`, plus a `queryLocalized()` helper that falls back to `_en`. No `*.es.md` siblings. `bag` becomes per-locale too (its descriptions get translated). The only single-locale file is `content/contact.yml` (email, city, timezone, socials), so the email is stored once. Blog slugs stay as they are.
+- **Content is per locale** [content-locale-strategy]: every collection exists as `<name>_en` / `<name>_es` with sources under `content/en/` and `content/es/`, picked with `useLocalizedContent().collection()`. No `*.es.md` siblings and no fallback: the build reports any file that exists in one language only. `bag` becomes per-locale too (its descriptions get translated). The only single-locale file is `content/profile.yml` (email, city, timezone, socials), so the email is stored once. Blog slugs stay as they are.
 - **Schema is validated by us** [schema-not-validated]: Content v3 ignores zod at build, so M2 adds a validation step that parses every file with the shared zod schemas and fails the build (alt text, required fields).
 - **Old collections live until their last consumer is rewritten** [snippet-drops-live-collections]: `index_*` and `pages_*` stay until M3/M4 replace the pages that query them.
 - **Seeds never ship** [placeholder-seeds-go-public]: `projects`, `films`, `blog` and FAQ entries have `draft`; unknown experience years are `null`, never `[YEAR]`; every bracketed seed is `draft: true` and drafts are filtered out of queries, prerender routes, the sitemap and RSS in production. Seed filenames are plain slugs (`client-site.md`), never `[client-site].md`.
@@ -40,12 +40,13 @@ Found in the audit (`docs/AUDIT.md`, ids in brackets). Where they conflict with 
 - `Shell/Placeholder` and the `data-placeholder` attribute convention; `NUXT_PUBLIC_SHOW_PLACEHOLDERS` (off in production).
 - Remove the Ember scale, body grain and `ColorModeButton`; scope the global reduced-motion rule so the 150 ms mode cross-fade survives.
 - Check: toggling mode on any page changes every color and the display font; `grep -rn "#[0-9A-Fa-f]\{6\}" app/components` returns only OG components.
-- Decisions taken in M1: the mode is stored in localStorage only (F-Sistema says so; nothing server-side reads a cookie, and the site stays cookie-free); fonts load the latin subset only (it covers Spanish, and the preload then picks the file actually used); nav entries whose page does not exist yet are hidden until it lands; the toggle is a button labelled with its action ("Switch to Filmmaker, night mode"); the Nuxt UI `neutral-*` / `primary-*` scales are derived from the tokens, so the old pages already follow both modes.
+- Decisions taken in M1: the mode is stored in localStorage only (F-Sistema says so; nothing server-side reads a cookie; the only cookie on the site is @nuxtjs/i18n's language choice, listed on /cookies); fonts load the latin subset only (it covers Spanish, and the preload then picks the file actually used); nav entries whose page does not exist yet are hidden until it lands; the toggle is a button labelled with its action ("Switch to Filmmaker, night mode"); the Nuxt UI `neutral-*` / `primary-*` scales are derived from the tokens, so the old pages already follow both modes.
 
-## M2 · Content
+## M2 · Content (done)
 - Per-locale `content.config.ts` (from `docs/snippets/`, corrected as above), seed files per `docs/CONTENT.md`, migrated real entries from `docs/MIGRATION.md`, validation step.
 - Local copies of the photos currently hotlinked from Behance in `public/media/`, and a hand-written `content/media/manifest.json` (photos + one video) read by `useMediaManifest()`, which also validates the manifest.
 - Check: `queryCollection` for every collection returns the seed in both locales; the build fails on an image without alt.
+- Decisions taken in M2: schemas live in `content.schemas.ts`; the validator collects problems and fails the build in `build:done`, because @nuxt/content swallows errors thrown while parsing and drops the file; a `[bracketed]` string outside a draft also fails the build; missing translations are reported; videos without files are `status: pending` in the manifest; budget ranges stay empty (the form hides the field) until the owner provides them.
 
 ## M3 · First visit and both homes
 - `/` landing (F-Landing), `/dev` (F-Home-Dev), `/film` (F-Home-Film) with every module wired to content. Heroes render their static fallback (3D is M10).

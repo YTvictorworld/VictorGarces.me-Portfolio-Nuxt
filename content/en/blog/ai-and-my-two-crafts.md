@@ -2,7 +2,13 @@
 title: "AI and My Two Crafts: What It Changes for Developers and Filmmakers"
 description: I write software and I make films. Artificial intelligence is reshaping both at once. Here's what I've learned about where it helps, where it quietly hurts, and what stays stubbornly human.
 date: 2026-07-04
-image: https://mir-s3-cdn-cf.behance.net/project_modules/fs_webp/06895b212781749.673b4e14df4a8.jpg
+tags:
+  - ai
+  - development
+  - film
+cover:
+  src: /images/blog/ai-and-my-two-crafts.webp
+  alt: Low-angle portrait of a woman with curly hair against a concrete wall
 minRead: 8
 author:
   name: Víctor Garcés
@@ -10,7 +16,7 @@ author:
   username: YTvictorworld
   twitter: https://twitter.com/YTvictorworld
   avatar:
-    src: https://mir-s3-cdn-cf.behance.net/project_modules/disp/49f056206375265.68b77ee9dd6a7.jpg
+    src: /media/portrait.jpg
     alt: Víctor Garcés
 ---
 
@@ -74,4 +80,4 @@ In practice that means using it to move faster through boilerplate, tests, trans
 
 Because at the end of the day, the interesting question was never "can the machine do it?" It increasingly can. The question is "what's worth doing, and why?" Answering that has always been the human part of both my crafts.
 
-Thanks for reading. If you want to talk about AI, code, film, or all three at once, [get in touch](mailto:victorericksongv@gmail.com).
+Thanks for reading. If you want to talk about AI, code, film, or all three at once, [get in touch](/contact).

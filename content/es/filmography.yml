@@ -1,0 +1,22 @@
+credits:
+  - year: "2026"
+    title: ¿Por qué no?
+    role: Guion y dirección
+    note: Cortometraje, 6 min, más una versión vertical
+    slug: por-que-no
+    draft: false
+  - year: Desde 2025
+    title: Fotografía de eventos
+    role: Fotógrafo
+    note: Conferencias, lanzamientos, eventos comunitarios · Santo Domingo
+    draft: false
+  - year: "[AÑO]"
+    title: "[Título]"
+    role: "[Rol · formato]"
+    note: "[nota]"
+    draft: true
+  - year: "[AÑO]"
+    title: "[Título]"
+    role: "[Rol · formato]"
+    note: "[nota]"
+    draft: true

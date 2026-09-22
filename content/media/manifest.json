@@ -1,0 +1,174 @@
+{
+  "version": 1,
+  "base": "/media",
+  "photos": {
+    "events-2025-01": {
+      "series": "events-2025",
+      "alt": "Student with an event lanyard smiling in front of a bright graffiti mural",
+      "alt_es": "Estudiante con credencial del evento sonriendo frente a un mural de grafiti de colores vivos",
+      "width": 1240,
+      "height": 2204,
+      "blurhash": "LJEg8m;w4p#QCTMwyDg40pR+==Ot",
+      "sizes": [
+        480,
+        960,
+        1240
+      ],
+      "formats": [
+        "avif",
+        "webp"
+      ],
+      "path": "photos/events-2025-01"
+    },
+    "events-2025-02": {
+      "series": "events-2025",
+      "alt": "Student in a white top and beige trousers leaning on a railing on a campus walkway",
+      "alt_es": "Estudiante con blusa blanca y pantalón beige apoyada en una baranda de un pasillo del campus",
+      "width": 1240,
+      "height": 2204,
+      "blurhash": "LcIEtT~lWSxa^v?Ct2ahW,xtxtNH",
+      "sizes": [
+        480,
+        960,
+        1240
+      ],
+      "formats": [
+        "avif",
+        "webp"
+      ],
+      "path": "photos/events-2025-02"
+    },
+    "events-2025-03": {
+      "series": "events-2025",
+      "alt": "Smiling student in a navy Yale Young Global Scholars T-shirt sitting on a stone ledge",
+      "alt_es": "Estudiante sonriente con camiseta azul de Yale Young Global Scholars sentada en un muro de piedra",
+      "width": 1080,
+      "height": 1920,
+      "blurhash": "LGD+b$=^$]t900AE9}rr~UnNs:t7",
+      "sizes": [
+        480,
+        960,
+        1080
+      ],
+      "formats": [
+        "avif",
+        "webp"
+      ],
+      "path": "photos/events-2025-03"
+    },
+    "events-2025-04": {
+      "series": "events-2025",
+      "alt": "Two friends hugging and laughing on a lawn under the trees",
+      "alt_es": "Dos amigas abrazadas y riendo en un jardín bajo los árboles",
+      "width": 1080,
+      "height": 1920,
+      "blurhash": "LBE25ra3^d=a*HxbAC0}PT=xjJV@",
+      "sizes": [
+        480,
+        960,
+        1080
+      ],
+      "formats": [
+        "avif",
+        "webp"
+      ],
+      "path": "photos/events-2025-04"
+    },
+    "events-2025-05": {
+      "series": "events-2025",
+      "alt": "Student with glasses in a Yale T-shirt standing in front of a brick building",
+      "alt_es": "Estudiante con lentes y camiseta de Yale frente a un edificio de ladrillo",
+      "width": 1080,
+      "height": 1920,
+      "blurhash": "LSE.a|NFotof~nR%EgWU$|j?smNF",
+      "sizes": [
+        480,
+        960,
+        1080
+      ],
+      "formats": [
+        "avif",
+        "webp"
+      ],
+      "path": "photos/events-2025-05"
+    },
+    "portraits-01": {
+      "series": "portraits",
+      "alt": "Low-angle portrait of a woman with curly hair against a concrete wall, bag over her shoulder",
+      "alt_es": "Retrato en contrapicado de una mujer de cabello rizado contra una pared de concreto, con un bolso al hombro",
+      "width": 1920,
+      "height": 2880,
+      "blurhash": "LUG@xr~A57IVE1IpS~kW0fE2$%%1",
+      "sizes": [
+        480,
+        960,
+        1440,
+        1920
+      ],
+      "formats": [
+        "avif",
+        "webp"
+      ],
+      "path": "photos/portraits-01"
+    },
+    "portraits-02": {
+      "series": "portraits",
+      "alt": "Young man in a cap and glasses looking away beside a tree, wearing a Santo Domingo T-shirt",
+      "alt_es": "Joven con gorra y lentes mirando a un lado junto a un árbol, con una camiseta de Santo Domingo",
+      "width": 1200,
+      "height": 1800,
+      "blurhash": "LBG[l{9F00?t00-p%gXN00%M~WRO",
+      "sizes": [
+        480,
+        960,
+        1200
+      ],
+      "formats": [
+        "avif",
+        "webp"
+      ],
+      "path": "photos/portraits-02"
+    }
+  },
+  "videos": {
+    "por-que-no": {
+      "title": "¿Por qué no?",
+      "duration": 364,
+      "aspect": "16:9",
+      "status": "pending"
+    },
+    "por-que-no-vertical": {
+      "title": "¿Por qué no? (vertical cut)",
+      "duration": 180,
+      "aspect": "9:16",
+      "status": "pending"
+    },
+    "reel-2026": {
+      "title": "Reel 2026",
+      "duration": 90,
+      "aspect": "16:9",
+      "status": "pending"
+    }
+  },
+  "series": {
+    "events-2025": {
+      "title": "Events 2025",
+      "title_es": "Eventos 2025",
+      "photos": [
+        "events-2025-01",
+        "events-2025-02",
+        "events-2025-03",
+        "events-2025-04",
+        "events-2025-05"
+      ]
+    },
+    "portraits": {
+      "title": "Portraits",
+      "title_es": "Retratos",
+      "photos": [
+        "portraits-01",
+        "portraits-02"
+      ]
+    }
+  }
+}

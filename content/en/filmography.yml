@@ -1,0 +1,22 @@
+credits:
+  - year: "2026"
+    title: ¿Por qué no?
+    role: Writer, director
+    note: Short film, 6 min, plus a vertical cut
+    slug: por-que-no
+    draft: false
+  - year: 2025 to now
+    title: Event photography
+    role: Photographer
+    note: Conferences, launches, community events · Santo Domingo
+    draft: false
+  - year: "[YEAR]"
+    title: "[Title]"
+    role: "[Role · format]"
+    note: "[note]"
+    draft: true
+  - year: "[YEAR]"
+    title: "[Title]"
+    role: "[Role · format]"
+    note: "[note]"
+    draft: true

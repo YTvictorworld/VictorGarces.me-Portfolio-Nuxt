@@ -1,0 +1,17 @@
+email: hello@victorgarces.me
+city: Santo Domingo, DO
+timezone: GMT-4
+available: true
+socials:
+  - label: GitHub
+    handle: "@YTvictorworld"
+    href: https://github.com/YTvictorworld
+    mode: dev
+  - label: LinkedIn
+    handle: vgfilm07
+    href: https://www.linkedin.com/in/vgfilm07/
+    mode: both
+  - label: Instagram
+    handle: "@victorg.v0"
+    href: https://www.instagram.com/victorg.v0/
+    mode: film

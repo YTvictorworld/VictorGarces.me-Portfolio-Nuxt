@@ -21,9 +21,8 @@ if (!post.value) {
 }
 
 // social crawlers require absolute URLs for og:image
-const ogImage = post.value?.image?.startsWith('/')
-  ? `${SITE_URL}${post.value.image}`
-  : post.value?.image
+const coverSrc = post.value?.cover?.src
+const ogImage = coverSrc?.startsWith('/') ? `${SITE_URL}${coverSrc}` : coverSrc
 
 useSeoMeta({
   title: post.value?.seo?.title || post.value?.title,
@@ -125,14 +124,14 @@ useSeoMeta({
 
       <!-- Cover image -->
       <Reveal
-        v-if="post.image"
+        v-if="post.cover"
         immediate
         :delay="300"
         :duration="700"
       >
         <AppImage
-          :src="post.image"
-          :alt="post.title"
+          :src="post.cover.src"
+          :alt="post.cover.alt"
           loading="eager"
           fetchpriority="high"
           class="w-full rounded-xl shadow-lg mb-12"

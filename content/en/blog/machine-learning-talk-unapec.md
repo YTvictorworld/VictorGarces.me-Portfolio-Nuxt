@@ -1,8 +1,13 @@
 ---
-title: "Can a Machine Predict Who Will Quit? Notes from a Machine Learning Talk at UNAPEC"
+title: Can a Machine Predict Who Will Quit? Notes from a Machine Learning Talk at UNAPEC
 description: I attended a machine learning talk by Ing. Ariel González Batista at UNAPEC. From the Titanic dataset to survival analysis, here are the ideas that stuck with me, and the questions I left asking.
 date: 2026-07-15
-image: /images/blog/machine-learning-talk-unapec.jpg
+tags:
+  - machine-learning
+  - talks
+cover:
+  src: /images/blog/machine-learning-talk-unapec.jpg
+  alt: Black-and-white chess pieces on a board around a fallen king
 minRead: 6
 author:
   name: Víctor Garcés
@@ -10,7 +15,7 @@ author:
   username: YTvictorworld
   twitter: https://twitter.com/YTvictorworld
   avatar:
-    src: https://mir-s3-cdn-cf.behance.net/project_modules/disp/49f056206375265.68b77ee9dd6a7.jpg
+    src: /media/portrait.jpg
     alt: Víctor Garcés
 ---
 
@@ -57,4 +62,4 @@ My second question was about dimensionality: whether you can generate any amount
 - **Probabilistic thinking is a different discipline.** Evaluating a model is nothing like testing a function.
 - **Reading list:** *Attention Is All You Need*, and the scikit-learn docs.
 
-Thanks to Ing. Ariel González Batista and UNAPEC for the session. If you work in ML and think I got something wrong here, or you want to point me to what I should study next, [write me](mailto:victorericksongv@gmail.com). I'm clearly not done asking questions.
+Thanks to Ing. Ariel González Batista and UNAPEC for the session. If you work in ML and think I got something wrong here, or you want to point me to what I should study next, [write me](/contact). I'm clearly not done asking questions.

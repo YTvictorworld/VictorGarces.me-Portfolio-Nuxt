@@ -116,13 +116,13 @@ Night gets four film questions ("Before you book") written in M2 from facts alre
 
 | entry | lands in |
 |---|---|
-| `global.email` the previous personal address (also in both `index.yml`, both `blog.yml` and the closing line of all 4 post bodies) | `hello@victorgarces.me` (owner decision), stored once in the single-locale `content/contact.yml` (email, city, timezone, socials); `content/{en,es}/contact.yml` holds only the translated labels (topics, budgets, timelines, response time). Post closing lines link to `/contact`. |
+| `global.email` the previous personal address (also in both `index.yml`, both `blog.yml` and the closing line of all 4 post bodies) | `hello@victorgarces.me` (owner decision), stored once in the single-locale `content/profile.yml` (email, city, timezone, socials); `content/{en,es}/contact.yml` holds only the translated labels (topics, budgets, timelines, response time). Post closing lines link to `/contact`. |
 | `contact.intro` "I usually reply within 24 hours" | `contact_*.responseTime` ("usually within 24 hours"); it was also the /contact meta description, now the D-Contact lead |
-| `contact.location` "Santo Domingo, Dominican Republic · Working with clients worldwide" | `content/contact.yml` `city` + `timezone`; "Working with clients worldwide" moves into the aside line |
+| `contact.location` "Santo Domingo, Dominican Republic · Working with clients worldwide" | `content/profile.yml` `city` + `timezone`; "Working with clients worldwide" moves into the aside line |
 | `global.meetingLink` (LinkedIn) | `contact_*.socials` |
 | `global.available` | `contact_*.available` (schema extension), shown in `Contact/Aside` and the contact block |
 | `global.picture` (Behance portrait, used as avatar, og:image and JSON-LD image; alt "My profile picture") | Downloaded to `public/media/portrait.*`; `about_*.portrait` with a descriptive alt in both locales; OG images come from `OgDay`/`OgNight` (M6). Once no Behance URL is left (M2), the `preconnect` to `mir-s3-cdn-cf.behance.net` in `app.vue` goes too. |
-| `footer.links`: LinkedIn `vgfilm07`, GitHub `YTvictorworld`, Instagram (personal account) (aria-label "Social Media") | `content/contact.yml` socials with `mode` (GitHub dev, Instagram film, LinkedIn both); the Instagram label becomes "Instagram". The design's Instagram handle `@vgfilmx` and a YouTube channel do not match today's accounts; see §7. |
+| `footer.links`: LinkedIn `vgfilm07`, GitHub `YTvictorworld`, Instagram (personal account) (aria-label "Social Media") | `content/profile.yml` socials with `mode` (GitHub dev, Instagram film, LinkedIn both); the Instagram label becomes "Instagram". The design's Instagram handle `@vgfilmx` and a YouTube channel do not match today's accounts; see §7. |
 | Hero availability chip on the avatar and its button to `meetingLink` | availability line in the contact block and `Contact/Aside`; LinkedIn stays in socials |
 | `footer.credits` | `Shell/Footer` |
 | `ui.colors` (ember / neutral) | Retired in M1 (tokens) |
@@ -194,6 +194,11 @@ Night gets four film questions ("Before you book") written in M2 from facts alre
 - **Years** for the four design experience entries and the PLERD start year are unknown, so they are stored as `null` (nothing renders) until you give them.
 - **Socials:** the design shows Instagram `@vgfilmx` and a YouTube channel; the site today links Instagram (personal account), has no YouTube, and the posts' front matter names Twitter/X `YTvictorworld`. The current accounts are kept until you confirm.
 - **Testimonial 2:** confirm the spelling "Elcilia Del Carme Torres G." (possibly "Carmen").
+- **Portrait:** the only portrait available is the 240×320 Behance thumbnail (`public/media/portrait.jpg`). The About pages need a larger one (the design uses a 4:5 photo at 380×460), plus an on-set portrait for the Filmmaker side.
+- **Film files:** `¿Por qué no?`, its vertical cut and the 2026 reel are listed in the manifest as `pending`; the players need the video files (or the pipeline in M8), and the film pages need stills and a poster.
+- **Budget ranges** for the web contact form are empty, so the field stays hidden until you give them. Also missing: photo delivery time (a draft FAQ), the lenses, light and sound in the film kit, the cast of ¿Por qué no?, and the Instagram / YouTube Shorts links for the vertical cut.
+- **Cover of the machine learning post** (`public/images/blog/machine-learning-talk-unapec.jpg`, a black-and-white chess board): if it is a stock photo it needs a visible credit, or it gets replaced by one of your own. The Terms only claim the films and photographs as your original work.
+- **Color grading app** for the film kit (design slot `[edit + color app]`); only Premiere Pro for editing is stated today.
 - **CV PDF** (`public/cv-victor-garces.pdf`) is needed by M9; until then the "Download CV" buttons stay hidden rather than linking to a missing file.
 - **Bag:** confirm the gear list is current.
 

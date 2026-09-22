@@ -1,0 +1,30 @@
+responseTime: usually within 24 hours
+topics:
+  - id: web
+    label: Web project
+    fields:
+      - name
+      - email
+      - budget
+      - timeline
+      - message
+  - id: film
+    label: Film or photo
+    fields:
+      - name
+      - email
+      - date
+      - place
+      - message
+  - id: hello
+    label: Just saying hi
+    fields:
+      - name
+      - email
+      - message
+budgets: []
+timelines:
+  - As soon as possible
+  - In the next 1 to 3 months
+  - In 3 months or more
+  - Not sure yet

@@ -1,8 +1,13 @@
 ---
-title: "¿Puede una máquina predecir quién va a renunciar? Notas de una charla de machine learning en UNAPEC"
+title: ¿Puede una máquina predecir quién va a renunciar? Notas de una charla de machine learning en UNAPEC
 description: Asistí a una charla de machine learning del Ing. Ariel González Batista en UNAPEC. Del dataset del Titanic al análisis de supervivencia, estas son las ideas que me llevé y las preguntas con las que salí.
 date: 2026-07-15
-image: /images/blog/machine-learning-talk-unapec.jpg
+tags:
+  - machine-learning
+  - talks
+cover:
+  src: /images/blog/machine-learning-talk-unapec.jpg
+  alt: Piezas de ajedrez en blanco y negro alrededor de un rey caído
 minRead: 6
 author:
   name: Víctor Garcés
@@ -10,7 +15,7 @@ author:
   username: YTvictorworld
   twitter: https://twitter.com/YTvictorworld
   avatar:
-    src: https://mir-s3-cdn-cf.behance.net/project_modules/disp/49f056206375265.68b77ee9dd6a7.jpg
+    src: /media/portrait.jpg
     alt: Víctor Garcés
 ---
 
@@ -57,4 +62,4 @@ Mi segunda pregunta fue sobre dimensionalidad: si se puede generar cualquier can
 - **Pensar en probabilidades es otra disciplina.** Evaluar un modelo no se parece en nada a testear una función.
 - **Lista de lectura:** *Attention Is All You Need*, y la documentación de scikit-learn.
 
-Gracias al Ing. Ariel González Batista y a UNAPEC por la sesión. Si trabajas en ML y crees que algo de esto está mal, o quieres decirme qué debería estudiar después, [escríbeme](mailto:victorericksongv@gmail.com). Claramente no he terminado de hacer preguntas.
+Gracias al Ing. Ariel González Batista y a UNAPEC por la sesión. Si trabajas en ML y crees que algo de esto está mal, o quieres decirme qué debería estudiar después, [escríbeme](/es/contact). Claramente no he terminado de hacer preguntas.

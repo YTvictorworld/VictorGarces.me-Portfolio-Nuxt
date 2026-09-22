@@ -15,6 +15,7 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "typecheck": "nuxt typecheck",
+    "media:ingest": "node scripts/media-ingest.mjs",
     "serve": "npx serve .output/public",
     "build:serve": "pnpm generate && pnpm serve"
   },
@@ -39,7 +40,9 @@
   },
   "devDependencies": {
     "@nuxt/eslint": "^1.17.0",
+    "blurhash": "^2.0.5",
     "eslint": "^10.11.0",
+    "sharp": "^0.35.4",
     "tailwindcss": "^4.3.3",
     "typescript": "^5.9.3",
     "vue-tsc": "^3.3.11"
