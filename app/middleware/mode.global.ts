@@ -1,5 +1,6 @@
 /**
- * Routes decide the mode: /dev/** is day, /film/** is night (with or without the /es prefix).
+ * Routes decide the mode: /dev/** is day, /film/** is night (with or without the /es prefix),
+ * and the landing (/) is day without counting as a choice.
  * Shared pages use the visitor's stored choice, day by default. A first visit straight to a
  * forced route stores that side, so opening a post or Contact from /film stays at night.
  */
@@ -20,7 +21,9 @@ export default defineNuxtRouteMiddleware((to) => {
 
   const stored = readStored()
   if (forced) {
-    setMode(forced, { persist: !stored })
+    // While the landing redirects a returning visitor, keep their side on screen
+    const redirecting = stored && isLanding(to.path) && document.documentElement.hasAttribute('data-returning')
+    setMode(redirecting ? stored : forced, { persist: !stored && remembersMode(to.path) })
   } else {
     setMode(stored ?? 'day', { persist: false })
   }

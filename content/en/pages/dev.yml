@@ -1,0 +1,37 @@
+title: Developer
+description: Front-end developer and Software Engineering student in Santo Domingo. Vue and Nuxt on the front, .NET on the back, AWS underneath. Case studies, code and a blog.
+sections:
+  hero:
+    eyebrow: Developer · Day · Santo Domingo, DO
+    title: Thin, end to end. Then hardened.
+    lead: Front-end developer and Software Engineering student. Vue and Nuxt on the front, .NET on the back, AWS underneath.
+    cta: See the work
+    cta2: Download CV
+  work:
+    eyebrow: Selected work
+    title: Projects I keep coming back to
+    cta: All projects
+  more:
+    eyebrow: More work
+    title: Client sites, experiments and older builds
+  about:
+    eyebrow: About
+    cta: More about me
+  experience:
+    eyebrow: Experience
+    title: Where I've worked and studied
+  blog:
+    eyebrow: Blog · latest
+    title: Notes from building things
+    cta: All posts
+  testimonials:
+    eyebrow: Testimonials
+    title: What people I've worked with say
+  faq:
+    eyebrow: FAQ
+    title: Questions I get before a project
+  contact:
+    eyebrow: Contact
+    lead: Quick message
+    placeholder: What are you building?
+    cta: Continue

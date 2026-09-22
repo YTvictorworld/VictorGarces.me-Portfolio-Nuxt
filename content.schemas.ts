@@ -216,7 +216,11 @@ export const schemas = {
       eyebrow: optionalText,
       title: optionalText,
       lead: optionalText,
-      cta: optionalText
+      cta: optionalText,
+      cta2: optionalText,
+      /** Input placeholder or a small mono note (e.g. the stack line on a landing card) */
+      placeholder: optionalText,
+      note: optionalText
     })).default({})
   }),
 

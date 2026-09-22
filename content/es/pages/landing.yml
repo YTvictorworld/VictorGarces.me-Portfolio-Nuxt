@@ -1,0 +1,13 @@
+title: Desarrollador y cineasta
+description: Creo experiencias digitales intuitivas donde el diseño se une a la funcionalidad. Desde República Dominicana, doy vida a ideas y sentimientos a través del código, la fotografía y la creatividad.
+sections:
+  day:
+    eyebrow: Día · Desarrollador
+    note: vue · nuxt · .net · aws
+    title: Construyo software.
+    lead: Herramientas local-first, backends en .NET y pipelines serverless. Casos de estudio, código y un blog.
+  night:
+    eyebrow: Noche · Cineasta
+    note: cortos · fotografía · reels
+    title: Cuento historias.
+    lead: Cortometrajes y fotografía de eventos desde Santo Domingo. El reel, las fotos, el diario.

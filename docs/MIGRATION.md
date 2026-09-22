@@ -209,6 +209,7 @@ Initial JS (gzip -9, `modulepreload` + entry, prefetch excluded):
 |---|---|---|---|
 | master `8b7623f` (Nuxt 4.0, UI 3) | 195.3 KiB | 176.7 KiB | 169.3 KiB |
 | M0 (Nuxt 4.5, UI 4, @nuxtjs/seo, @nuxt/scripts) | 244.3 KiB | 221.8 KiB | 216.0 KiB |
+| M3 (`/` landing, `/dev` 221.9 KiB, `/film` 225.5 KiB) | 204.0 KiB | 219.7 KiB | n/a |
 
 The upgrade added 45 to 49 KiB per page before any new page exists. M3 has to bring the homes back to or below the M0 number, and investigate what the entry chunk (75.8 KiB alone) carries.
 

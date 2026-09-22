@@ -3,7 +3,8 @@ const { t } = useI18n()
 const { legal } = useNav()
 
 const siteName = SITE_NAME
-const year = new Date().getFullYear()
+// useState so the prerendered year and the hydrated one always agree
+const year = useState('footer-year', () => new Date().getFullYear())
 </script>
 
 <template>

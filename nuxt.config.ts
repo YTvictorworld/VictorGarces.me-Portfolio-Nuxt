@@ -78,7 +78,9 @@ export default defineNuxtConfig({
   runtimeConfig: {
     public: {
       // Dashed outline + chip on data-driven areas; on in dev, off in production builds
-      showPlaceholders: process.env.NODE_ENV !== 'production'
+      showPlaceholders: process.env.NODE_ENV !== 'production',
+      // "Download CV" shows only once the file is in public/
+      cv: existsSync(new URL('./public/cv-victor-garces.pdf', import.meta.url)) ? '/cv-victor-garces.pdf' : ''
     }
   },
 
@@ -144,13 +146,14 @@ export default defineNuxtConfig({
     families: [
       // Body in both modes and the day display face
       { name: 'Albert Sans', provider: 'google', weights: [400, 500, 600, 700], styles: ['normal'], preload: true },
-      // Night display face: italic with the optical size axis
+      // Night display face: italic 500 with the optical size axis. A single weight keeps the file at
+      // ~65 KB instead of ~144 KB for a 400 to 500 range; not preloaded, since day pages never use it
       {
         name: 'Newsreader',
         provider: 'google',
-        weights: [400, 500],
+        weights: [500],
         styles: ['italic'],
-        preload: true,
+        preload: false,
         providerOptions: { google: { experimental: { variableAxis: { opsz: [['6', '72']] } } } }
       },
       { name: 'Source Code Pro', provider: 'google', weights: [400, 500], styles: ['normal'] }

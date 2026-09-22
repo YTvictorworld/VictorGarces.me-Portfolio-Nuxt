@@ -1,6 +1,9 @@
 <script setup lang="ts">
 const { t } = useI18n()
 const { announcement } = useMode()
+const route = useRoute()
+// One NuxtPage for both layouts, so the page transition still plays across the boundary
+const UContainer = resolveComponent('UContainer')
 </script>
 
 <template>
@@ -15,10 +18,14 @@ const { announcement } = useMode()
       tabindex="-1"
       class="min-h-screen outline-none"
     >
-      <!-- DESIGN: pages still built on the old container until M3/M4 move them to the --gutter tokens -->
-      <UContainer class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <!-- Rebuilt pages set `fullBleed` and use the --gutter tokens; the rest keep the old
+           container until M4 rebuilds them -->
+      <component
+        :is="route.meta.fullBleed ? 'div' : UContainer"
+        :class="route.meta.fullBleed ? undefined : 'max-w-6xl mx-auto px-4 sm:px-6 lg:px-8'"
+      >
         <NuxtPage />
-      </UContainer>
+      </component>
     </main>
     <ShellFooter />
     <ShellMobileModePill />

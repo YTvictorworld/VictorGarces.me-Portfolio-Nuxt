@@ -1,0 +1,13 @@
+title: Developer and Filmmaker
+description: I craft intuitive digital experiences where design meets functionality. Based in Dominican Republic, bringing ideas and feelings to life through code, pics and creativity.
+sections:
+  day:
+    eyebrow: Day · Developer
+    note: vue · nuxt · .net · aws
+    title: I build software.
+    lead: Local-first tools, .NET backends and serverless pipelines. Case studies, code and a blog.
+  night:
+    eyebrow: Night · Filmmaker
+    note: short films · photography · reels
+    title: I shoot stories.
+    lead: Short films and event photography from Santo Domingo. The reel, the stills, the journal.

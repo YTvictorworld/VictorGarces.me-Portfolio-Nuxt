@@ -15,7 +15,7 @@ Naming: `app/components/<Group>/<Name>.vue`, auto-imported as `<GroupName>`. Eve
 ## First visit
 | component | artboard | notes |
 |---|---|---|
-| `Landing/Split` | F-Landing | two `Landing/SideCard` (day white, night black) and one `Landing/EnterButton` |
+| `FirstVisit/Split` | F-Landing | both sides and the Enter button in one component (the group is `FirstVisit/`, not `Landing/`, see PLAN M3) |
 | `Landing/EnterButton` | F-Landing, F-Sistema | state `hover: 'day' \| 'night' \| null`; label "Enter" / "Enter as Developer" / "Enter as Filmmaker"; colors black / accent-day / accent-night; default target day; on click store mode, transition, navigate to `/dev` or `/film`. Mobile: tap a card selects, tap Enter goes |
 
 ## Home, day (`pages/dev/index.vue`)

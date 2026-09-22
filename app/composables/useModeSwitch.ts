@@ -44,21 +44,20 @@ export function useModeSwitch() {
   const { exists } = useNav()
   const { run } = useModeTransition()
 
-  async function toggle(origin?: TransitionOrigin) {
-    const next: Mode = mode.value === 'day' ? 'night' : 'day'
-    const sibling = localePath(siblingPath(route.path))
-    const navigate = forcedModeFor(route.path) !== null && exists(siblingPath(route.path))
+  /** Stores `next`, animates from `origin`, and goes to `path` (localized) when given. */
+  async function switchTo(next: Mode, path: string | null, origin?: TransitionOrigin) {
+    const target = path ? localePath(path) : null
 
-    // Fetch the sibling's code before the frame freezes, not inside it
-    if (navigate) await preloadRouteComponents(sibling)
+    // Fetch the next page's code before the frame freezes, not inside it
+    if (target) await preloadRouteComponents(target)
 
     await run(async () => {
       setMode(next)
-      if (navigate) {
+      if (target) {
         quietNextNavigation = true
         // Listen before navigating: a cached page can finish before navigateTo settles
         const rendered = nextPageRendered()
-        navigateTo(sibling)
+        navigateTo(target)
         await rendered
         quietNextNavigation = false
         window.scrollTo({ top: 0, left: 0, behavior: 'instant' })
@@ -73,5 +72,18 @@ export function useModeSwitch() {
     }, 1000)
   }
 
-  return { toggle }
+  /** Header toggle and mobile pill. */
+  function toggle(origin?: TransitionOrigin) {
+    const next: Mode = mode.value === 'day' ? 'night' : 'day'
+    const sibling = siblingPath(route.path)
+    const navigate = forcedModeFor(route.path) !== null && !isLanding(route.path) && exists(sibling)
+    return switchTo(next, navigate ? sibling : null, origin)
+  }
+
+  /** First-visit Enter: the chosen side becomes the stored mode and opens its home. */
+  function enter(side: Mode, origin?: TransitionOrigin) {
+    return switchTo(side, side === 'night' ? '/film' : '/dev', origin)
+  }
+
+  return { toggle, enter }
 }

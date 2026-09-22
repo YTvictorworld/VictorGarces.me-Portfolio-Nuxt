@@ -39,6 +39,16 @@ export interface MediaManifest {
 
 const manifest = manifestJson as MediaManifest
 
+const BASE83 = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz#$%*+,-.:;=?@[]^_{|}~'
+
+/** Average color of a blurhash (its DC component): a free placeholder, no canvas needed. */
+function blurhashAverage(hash: string): string | undefined {
+  if (hash.length < 6) return undefined
+  let value = 0
+  for (const char of hash.slice(2, 6)) value = value * 83 + BASE83.indexOf(char)
+  return `rgb(${value >> 16} ${(value >> 8) & 255} ${value & 255})`
+}
+
 /**
  * Reads the media manifest. Components never build media URLs by hand: they ask for a photo
  * or video id and get URLs, srcsets and the alt text in the current language.
@@ -76,6 +86,12 @@ export function useMediaManifest() {
     return locale.value === 'es' && entry.alt_es ? entry.alt_es : entry.alt
   }
 
+  /** Background color to show while a photo loads. */
+  function placeholderColor(id: string) {
+    const entry = manifest.photos[id]
+    return entry ? blurhashAverage(entry.blurhash) : undefined
+  }
+
   function video(id: string) {
     const entry = manifest.videos[id]
     if (!entry) return undefined
@@ -99,5 +115,5 @@ export function useMediaManifest() {
     }
   }
 
-  return { manifest, photo, photoSrc, srcset, largest, alt, video, series }
+  return { manifest, photo, photoSrc, srcset, largest, alt, placeholderColor, video, series }
 }

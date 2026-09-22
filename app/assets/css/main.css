@@ -1,6 +1,7 @@
 @import "tailwindcss";
 @import "@nuxt/ui";
 @import "./tokens.css";
+@import "./ui.css";
 
 /* Artboards and handoff docs are reference only: keep them out of class scanning */
 @source not "../../../design";

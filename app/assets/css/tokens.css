@@ -42,6 +42,11 @@
   --section: 40px;
   --header-h: 84px;
 
+  /* Type scale (DESIGN.md): home h1, section h2 */
+  --h1-home: 76px;
+  --h2: 36px;
+  --chip-bg: var(--bg);
+
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
   --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
   --t-micro: 200ms;
@@ -78,6 +83,10 @@
   --display-weight: 500;
   --display-tracking: 0;
 
+  --h1-home: 88px;
+  --h2: 42px;
+  --chip-bg: var(--raised);
+
   color-scheme: dark;
 }
 
@@ -89,8 +98,16 @@
   --track: color-mix(in oklab, var(--text) 18%, var(--bg));
 }
 
+/* Stand-in art for films without footage yet (¿Por qué no?: a room lit in red and blue) */
+:root,
+[data-mode] {
+  --art-warm: #6A2A24;
+  --art-cool: #25314F;
+  --art-shadow: #0B0908;
+}
+
 @media (max-width: 767px) {
-  :root, [data-mode='day'], [data-mode='night'] { --gutter: 20px; --gap: 12px; --section: 24px; }
+  :root, [data-mode='day'], [data-mode='night'] { --gutter: 20px; --gap: 12px; --section: 24px; --h1-home: 42px; --h2: 26px; }
 }
 
 /* Compact header (menu button + bottom mode pill) below 1024 px */

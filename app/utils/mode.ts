@@ -19,15 +19,30 @@ export function stripLocale(path: string): string {
   return path.replace(LOCALE_PREFIX, '') || '/'
 }
 
-const FORCED: ReadonlyArray<{ pattern: RegExp, mode: Mode }> = [
-  { pattern: /^\/dev(?:\/|$)/, mode: 'day' },
-  { pattern: /^\/film(?:\/|$)/, mode: 'night' }
+/** The first-visit landing: day, with the night card scoped to night inside it. */
+const LANDING = /^\/$/
+
+const FORCED: ReadonlyArray<{ pattern: RegExp, mode: Mode, remember: boolean }> = [
+  { pattern: /^\/dev(?:\/|$)/, mode: 'day', remember: true },
+  { pattern: /^\/film(?:\/|$)/, mode: 'night', remember: true },
+  // The landing is where the visitor chooses, so rendering it in day must not count as a choice
+  { pattern: LANDING, mode: 'day', remember: false }
 ]
 
-/** The mode a route imposes (`/dev/**` day, `/film/**` night), or null for shared pages. */
+/** The mode a route imposes (`/dev/**` day, `/film/**` night, `/` day), or null for shared pages. */
 export function forcedModeFor(path: string): Mode | null {
   const base = stripLocale(path)
   return FORCED.find(rule => rule.pattern.test(base))?.mode ?? null
+}
+
+/** Whether visiting the route stores its mode as the visitor's preference (when none is stored). */
+export function remembersMode(path: string): boolean {
+  const base = stripLocale(path)
+  return FORCED.find(rule => rule.pattern.test(base))?.remember ?? false
+}
+
+export function isLanding(path: string): boolean {
+  return LANDING.test(stripLocale(path))
 }
 
 export function isMode(value: unknown): value is Mode {
@@ -60,4 +75,4 @@ export function siblingPath(path: string): string {
  */
 export const MODE_PREPAINT_SCRIPT = `(function(){try{var d=document.documentElement,p=location.pathname.replace(${LOCALE_PREFIX.toString()},'')||'/',m=null;${
   FORCED.map(rule => `if(${rule.pattern.toString()}.test(p))m='${rule.mode}';`).join('')
-}if(!m){try{var s=localStorage.getItem('${MODE_STORAGE_KEY}');if(s==='day'||s==='night')m=s}catch(e){}}m=m||'day';d.setAttribute('data-mode',m);d.classList.toggle('dark',m==='night');d.classList.toggle('light',m!=='night')}catch(e){}})()`
+}var s=null;try{s=localStorage.getItem('${MODE_STORAGE_KEY}')}catch(e){}if(s!=='day'&&s!=='night')s=null;if(${LANDING.toString()}.test(p)&&s){d.setAttribute('data-returning','');m=s;setTimeout(function(){d.removeAttribute('data-returning')},4000)}m=m||s||'day';d.setAttribute('data-mode',m);d.classList.toggle('dark',m==='night');d.classList.toggle('light',m!=='night')}catch(e){}})()`

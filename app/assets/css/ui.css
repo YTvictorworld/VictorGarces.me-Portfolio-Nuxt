@@ -1,0 +1,110 @@
+/* Shared building blocks from the artboards: buttons, chips, cards, section heads.
+   In the components layer, so a utility or a component's scoped style can still adjust them. */
+
+@layer components {
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    height: 54px;
+    padding: 0 28px;
+    font-family: var(--font-body);
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1;
+    color: var(--text);
+    text-decoration: none;
+    white-space: nowrap;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--r-pill);
+    cursor: pointer;
+    transition: background-color var(--t-micro) var(--ease-out), border-color var(--t-micro) var(--ease-out), color var(--t-micro) var(--ease-out), transform var(--t-micro) var(--ease-out);
+  }
+
+  .btn:hover {
+    border-color: color-mix(in oklab, var(--accent) 40%, var(--border));
+  }
+
+  .btn--accent {
+    color: var(--on-accent);
+    background: var(--accent);
+    border-color: var(--accent);
+  }
+
+  .btn--accent:hover {
+    background: color-mix(in oklab, var(--accent) 88%, var(--text));
+    border-color: transparent;
+  }
+
+  .btn--sm {
+    height: 44px;
+    padding: 0 20px;
+    font-size: 14px;
+  }
+
+  .btn--md {
+    height: 46px;
+    padding: 0 20px;
+    font-size: 14px;
+  }
+
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    padding: 5px 10px;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 1.2;
+    color: var(--text);
+    background: var(--chip-bg);
+    border-radius: var(--r-pill);
+  }
+
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    padding: 10px 16px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--r-pill);
+  }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--r-card);
+  }
+
+  .link-accent {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--accent);
+    text-decoration: none;
+  }
+
+  .link-accent:hover {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .mono {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--muted);
+  }
+
+  /* A home or index section: gutters from the tokens, top padding from --section */
+  .section {
+    padding: var(--section) var(--gutter) 0;
+  }
+
+  .h2 {
+    font-size: var(--h2);
+    line-height: 1.1;
+  }
+}

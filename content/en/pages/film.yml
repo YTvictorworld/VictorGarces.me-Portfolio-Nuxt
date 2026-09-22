@@ -1,0 +1,38 @@
+title: Filmmaker
+description: Short films and event photography from Santo Domingo. Small crews, one camera, a lot of natural light. The reel, the stills and the journal.
+sections:
+  hero:
+    eyebrow: Filmmaker · Night · Santo Domingo
+    title: Stories that fit in six minutes.
+    lead: Short films and event photography from Santo Domingo. Small crews, one camera, a lot of natural light.
+    cta: Watch the reel
+    cta2: All films
+  nowShowing:
+    eyebrow: Now showing
+    title: One film at a time
+    cta: Film page
+    cta2: Vertical cut
+  stills:
+    eyebrow: Stills · Events and portraits
+    title: Twenty-four frames, scroll sideways
+    cta: All photography
+  more:
+    eyebrow: More work
+    title: Older shorts and client videos
+  credits:
+    eyebrow: Services & filmography
+    title: Credits
+  testimonials:
+    eyebrow: From people in front of the camera
+  journal:
+    eyebrow: Journal
+    title: Behind the scenes
+    cta: All entries
+  about:
+    eyebrow: About
+    cta: More about me and the gear
+  faq:
+    title: Before you book
+  contact:
+    eyebrow: Book a shoot
+    cta: Continue

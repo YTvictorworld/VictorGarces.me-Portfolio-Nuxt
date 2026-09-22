@@ -59,7 +59,14 @@
     "allPosts": "Todos los artículos",
     "minRead": "{min} min de lectura",
     "thanks": "¡Gracias por leer!",
-    "backToPosts": "Volver a los artículos"
+    "backToPosts": "Volver a los artículos",
+    "readPost": "Leer el artículo",
+    "tag": {
+      "ai": "IA",
+      "development": "Desarrollo",
+      "machine-learning": "Machine learning",
+      "talks": "Charlas"
+    }
   },
   "contact": {
     "eyebrow": "Contacto",
@@ -80,5 +87,59 @@
     "eyebrow": "Equipo",
     "title": "¿Qué hay en mi mochila?",
     "description": "El hardware, software y equipo que uso todos los días."
+  },
+  "landing": {
+    "heading": "Víctor Garcés, desarrollador y cineasta",
+    "enter": "Entrar",
+    "enterDay": "Entrar como desarrollador",
+    "enterNight": "Entrar como cineasta",
+    "selected": "Seleccionado, pulsa Entrar para abrirlo",
+    "mutedLoop": "Bucle sin sonido"
+  },
+  "home": {
+    "ofTotal": "{shown} de {total}",
+    "more": "{n} más",
+    "readMin": "Leer · {min} min",
+    "toNow": "a hoy",
+    "stack": "Stack",
+    "allProjects": "Ver todos los proyectos",
+    "allFilms": "Ver todas las películas",
+    "showAll": "Ver las {n} preguntas",
+    "showFewer": "Ver menos preguntas",
+    "previous": "Testimonio anterior",
+    "next": "Testimonio siguiente",
+    "goTo": "Mostrar el testimonio {n}",
+    "availableShort": "Disponible para nuevos proyectos",
+    "date": "Fecha",
+    "place": "Lugar",
+    "what": "Qué va a pasar",
+    "explodedPage": "Vista despiezada de una página web: encabezado, portada, tarjetas y código separados en profundidad",
+    "nightStage": "Escenario nocturno con el brillo suave de una luna y cuadros flotantes",
+    "filmSoon": "La película llega pronto",
+    "openFilm": "Abrir {title}",
+    "photos": "{n} fotos",
+    "to": "a",
+    "pause": "Pausar",
+    "resume": "Reanudar"
+  },
+  "film": {
+    "kind": {
+      "short": "Cortometraje",
+      "reel": "Reel",
+      "client": "Video para cliente",
+      "vertical": "Versión vertical"
+    },
+    "alsoAs": "También en",
+    "verticalCut": "Versión vertical de {runtime} para Reels",
+    "camera": "Cámara"
+  },
+  "project": {
+    "status": {
+      "live": "en línea",
+      "beta": "beta",
+      "in-progress": "en progreso",
+      "archived": "archivado"
+    },
+    "caseStudy": "Caso de estudio"
   }
 }

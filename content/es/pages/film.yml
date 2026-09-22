@@ -1,0 +1,38 @@
+title: Cineasta
+description: Cortometrajes y fotografía de eventos desde Santo Domingo. Equipos pequeños, una cámara y mucha luz natural. El reel, las fotos y el diario.
+sections:
+  hero:
+    eyebrow: Cineasta · Noche · Santo Domingo
+    title: Historias que caben en seis minutos.
+    lead: Cortometrajes y fotografía de eventos desde Santo Domingo. Equipos pequeños, una cámara y mucha luz natural.
+    cta: Ver el reel
+    cta2: Todas las películas
+  nowShowing:
+    eyebrow: En cartelera
+    title: Una película a la vez
+    cta: Ver la película
+    cta2: Versión vertical
+  stills:
+    eyebrow: Fotos · Eventos y retratos
+    title: Veinticuatro fotogramas, desliza de lado
+    cta: Toda la fotografía
+  more:
+    eyebrow: Más trabajo
+    title: Cortos anteriores y videos para clientes
+  credits:
+    eyebrow: Servicios y filmografía
+    title: Créditos
+  testimonials:
+    eyebrow: De quienes han estado frente a la cámara
+  journal:
+    eyebrow: Diario
+    title: Detrás de cámaras
+    cta: Todas las entradas
+  about:
+    eyebrow: Sobre mí
+    cta: Más sobre mí y mi equipo
+  faq:
+    title: Antes de reservar
+  contact:
+    eyebrow: Reserva una sesión
+    cta: Continuar

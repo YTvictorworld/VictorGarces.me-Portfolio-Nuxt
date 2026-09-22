@@ -1,0 +1,37 @@
+title: Desarrollador
+description: Desarrollador front-end y estudiante de Ingeniería de Software en Santo Domingo. Vue y Nuxt en el front, .NET en el back y AWS debajo. Casos de estudio, código y un blog.
+sections:
+  hero:
+    eyebrow: Desarrollador · Día · Santo Domingo, RD
+    title: Primero de punta a punta. Después, a prueba de fallos.
+    lead: Desarrollador front-end y estudiante de Ingeniería de Software. Vue y Nuxt en el front, .NET en el back y AWS debajo.
+    cta: Ver el trabajo
+    cta2: Descargar CV
+  work:
+    eyebrow: Trabajo seleccionado
+    title: Proyectos a los que siempre vuelvo
+    cta: Todos los proyectos
+  more:
+    eyebrow: Más trabajo
+    title: Sitios de clientes, experimentos y proyectos anteriores
+  about:
+    eyebrow: Sobre mí
+    cta: Más sobre mí
+  experience:
+    eyebrow: Experiencia
+    title: Dónde he trabajado y estudiado
+  blog:
+    eyebrow: Blog · lo último
+    title: Notas de lo que voy construyendo
+    cta: Todos los artículos
+  testimonials:
+    eyebrow: Testimonios
+    title: Lo que dicen quienes han trabajado conmigo
+  faq:
+    eyebrow: Preguntas
+    title: Lo que me preguntan antes de un proyecto
+  contact:
+    eyebrow: Contacto
+    lead: Mensaje rápido
+    placeholder: ¿Qué estás construyendo?
+    cta: Continuar

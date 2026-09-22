@@ -1,6 +1,22 @@
 <script setup lang="ts">
 const { global, footer } = useAppConfig()
-const { t } = useI18n()
+const { t, locale } = useI18n()
+const route = useRoute()
+const { collection } = useLocalizedContent()
+
+const { data: profile } = await useAsyncData('contact-profile', () => queryCollection('profile').first())
+const { data: labels } = await useAsyncData(`contact-labels-${locale.value}`, () =>
+  queryCollection(collection('contact')).first()
+)
+
+// What the home message boxes passed along (M4 turns this into the real form)
+const single = (value: unknown) => Array.isArray(value) ? value[0] : value as string | undefined
+const prefill = computed(() => [
+  single(route.query.date) && `${t('home.date')}: ${single(route.query.date)}`,
+  single(route.query.place) && `${t('home.place')}: ${single(route.query.place)}`,
+  single(route.query.message)
+].filter(Boolean).join('\n'))
+const topicLabel = computed(() => labels.value?.topics.find(topic => topic.id === single(route.query.topic))?.label)
 
 const seoDescription = computed(() => t('contact.intro'))
 
@@ -11,7 +27,12 @@ useSeoMeta({
   ogDescription: seoDescription
 })
 
-const email = computed(() => global?.email ?? '')
+const email = computed(() => profile.value?.email ?? global?.email ?? '')
+const mailto = computed(() => {
+  const subject = topicLabel.value ? `?subject=${encodeURIComponent(topicLabel.value)}` : ''
+  const body = prefill.value ? `${subject ? '&' : '?'}body=${encodeURIComponent(prefill.value)}` : ''
+  return `mailto:${email.value}${subject}${body}`
+})
 const copied = ref(false)
 
 const copyEmail = async () => {
@@ -102,15 +123,22 @@ const channels = computed(() => [
         >
           <div class="flex-1">
             <p class="font-semibold text-neutral-900 dark:text-white mb-1">
-              {{ $t('contact.emailMe') }}
+              {{ topicLabel ?? $t('contact.emailMe') }}
             </p>
             <p class="font-mono text-sm text-neutral-600 dark:text-neutral-300 break-all">
               {{ email }}
             </p>
+            <!-- Carried over from the home message box, so nothing the visitor typed is lost -->
+            <p
+              v-if="prefill"
+              class="mt-3 whitespace-pre-line rounded-lg bg-white/60 dark:bg-black/20 p-3 text-sm text-neutral-700 dark:text-neutral-200"
+            >
+              {{ prefill }}
+            </p>
           </div>
           <div class="flex gap-2">
             <UButton
-              :to="`mailto:${email}`"
+              :to="mailto"
               icon="i-lucide-mail"
               color="primary"
               size="lg"

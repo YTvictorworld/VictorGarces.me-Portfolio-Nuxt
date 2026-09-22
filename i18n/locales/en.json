@@ -59,7 +59,14 @@
     "allPosts": "All posts",
     "minRead": "{min} min read",
     "thanks": "Thanks for reading!",
-    "backToPosts": "Back to all posts"
+    "backToPosts": "Back to all posts",
+    "readPost": "Read the post",
+    "tag": {
+      "ai": "AI",
+      "development": "Development",
+      "machine-learning": "Machine learning",
+      "talks": "Talks"
+    }
   },
   "contact": {
     "eyebrow": "Contact",
@@ -80,5 +87,59 @@
     "eyebrow": "Gear",
     "title": "What is in my bag?",
     "description": "The hardware, software and gear I use every day."
+  },
+  "landing": {
+    "heading": "Víctor Garcés, developer and filmmaker",
+    "enter": "Enter",
+    "enterDay": "Enter as Developer",
+    "enterNight": "Enter as Filmmaker",
+    "selected": "Selected, press Enter to open it",
+    "mutedLoop": "Muted loop"
+  },
+  "home": {
+    "ofTotal": "{shown} of {total}",
+    "more": "{n} more",
+    "readMin": "Read · {min} min",
+    "toNow": "to now",
+    "stack": "Stack",
+    "allProjects": "See all projects",
+    "allFilms": "See all films",
+    "showAll": "Show all {n} questions",
+    "showFewer": "Show fewer questions",
+    "previous": "Previous testimonial",
+    "next": "Next testimonial",
+    "goTo": "Show testimonial {n}",
+    "availableShort": "Available for new projects",
+    "date": "Date",
+    "place": "Place",
+    "what": "What happens",
+    "explodedPage": "Exploded view of a web page: header, hero, cards and code layers separated in depth",
+    "nightStage": "Night stage with a soft moon glow and floating frames",
+    "filmSoon": "Film coming soon",
+    "openFilm": "Open {title}",
+    "photos": "{n} photos",
+    "to": "to",
+    "pause": "Pause",
+    "resume": "Play"
+  },
+  "film": {
+    "kind": {
+      "short": "Short film",
+      "reel": "Showreel",
+      "client": "Client video",
+      "vertical": "Vertical cut"
+    },
+    "alsoAs": "Also as",
+    "verticalCut": "{runtime} vertical cut for Reels",
+    "camera": "Camera"
+  },
+  "project": {
+    "status": {
+      "live": "live",
+      "beta": "beta",
+      "in-progress": "in progress",
+      "archived": "archived"
+    },
+    "caseStudy": "Case study"
   }
 }
