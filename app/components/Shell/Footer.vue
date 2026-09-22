@@ -1,0 +1,81 @@
+<script setup lang="ts">
+const { t } = useI18n()
+const { legal } = useNav()
+
+const siteName = SITE_NAME
+const year = new Date().getFullYear()
+</script>
+
+<template>
+  <footer class="footer">
+    <p class="credits">
+      © {{ year }} {{ siteName }} · {{ t('footer.city') }}<span class="night-only"> · {{ t('footer.originalWork') }}</span>
+    </p>
+    <nav
+      v-if="legal.length"
+      :aria-label="t('footer.legal')"
+    >
+      <ul class="links">
+        <li
+          v-for="item in legal"
+          :key="item.path"
+        >
+          <NuxtLink :to="item.to">
+            {{ item.label }}
+          </NuxtLink>
+        </li>
+      </ul>
+    </nav>
+  </footer>
+</template>
+
+<style scoped>
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  min-height: 116px;
+  padding: 0 var(--gutter);
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.credits {
+  margin: 0;
+}
+
+.links {
+  display: flex;
+  gap: 24px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.links a {
+  color: var(--muted);
+  text-decoration: none;
+  transition: color var(--t-micro) var(--ease-out);
+}
+
+.links a:hover {
+  color: var(--accent);
+}
+
+/* Room at the bottom for the floating mode pill */
+@media (max-width: 1023px) {
+  .footer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    min-height: 0;
+    padding: 20px var(--gutter) 96px;
+    font-size: 11px;
+  }
+
+  .links {
+    gap: 16px;
+  }
+}
+</style>

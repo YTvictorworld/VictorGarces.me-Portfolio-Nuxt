@@ -41,6 +41,8 @@ Both modes share components and content sources. Only the Home pages differ stru
 - Nuxt UI ships its own color mode (`.dark` class, `--ui-*` variables). `useMode` must drive it (or it must be disabled and bridged to the tokens) so primitives follow `data-mode`, not the OS.
 - GitHub Pages cannot send HTTP headers: CSP is a `<meta http-equiv>` (no `frame-ancestors`, no `report-uri`) and redirects are prerendered meta-refresh pages listed in `nitro.prerender.routes`.
 - `deploy-static.ps1` is destructive: it deletes `.output` (and every untracked file) before copying from it, then force-pushes. Do not run it; deploys go through the Actions workflow.
+- Mode-dependent markup renders both variants with `.day-only` / `.night-only` (CSS picks by the nearest `data-mode`). Never branch templates on `mode`: prerendered pages are built in day, the pre-paint script switches them before paint, and a template branch would mismatch on hydration.
+- A `key` on a `useHead` meta stops unhead from claiming the prerendered tag, so it appends a duplicate that the browser ignores. Let `name` dedupe metas.
 - Tailwind v4 scans every project file: `design/` and `docs/` are excluded with `@source not` in `main.css`.
 - `gltf-transform optimize` with default flags merges the named `layer_*` meshes; use the exact command in `docs/3D.md`.
 
@@ -50,7 +52,8 @@ app/
   assets/css/tokens.css        design tokens, both modes (M1)
   components/<Group>/<Name>.vue  see docs/COMPONENTS.md, auto-imported as <GroupName>
   components/Reveal.vue        CSS + IntersectionObserver entrance reveal (kept; not a tweening library)
-  composables/useMode.ts       read/write mode, cookie + localStorage + html attribute (M1)
+  utils/mode.ts                mode rules: forced routes, toggle siblings, pre-paint script, theme colors
+  composables/useMode.ts       mode state + localStorage (no cookie); middleware/mode.global.ts sets it per route
   layouts/default.vue          header with toggle, footer
   pages/                       see docs/PAGES.md
   error.vue                    404 per mode (M5)

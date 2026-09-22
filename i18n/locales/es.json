@@ -1,12 +1,37 @@
 {
+  "a11y": {
+    "skipToContent": "Saltar al contenido"
+  },
   "nav": {
-    "home": "Inicio",
+    "work": "Proyectos",
+    "films": "Cine",
+    "photography": "Fotografía",
+    "journal": "Diario",
     "about": "Sobre mí",
     "experience": "Experiencia",
     "blog": "Blog",
     "contact": "Contacto",
     "main": "Navegación principal",
-    "switchLocale": "English"
+    "switchLocale": "Cambiar el idioma a inglés",
+    "menu": "Menú",
+    "openMenu": "Abrir menú"
+  },
+  "mode": {
+    "day": "Día",
+    "night": "Noche",
+    "pillDay": "Día · Desarrollador",
+    "toNight": "Cambiar al modo noche, cineasta",
+    "toDay": "Cambiar al modo día, desarrollador",
+    "announceNight": "Modo cineasta",
+    "announceDay": "Modo desarrollador"
+  },
+  "footer": {
+    "city": "Santo Domingo, RD",
+    "originalWork": "Todas las películas y fotografías son obra original",
+    "legal": "Legal",
+    "privacy": "Privacidad",
+    "terms": "Términos",
+    "cookies": "Cookies"
   },
   "hero": {
     "available": "Disponible para nuevos proyectos",

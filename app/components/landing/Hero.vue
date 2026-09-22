@@ -26,7 +26,7 @@ defineProps<{
         <UAvatar
           class="size-24 z-1 ring-4 ring-primary-500/20 ring-offset-4 ring-offset-white dark:ring-offset-neutral-900"
           :chip="{ inset: true, color: 'success', size: '2xl' }"
-          :src="$colorMode.value === 'dark' ? global?.picture?.dark : global?.picture?.light"
+          :src="global?.picture?.light"
           :alt="global?.picture?.alt"
         />
       </Reveal>

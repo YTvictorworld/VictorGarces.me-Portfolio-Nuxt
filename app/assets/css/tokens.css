@@ -1,0 +1,212 @@
+/* Design tokens, both modes. Source: docs/snippets/tokens.css (design/F-Sistema).
+   Mode is set on <html data-mode="day|night"> before paint (see app/utils/mode.ts).
+   This is the only file allowed to hold literal colors for the UI. */
+
+:root,
+[data-mode='day'] {
+  --bg: #F7F7F4;
+  --surface: #FFFFFF;
+  --raised: #E6F1EC;
+  --text: #151617;
+  --muted: #5F6266;
+  --accent: #1F7A63;
+  --on-accent: #FFFFFF;
+  --border: #E2E1DB;
+  --dark: #151617;
+  --dark-text: #F7F7F4;
+  --dark-muted: #A5A7AE;
+  --ph: rgba(31, 122, 99, 0.55);
+
+  /* Ends of the neutral scale that Nuxt UI and Tailwind `neutral-*` / `primary-*` derive from */
+  --scale-light: var(--surface);
+  --scale-dark: var(--text);
+
+  --font-body: 'Albert Sans', system-ui, sans-serif;
+  --font-display: 'Albert Sans', system-ui, sans-serif;
+  --font-mono: 'Source Code Pro', ui-monospace, monospace;
+  --display-style: normal;
+  --display-weight: 700;
+  --display-tracking: -0.02em;
+
+  --r-card: 22px;
+  --r-stage: 28px;
+  --r-landing: 32px;
+  --r-media: 14px;
+  --r-inner: 16px;
+  --r-item: 18px;
+  --r-media-lg: 18px;
+  --r-pill: 999px;
+
+  --gutter: 64px;
+  --gap: 20px;
+  --section: 40px;
+  --header-h: 84px;
+
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+  --t-micro: 200ms;
+  --t-card: 240ms;
+  --t-page: 200ms;
+  --t-mode: 700ms;
+
+  --shadow-float: 0 16px 40px rgba(21, 22, 23, 0.28);
+  --shadow-banner: 0 20px 50px rgba(0, 0, 0, 0.25);
+  --shadow-pill: 0 10px 30px rgba(0, 0, 0, 0.25);
+
+  color-scheme: light;
+}
+
+[data-mode='night'] {
+  --bg: #121010;
+  --surface: #1C1817;
+  --raised: #262120;
+  --text: #F1EBE3;
+  --muted: #A69C91;
+  --accent: #E2A15B;
+  --on-accent: #121010;
+  --border: #2C2624;
+  --dark: #1C1817;
+  --dark-text: #F1EBE3;
+  --dark-muted: #A69C91;
+  --ph: rgba(226, 161, 91, 0.5);
+
+  --scale-light: var(--text);
+  --scale-dark: var(--bg);
+
+  --font-display: 'Newsreader', Georgia, serif;
+  --display-style: italic;
+  --display-weight: 500;
+  --display-tracking: 0;
+
+  color-scheme: dark;
+}
+
+/* Derived tokens (both modes): inputs and rules inside the dark contact block, media tracks */
+:root,
+[data-mode] {
+  --dark-input: color-mix(in oklab, var(--dark-text) 8%, var(--dark));
+  --dark-line: color-mix(in oklab, var(--dark-text) 18%, var(--dark));
+  --track: color-mix(in oklab, var(--text) 18%, var(--bg));
+}
+
+@media (max-width: 767px) {
+  :root, [data-mode='day'], [data-mode='night'] { --gutter: 20px; --gap: 12px; --section: 24px; }
+}
+
+/* Compact header (menu button + bottom mode pill) below 1024 px */
+@media (max-width: 1023px) {
+  :root, [data-mode='day'], [data-mode='night'] { --header-h: 64px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root, [data-mode='day'], [data-mode='night'] { --t-micro: 0ms; --t-card: 0ms; --t-page: 0ms; --t-mode: 150ms; }
+}
+
+/* --- Bridge: Nuxt UI primitives and Tailwind palettes follow the tokens ---
+   Nuxt UI declares these in cascade layers; unlayered declarations here win.
+   `neutral-*` runs from --scale-light (50) to --scale-dark (950) in both modes, so the
+   `dark:` variants (the .dark class follows night) keep their meaning. */
+:root,
+[data-mode] {
+  --font-sans: var(--font-body);
+
+  --ui-bg: var(--bg);
+  --ui-bg-muted: var(--surface);
+  --ui-bg-elevated: var(--surface);
+  --ui-bg-accented: var(--track);
+  --ui-bg-inverted: var(--text);
+  --ui-text: var(--text);
+  --ui-text-highlighted: var(--text);
+  --ui-text-toned: var(--text);
+  --ui-text-muted: var(--muted);
+  --ui-text-dimmed: var(--muted);
+  --ui-text-inverted: var(--bg);
+  --ui-border: var(--border);
+  --ui-border-muted: var(--border);
+  --ui-border-accented: color-mix(in oklab, var(--text) 22%, var(--bg));
+  --ui-border-inverted: var(--text);
+  --ui-primary: var(--accent);
+
+  --ui-color-neutral-50: color-mix(in oklab, var(--scale-dark) 2%, var(--scale-light));
+  --ui-color-neutral-100: color-mix(in oklab, var(--scale-dark) 4%, var(--scale-light));
+  --ui-color-neutral-200: color-mix(in oklab, var(--scale-dark) 9%, var(--scale-light));
+  --ui-color-neutral-300: color-mix(in oklab, var(--scale-dark) 16%, var(--scale-light));
+  --ui-color-neutral-400: color-mix(in oklab, var(--scale-dark) 35%, var(--scale-light));
+  /* 500 is body-copy grey: 60% keeps it above 4.5:1 on the day --bg */
+  --ui-color-neutral-500: color-mix(in oklab, var(--scale-dark) 60%, var(--scale-light));
+  --ui-color-neutral-600: color-mix(in oklab, var(--scale-dark) 70%, var(--scale-light));
+  --ui-color-neutral-700: color-mix(in oklab, var(--scale-dark) 78%, var(--scale-light));
+  --ui-color-neutral-800: color-mix(in oklab, var(--scale-dark) 87%, var(--scale-light));
+  --ui-color-neutral-900: color-mix(in oklab, var(--scale-dark) 94%, var(--scale-light));
+  --ui-color-neutral-950: var(--scale-dark);
+
+  --ui-color-primary-50: color-mix(in oklab, var(--accent) 10%, var(--scale-light));
+  --ui-color-primary-100: color-mix(in oklab, var(--accent) 18%, var(--scale-light));
+  --ui-color-primary-200: color-mix(in oklab, var(--accent) 32%, var(--scale-light));
+  --ui-color-primary-300: color-mix(in oklab, var(--accent) 52%, var(--scale-light));
+  --ui-color-primary-400: color-mix(in oklab, var(--accent) 76%, var(--scale-light));
+  --ui-color-primary-500: var(--accent);
+  --ui-color-primary-600: color-mix(in oklab, var(--accent) 85%, var(--scale-dark));
+  --ui-color-primary-700: color-mix(in oklab, var(--accent) 70%, var(--scale-dark));
+  --ui-color-primary-800: color-mix(in oklab, var(--accent) 55%, var(--scale-dark));
+  --ui-color-primary-900: color-mix(in oklab, var(--accent) 42%, var(--scale-dark));
+  --ui-color-primary-950: color-mix(in oklab, var(--accent) 30%, var(--scale-dark));
+}
+
+html { background: var(--bg); color: var(--text); font-family: var(--font-body); }
+body { background: var(--bg); color: var(--text); }
+
+/* The display face belongs to the mode, so it stays unlayered and wins over stray font
+   utilities. Size and margins are left to utilities and component styles. */
+h1, h2, h3, .display {
+  font-family: var(--font-display);
+  font-style: var(--display-style);
+  font-weight: var(--display-weight);
+  letter-spacing: var(--display-tracking);
+}
+
+::selection { background: var(--accent); color: var(--on-accent); }
+
+/* Defaults: in cascade layers so Tailwind / Nuxt UI utilities can still override them */
+@layer base {
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+}
+
+@layer components {
+  .eyebrow { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
+  .eyebrow--accent { color: var(--accent); }
+}
+
+/* Mode-specific content without hydration mismatches: both variants are rendered,
+   CSS shows the one for the nearest mode (a nested [data-mode] wins over <html>). */
+[data-mode='day'] .night-only:not([data-mode='night'] *),
+[data-mode='night'] .day-only { display: none !important; }
+
+/* Placeholder convention: dashed outline + chip. Off unless showPlaceholders is on. */
+@layer components {
+  [data-placeholder] { position: relative; border: 1.5px dashed var(--ph); }
+  [data-placeholder]::after {
+    content: 'placeholder · ' attr(data-placeholder);
+    position: absolute; left: 10px; top: 10px; z-index: 1;
+    font: 500 10px/1 var(--font-mono); letter-spacing: 0.04em;
+    color: var(--on-accent); background: var(--accent);
+    padding: 4px 8px; border-radius: var(--r-pill); white-space: nowrap;
+    pointer-events: none;
+  }
+  html[data-placeholders='off'] [data-placeholder] { border-color: transparent; }
+  html[data-placeholders='off'] [data-placeholder]::after { display: none; }
+}
+
+/* Mode transition (useModeTransition): a circle grows from the toggle over the old frame.
+   Under reduced motion the browser's default cross-fade runs, shortened to 150 ms. */
+html.mode-circle::view-transition-old(root),
+html.mode-circle::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+html.mode-circle::view-transition-new(root) { z-index: 1; }
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(root),
+  ::view-transition-old(root),
+  ::view-transition-new(root) { animation-duration: var(--t-mode); }
+}

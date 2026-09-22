@@ -74,7 +74,7 @@ Naming: `app/components/<Group>/<Name>.vue`, auto-imported as `<GroupName>`. Eve
 | `Hero/MoonStage` | procedural: sphere light + 3 planes textured with manifest stills, parallax on pointer; static fallback |
 
 ## Composables
-- `useMode()` → `{ mode, setMode, isDay, isNight }`; cookie `vg-mode` (1 year) + localStorage mirror; inline head script sets `data-mode` before paint.
+- `useMode()` → `{ mode, setMode, isDay, isNight }`; localStorage `vg-mode` (no cookie, see PLAN M1); inline head script sets `data-mode` before paint.
 - `useModeTransition()` → circle clip-path animation, respects reduced motion.
 - `useNav(mode)` → nav items per mode with i18n keys.
 - `useSeo({ title, description, mode, image? })` → wraps `useSeoMeta`, sets `ogImage` component per mode, `titleTemplate` "%s · Víctor Garcés".

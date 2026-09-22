@@ -27,6 +27,18 @@ export default defineNuxtConfig({
     name: 'Víctor Garcés'
   },
 
+  // Mode is data-mode on <html> (useMode); Nuxt UI's own color mode would follow the OS instead
+  ui: {
+    colorMode: false
+  },
+
+  runtimeConfig: {
+    public: {
+      // Dashed outline + chip on data-driven areas; on in dev, off in production builds
+      showPlaceholders: process.env.NODE_ENV !== 'production'
+    }
+  },
+
   routeRules: {
     // Off-nav gear list: reachable by URL, kept out of search results and the sitemap
     '/bag': { robots: false },
@@ -55,6 +67,29 @@ export default defineNuxtConfig({
         braceStyle: '1tbs'
       }
     }
+  },
+
+  fonts: {
+    defaults: {
+      preload: false,
+      // Latin covers English and Spanish (á é í ó ú ñ ¿ ¡ are Latin-1); latin-ext would only add requests
+      // and the preload would pick the wrong file
+      subsets: ['latin']
+    },
+    families: [
+      // Body in both modes and the day display face
+      { name: 'Albert Sans', provider: 'google', weights: [400, 500, 600, 700], styles: ['normal'], preload: true },
+      // Night display face: italic with the optical size axis
+      {
+        name: 'Newsreader',
+        provider: 'google',
+        weights: [400, 500],
+        styles: ['italic'],
+        preload: true,
+        providerOptions: { google: { experimental: { variableAxis: { opsz: [['6', '72']] } } } }
+      },
+      { name: 'Source Code Pro', provider: 'google', weights: [400, 500], styles: ['normal'] }
+    ]
   },
 
   i18n: {

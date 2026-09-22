@@ -38,8 +38,9 @@ useSeoMeta({
 <template>
   <article
     v-if="post"
-    class="pt-32 pb-20 px-4 sm:px-6 lg:px-8"
+    class="pt-12 pb-20 px-4 sm:px-6 lg:px-8"
   >
+    <BlogReadingProgress />
     <div class="max-w-3xl mx-auto">
       <!-- Back link -->
       <Reveal

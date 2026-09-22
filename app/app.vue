@@ -1,26 +1,38 @@
 <script setup lang="ts">
-const colorMode = useColorMode()
-const { global } = useAppConfig()
+import { en, es } from '@nuxt/ui/locale'
 
-const color = computed(() => colorMode.value === 'dark' ? '#0a0a0a' : 'white')
+const { global } = useAppConfig()
+const { locale } = useI18n()
+// Nuxt UI's own strings (close buttons, carousel controls) follow the site language
+const uiLocale = computed(() => locale.value === 'es' ? es : en)
+const { mode } = useMode()
+const { showPlaceholders } = useRuntimeConfig().public
 
 // lang attr, canonical, hreflang alternates and og:locale per language
 const localeHead = useLocaleHead()
 
 useHead(() => ({
   htmlAttrs: {
-    ...localeHead.value.htmlAttrs
+    ...localeHead.value.htmlAttrs,
+    'data-mode': mode.value,
+    'class': mode.value === 'night' ? 'dark' : 'light',
+    'data-placeholders': showPlaceholders ? 'on' : 'off'
   },
   meta: [
     { charset: 'utf-8' },
     { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-    { key: 'theme-color', name: 'theme-color', content: color.value },
+    // No `key`: with one, unhead cannot claim the prerendered tag and appends a duplicate
+    { name: 'theme-color', content: THEME_COLOR[mode.value] },
     ...(localeHead.value.meta || [])
   ],
   link: [
     { rel: 'icon', href: '/favicon.ico' },
     { rel: 'preconnect', href: 'https://mir-s3-cdn-cf.behance.net', crossorigin: '' },
     ...(localeHead.value.link || [])
+  ],
+  script: [
+    // Sets data-mode before first paint: no flash of day for a returning night visitor
+    { key: 'mode-prepaint', innerHTML: MODE_PREPAINT_SCRIPT, tagPriority: 'critical' }
   ]
 }))
 
@@ -36,7 +48,7 @@ useSeoMeta({
 </script>
 
 <template>
-  <UApp>
+  <UApp :locale="uiLocale">
     <NuxtLayout />
   </UApp>
 </template>

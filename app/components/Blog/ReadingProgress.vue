@@ -1,6 +1,6 @@
 <script setup lang="ts">
 /**
- * Thin reading-progress bar fixed to the top of the viewport.
+ * Thin reading-progress bar fixed to the top of the viewport, on post pages.
  * Scroll-linked (not autonomous), so it stays useful under reduced motion.
  */
 const progress = ref(0)
@@ -23,8 +23,14 @@ onMounted(update)
     aria-hidden="true"
   >
     <div
-      class="h-full origin-left bg-gradient-to-r from-primary-400 via-primary-500 to-primary-600 will-change-transform"
+      class="bar h-full origin-left will-change-transform"
       :style="{ transform: `scaleX(${progress})` }"
     />
   </div>
 </template>
+
+<style scoped>
+.bar {
+  background: var(--accent);
+}
+</style>

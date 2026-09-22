@@ -62,7 +62,7 @@ const postLink = (contentPath: string): string =>
     class="min-h-screen"
   >
     <!-- Hero -->
-    <section class="pt-32 pb-12 px-4 sm:px-6 lg:px-8">
+    <section class="pt-12 pb-12 px-4 sm:px-6 lg:px-8">
       <div class="max-w-4xl mx-auto">
         <Reveal
           immediate

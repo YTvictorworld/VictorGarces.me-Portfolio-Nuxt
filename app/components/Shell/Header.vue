@@ -1,0 +1,291 @@
+<script setup lang="ts">
+import { useFixedHeader } from 'vue-use-fixed-header'
+
+const { t } = useI18n()
+const route = useRoute()
+const { day, night, home, isActive } = useNav()
+
+const headerRef = ref<HTMLElement | null>(null)
+const { styles } = useFixedHeader(headerRef)
+
+const siteName = SITE_NAME
+
+const menuOpen = ref(false)
+watch(() => route.fullPath, () => {
+  menuOpen.value = false
+})
+</script>
+
+<template>
+  <header
+    ref="headerRef"
+    class="header"
+    :style="styles"
+  >
+    <div class="bar">
+      <NuxtLink
+        :to="home.day"
+        class="brand display day-only"
+      >
+        {{ siteName }}
+      </NuxtLink>
+      <NuxtLink
+        :to="home.night"
+        class="brand display night-only"
+      >
+        {{ siteName }}
+      </NuxtLink>
+
+      <div class="mode">
+        <span
+          class="mode-label mode-label--day"
+          aria-hidden="true"
+        >{{ t('mode.day') }}</span>
+        <ShellModeToggle />
+        <span
+          class="mode-label mode-label--night"
+          aria-hidden="true"
+        >{{ t('mode.night') }}</span>
+      </div>
+
+      <nav
+        :aria-label="t('nav.main')"
+        class="nav"
+      >
+        <ul
+          v-for="(items, key) in { day, night }"
+          :key="key"
+          :class="key === 'day' ? 'day-only' : 'night-only'"
+        >
+          <li
+            v-for="item in items"
+            :key="item.path"
+          >
+            <NuxtLink
+              :to="item.to"
+              class="nav-link"
+              :class="{ active: isActive(item) }"
+              :aria-current="isActive(item) ? 'page' : undefined"
+            >
+              {{ item.label }}
+            </NuxtLink>
+          </li>
+        </ul>
+        <ShellLangSwitch />
+      </nav>
+
+      <div class="compact">
+        <ShellLangSwitch compact />
+        <button
+          type="button"
+          class="menu-button"
+          :aria-label="t('nav.openMenu')"
+          aria-haspopup="dialog"
+          :aria-expanded="menuOpen"
+          @click="menuOpen = true"
+        >
+          <svg
+            width="18"
+            height="12"
+            viewBox="0 0 18 12"
+            aria-hidden="true"
+          >
+            <path
+              d="M0 1h18M0 6h18M0 11h18"
+              stroke="currentColor"
+              stroke-width="1.6"
+              stroke-linecap="round"
+            />
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <USlideover
+      v-model:open="menuOpen"
+      side="right"
+      :title="t('nav.menu')"
+    >
+      <template #body>
+        <nav :aria-label="t('nav.main')">
+          <ul
+            v-for="(items, key) in { day, night }"
+            :key="key"
+            class="menu-list"
+            :class="key === 'day' ? 'day-only' : 'night-only'"
+          >
+            <li
+              v-for="item in items"
+              :key="item.path"
+            >
+              <NuxtLink
+                :to="item.to"
+                class="menu-link"
+                :class="{ active: isActive(item) }"
+                :aria-current="isActive(item) ? 'page' : undefined"
+                @click="menuOpen = false"
+              >
+                {{ item.label }}
+              </NuxtLink>
+            </li>
+          </ul>
+        </nav>
+      </template>
+    </USlideover>
+  </header>
+</template>
+
+<style scoped>
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  background: var(--bg);
+}
+
+.bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  height: var(--header-h);
+  padding: 0 var(--gutter);
+}
+
+.brand {
+  flex: none;
+  font-size: 18px;
+  letter-spacing: -0.01em;
+  color: var(--text);
+  text-decoration: none;
+}
+
+[data-mode='night'] .brand {
+  font-size: 22px;
+  letter-spacing: 0;
+}
+
+.mode {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.mode-label {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--muted);
+  transition: color var(--t-micro) var(--ease-out);
+}
+
+[data-mode='day'] .mode-label--day,
+[data-mode='night'] .mode-label--night {
+  color: var(--accent);
+}
+
+@media (forced-colors: active) {
+  [data-mode='day'] .mode-label--day,
+  [data-mode='night'] .mode-label--night {
+    text-decoration: underline;
+  }
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+}
+
+.nav ul {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.nav-link {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text);
+  text-decoration: none;
+  transition: color var(--t-micro) var(--ease-out);
+}
+
+.nav-link:hover {
+  color: var(--accent);
+}
+
+.nav-link.active {
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.compact {
+  display: none;
+  align-items: center;
+  gap: 8px;
+}
+
+.menu-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: var(--r-pill);
+  background: var(--surface);
+  cursor: pointer;
+}
+
+[data-mode='night'] .menu-button {
+  background: transparent;
+}
+
+.menu-list {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.menu-link {
+  display: block;
+  padding: 14px 0;
+  font-size: 20px;
+  font-weight: 500;
+  color: var(--text);
+  text-decoration: none;
+  border-bottom: 1px solid var(--border);
+}
+
+.menu-link.active {
+  color: var(--accent);
+}
+
+/* Below 1024 px the nav and the toggle move to the menu and the bottom mode pill */
+@media (max-width: 1023px) {
+  .brand {
+    font-size: 17px;
+    letter-spacing: -0.02em;
+  }
+
+  [data-mode='night'] .brand {
+    font-size: 20px;
+    letter-spacing: 0;
+  }
+
+  .mode,
+  .nav {
+    display: none;
+  }
+
+  .compact {
+    display: flex;
+  }
+}
+</style>

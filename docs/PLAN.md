@@ -34,12 +34,13 @@ Found in the audit (`docs/AUDIT.md`, ids in brackets). Where they conflict with 
 - Tooling: Nuxt 4.5, Nuxt UI 4, @nuxt/content 3.16, @nuxtjs/i18n 10.6, @nuxt/image 2; added @nuxtjs/seo, @nuxt/scripts, gsap, media-chrome, hls-video-element, @nuxt/eslint with `lint` / `typecheck` scripts; removed @vueuse/motion, @nuxtjs/tailwindcss, nuxt-og-image (now via @nuxtjs/seo), autoprefixer/postcss; static `robots.txt` and `sitemap.xml` replaced by the generated ones; `public/.nojekyll`; CI on Node 22. @nuxt/fonts ships with Nuxt UI. @tresjs/* waits for M10.
 - Check: `pnpm lint && pnpm typecheck && pnpm generate` pass; JS baseline recorded.
 
-## M1 · Tokens, mode, shell
+## M1 · Tokens, mode, shell (done)
 - `tokens.css` from `docs/snippets/`, `--ui-*` bridge, fonts via the `fonts` key (Albert Sans, Newsreader italic with optical size, Source Code Pro; latin + latin-ext; preload the display faces only), `useMode`, inline head script that sets `data-mode` before paint (no flash), locale-aware mode forcing for `/dev/**` and `/film/**`.
 - `Shell/Header` with `ModeToggle` and `LangSwitch`, `Shell/Footer`, `Shell/MobileModePill`, mobile menu, `useModeTransition` (circle), `aria-live` announcement.
 - `Shell/Placeholder` and the `data-placeholder` attribute convention; `NUXT_PUBLIC_SHOW_PLACEHOLDERS` (off in production).
 - Remove the Ember scale, body grain and `ColorModeButton`; scope the global reduced-motion rule so the 150 ms mode cross-fade survives.
 - Check: toggling mode on any page changes every color and the display font; `grep -rn "#[0-9A-Fa-f]\{6\}" app/components` returns only OG components.
+- Decisions taken in M1: the mode is stored in localStorage only (F-Sistema says so; nothing server-side reads a cookie, and the site stays cookie-free); fonts load the latin subset only (it covers Spanish, and the preload then picks the file actually used); nav entries whose page does not exist yet are hidden until it lands; the toggle is a button labelled with its action ("Switch to Filmmaker, night mode"); the Nuxt UI `neutral-*` / `primary-*` scales are derived from the tokens, so the old pages already follow both modes.
 
 ## M2 · Content
 - Per-locale `content.config.ts` (from `docs/snippets/`, corrected as above), seed files per `docs/CONTENT.md`, migrated real entries from `docs/MIGRATION.md`, validation step.

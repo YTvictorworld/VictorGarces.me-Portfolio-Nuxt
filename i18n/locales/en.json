@@ -1,12 +1,37 @@
 {
+  "a11y": {
+    "skipToContent": "Skip to content"
+  },
   "nav": {
-    "home": "Home",
+    "work": "Work",
+    "films": "Films",
+    "photography": "Photography",
+    "journal": "Journal",
     "about": "About",
     "experience": "Experience",
     "blog": "Blog",
     "contact": "Contact",
     "main": "Main navigation",
-    "switchLocale": "Español"
+    "switchLocale": "Switch language to Spanish",
+    "menu": "Menu",
+    "openMenu": "Open menu"
+  },
+  "mode": {
+    "day": "Day",
+    "night": "Night",
+    "pillDay": "Day · Developer",
+    "toNight": "Switch to Filmmaker, night mode",
+    "toDay": "Switch to Developer, day mode",
+    "announceNight": "Filmmaker mode",
+    "announceDay": "Developer mode"
+  },
+  "footer": {
+    "city": "Santo Domingo, DO",
+    "originalWork": "All films and photographs are original work",
+    "legal": "Legal",
+    "privacy": "Privacy",
+    "terms": "Terms",
+    "cookies": "Cookies"
   },
   "hero": {
     "available": "Available for new projects",

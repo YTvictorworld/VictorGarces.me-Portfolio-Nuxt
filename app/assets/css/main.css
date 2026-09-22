@@ -1,42 +1,15 @@
 @import "tailwindcss";
 @import "@nuxt/ui";
+@import "./tokens.css";
 
 /* Artboards and handoff docs are reference only: keep them out of class scanning */
 @source not "../../../design";
 @source not "../../../docs";
 
-/* --- Brand palette: "Ember" — cinematic sunset orange ---
-   Victor is a filmmaker: warm highlights over cool shadows,
-   the classic orange & teal film grade applied to the UI. */
-@theme static {
-  --color-ember-50: #fff5ee;
-  --color-ember-100: #ffe8d8;
-  --color-ember-200: #ffcdb0;
-  --color-ember-300: #ffab7d;
-  --color-ember-400: #ff7d47;
-  --color-ember-500: #f95d1d;
-  --color-ember-600: #e04310;
-  --color-ember-700: #ba3210;
-  --color-ember-800: #942a15;
-  --color-ember-900: #782514;
-  --color-ember-950: #410f08;
-}
-
-/* --- Film grain: subtle cinematic texture over everything --- */
-body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  z-index: 100;
-  pointer-events: none;
-  opacity: 0.028;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-}
-
 /* --- Page transitions --- */
 .page-enter-active,
 .page-leave-active {
-  transition: opacity 0.25s ease, transform 0.25s ease;
+  transition: opacity var(--t-page) ease, transform var(--t-page) ease;
 }
 
 .page-enter-from {
@@ -52,14 +25,20 @@ body::before {
 /* --- Global polish --- */
 html {
   scroll-behavior: smooth;
+  /* Anchors, the skip link and focused elements land below the sticky header */
+  scroll-padding-top: var(--header-h);
 }
 
-::selection {
-  background: var(--color-ember-500);
-  color: white;
+/* ...and above the floating mode pill (20px offset + 58px + clearance) */
+@media (max-width: 1023px) {
+  html {
+    scroll-padding-bottom: calc(96px + env(safe-area-inset-bottom, 0px));
+  }
 }
 
-/* --- Accessibility: respect reduced motion globally --- */
+/* --- Accessibility: respect reduced motion globally ---
+   Element animations only: the mode cross-fade runs on ::view-transition-* pseudo-elements,
+   which this rule does not match, so it keeps its 150 ms (tokens.css). */
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
