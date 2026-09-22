@@ -120,6 +120,7 @@ useSeoMeta({
           :title="reel.title"
           :subtitle="reel.logline ?? `${kindLabel(reel.kind)} · ${reel.runtime}`"
           :href="filmHref(reel.path)"
+          :video="reel.video?.id"
         />
         <FilmCard
           v-if="secondFilm"
@@ -127,6 +128,7 @@ useSeoMeta({
           :subtitle="`${kindLabel(secondFilm.kind)} · ${secondFilm.year}`"
           :href="filmHref(secondFilm.path)"
           :poster="secondFilm.poster?.id"
+          :video="secondFilm.video?.id"
         />
         <WorkMoreTile
           v-if="filmsHref"

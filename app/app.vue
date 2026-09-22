@@ -36,6 +36,19 @@ useHead(() => ({
   ]
 }))
 
+/**
+ * Client-side navigation swaps the page without telling a screen reader and leaves focus on
+ * <body>. NuxtRouteAnnouncer reads the new title; this puts focus back into <main>, so the
+ * next Tab continues inside the new page instead of restarting at the skip link.
+ */
+const router = useRouter()
+if (import.meta.client) {
+  router.afterEach((to, from) => {
+    if (to.path === from.path) return
+    nextTick(() => document.getElementById('main')?.focus({ preventScroll: true }))
+  })
+}
+
 useSeoMeta({
   titleTemplate: `%s · ${SITE_NAME}`,
   title: `${SITE_NAME} | Full-Stack Developer & Filmmaker`,
@@ -49,6 +62,7 @@ useSeoMeta({
 
 <template>
   <UApp :locale="uiLocale">
+    <NuxtRouteAnnouncer />
     <NuxtLayout />
   </UApp>
 </template>

@@ -5,9 +5,13 @@ const props = defineProps<{
   subtitle: string
   href?: string | null
   poster?: string
+  /** Video id in the manifest: the play badge appears only once that file exists */
+  video?: string
 }>()
 
 const { t } = useI18n()
+const media = useMediaManifest()
+const playable = computed(() => Boolean(props.href && props.video && media.video(props.video)?.ready))
 </script>
 
 <template>
@@ -24,7 +28,7 @@ const { t } = useI18n()
       />
       <FilmRoomArt v-else />
       <span
-        v-if="href"
+        v-if="playable"
         class="play"
         aria-hidden="true"
       >

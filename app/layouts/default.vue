@@ -18,8 +18,8 @@ const UContainer = resolveComponent('UContainer')
       tabindex="-1"
       class="min-h-screen outline-none"
     >
-      <!-- Rebuilt pages set `fullBleed` and use the --gutter tokens; the rest keep the old
-           container until M4 rebuilds them -->
+      <!-- Rebuilt pages set `fullBleed` and lay themselves out with the --gutter tokens.
+           Only /bag still relies on the old container. -->
       <component
         :is="route.meta.fullBleed ? 'div' : UContainer"
         :class="route.meta.fullBleed ? undefined : 'max-w-6xl mx-auto px-4 sm:px-6 lg:px-8'"

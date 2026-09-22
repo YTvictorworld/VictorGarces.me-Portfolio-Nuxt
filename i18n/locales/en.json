@@ -38,7 +38,9 @@
     "unavailable": "Not available at the moment"
   },
   "about": {
-    "eyebrow": "Who I am"
+    "eyebrow": "Who I am",
+    "downloadCv": "Download CV",
+    "stack": "Stack"
   },
   "experience": {
     "eyebrow": "Career"
@@ -65,23 +67,9 @@
       "ai": "AI",
       "development": "Development",
       "machine-learning": "Machine learning",
-      "talks": "Talks"
+      "talks": "Talks",
+      "film": "Film"
     }
-  },
-  "contact": {
-    "eyebrow": "Contact",
-    "title": "Let's work together",
-    "intro": "Have a project in mind, like a website, a film or a photo session? Tell me about it. I usually reply within 24 hours.",
-    "emailMe": "Email me",
-    "writeMe": "Write me",
-    "copy": "Copy address",
-    "copied": "Copied!",
-    "copyAria": "Copy email address",
-    "copiedAria": "Email copied",
-    "linkedinDesc": "Best for work opportunities and professional inquiries.",
-    "githubDesc": "My code, projects and open-source activity.",
-    "instagramDesc": "Photography, filmmaking and behind-the-scenes.",
-    "location": "Santo Domingo, Dominican Republic · Working with clients worldwide"
   },
   "bag": {
     "eyebrow": "Gear",
@@ -141,5 +129,94 @@
       "archived": "archived"
     },
     "caseStudy": "Case study"
+  },
+  "filters": {
+    "all": "All",
+    "label": "Filter by kind",
+    "series": "Filter by series",
+    "tag": "Filter by tag"
+  },
+  "kind": {
+    "web-app": "Web apps",
+    "infra": "Infra",
+    "client": "Client",
+    "experiment": "Experiments",
+    "archive": "Archive",
+    "short": "Short films",
+    "reel": "Reels",
+    "vertical": "Vertical"
+  },
+  "page": {
+    "backToWork": "All projects",
+    "backToFilms": "All films",
+    "backToPosts": "All posts",
+    "results": "{n} of {total}",
+    "empty": "Nothing here yet.",
+    "role": "Role",
+    "year": "Year",
+    "status": "Status",
+    "stack": "Stack",
+    "links": "Links",
+    "decisions": "Decisions",
+    "gallery": "Gallery",
+    "next": "Next",
+    "nextProject": "Next project",
+    "previous": "Previous",
+    "onThisPage": "On this page",
+    "share": "Share",
+    "copyLink": "Copy link",
+    "linkCopied": "Link copied",
+    "credits": "Credits",
+    "stills": "Stills",
+    "runtime": "Runtime",
+    "openPhoto": "Open photo {n} of {total}",
+    "closeLightbox": "Close",
+    "previousPhoto": "Previous photo",
+    "nextPhoto": "Next photo",
+    "photoOf": "Photo {n} of {total}",
+    "search": "Search",
+    "minRead": "{min} min",
+    "openPhotoNamed": "Open photo {n} of {total}: {alt}"
+  },
+  "form": {
+    "topic": "Topic",
+    "name": "Name",
+    "namePlaceholder": "Your name",
+    "email": "Email",
+    "emailPlaceholder": "you{'@'}example.com",
+    "budget": "Budget range",
+    "budgetPlaceholder": "Pick one",
+    "timeline": "Timeline",
+    "timelinePlaceholder": "When do you need it",
+    "date": "Date",
+    "datePlaceholder": "When is it",
+    "place": "Place",
+    "placePlaceholder": "Where is it",
+    "message": "Message",
+    "messagePlaceholder": "What it is, who it is for, what exists already",
+    "send": "Send",
+    "sending": "Sending…",
+    "success": "Thank you. Your message is on its way; I usually reply within 24 hours.",
+    "error": "Something went wrong. Please write to {email} instead.",
+    "required": "This field is required",
+    "invalidEmail": "Please enter a valid email address",
+    "consent": "What you send goes to my inbox through Web3Forms and is used only to reply.",
+    "emailFallback": "Open your email app"
+  },
+  "cross": {
+    "toFilm": {
+      "title": "Looking for the film side?",
+      "lead": "Short films and photography live in night mode.",
+      "cta": "Switch to Filmmaker"
+    },
+    "toDev": {
+      "title": "Looking for the developer side?",
+      "lead": "Case studies, code and a blog live in day mode.",
+      "cta": "Switch to Developer"
+    }
+  },
+  "cta": {
+    "similar": "Building something similar?",
+    "shoot": "Planning a shoot?"
   }
 }

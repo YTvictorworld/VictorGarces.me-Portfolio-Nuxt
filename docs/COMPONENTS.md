@@ -60,6 +60,14 @@ Naming: `app/components/<Group>/<Name>.vue`, auto-imported as `<GroupName>`. Eve
 | `Legal/Page` (`Legal/Toc` sticky + sections from `content/legal/*.md`) | S-Legal |
 | `error.vue` | S-404, split by mode |
 
+## Shared page furniture (M4)
+| component | notes |
+|---|---|
+| `Page/Title` | eyebrow (with an optional count) + h1 + lead, plus a right slot for filters or actions. Every index page uses it; `/contact` does not, because its eyebrow and lead change with the mode |
+| `Ui/Filters` | pill filters as buttons with `aria-pressed`; the page keeps the value in the URL (`?kind=`, `?series=`, `?tag=`) so a filtered list can be shared |
+| `Shell/CrossModeBanner` | "Looking for the film side?" at the end of an index; switches mode and opens that home through `useModeSwitch().enter` |
+| `Contact/Cta` | closing dark block on a detail page: question, email, link to `/contact` |
+
 ## Media
 | component | notes |
 |---|---|

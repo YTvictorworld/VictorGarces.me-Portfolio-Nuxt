@@ -1,0 +1,11 @@
+title: Contacto
+description: Cuéntame qué estás construyendo, o reserva una sesión. Suelo responder en menos de 24 horas.
+eyebrow: Contacto
+lead: Cuéntame qué estás construyendo.
+sections:
+  film:
+    eyebrow: Reserva una sesión
+    lead: Cuéntame sobre la sesión.
+  aside:
+    eyebrow: O escríbeme
+    title: En otros lados

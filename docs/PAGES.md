@@ -4,7 +4,7 @@ All routes exist in `en` (no prefix) and `es` (`/es/...`) via @nuxtjs/i18n `pref
 
 | route | page | mode | artboard | title (en) |
 |---|---|---|---|---|
-| `/` | `pages/index.vue` | first visit; if `vg-mode` cookie exists, client redirects to `/dev` or `/film` after paint (server still renders the landing so the URL stays shareable) | F-Landing | Víctor Garcés · Developer and Filmmaker |
+| `/` | `pages/index.vue` | first visit; if `vg-mode` is stored (localStorage, no cookie), client redirects to `/dev` or `/film` after paint (server still renders the landing so the URL stays shareable) | F-Landing | Víctor Garcés · Developer and Filmmaker |
 | `/dev` | `pages/dev/index.vue` | forces day | F-Home-Dev | Developer |
 | `/dev/work` | `pages/dev/work/index.vue` | day | D-Work | Work |
 | `/dev/work/[slug]` | `pages/dev/work/[slug].vue` | day | D-Project | project title |

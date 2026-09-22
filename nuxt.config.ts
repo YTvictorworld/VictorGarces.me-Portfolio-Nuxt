@@ -65,6 +65,13 @@ export default defineNuxtConfig({
 
   css: ['~/assets/css/main.css'],
 
+  // media-chrome and hls-video-element are custom elements, not Vue components
+  vue: {
+    compilerOptions: {
+      isCustomElement: (tag: string) => tag.startsWith('media-') || tag === 'hls-video'
+    }
+  },
+
   site: {
     url: 'https://victorgarces.me',
     name: 'Víctor Garcés'
@@ -80,7 +87,9 @@ export default defineNuxtConfig({
       // Dashed outline + chip on data-driven areas; on in dev, off in production builds
       showPlaceholders: process.env.NODE_ENV !== 'production',
       // "Download CV" shows only once the file is in public/
-      cv: existsSync(new URL('./public/cv-victor-garces.pdf', import.meta.url)) ? '/cv-victor-garces.pdf' : ''
+      cv: existsSync(new URL('./public/cv-victor-garces.pdf', import.meta.url)) ? '/cv-victor-garces.pdf' : '',
+      // Web3Forms access key (public by design). Without it the contact form falls back to email.
+      web3formsKey: process.env.NUXT_PUBLIC_WEB3FORMS_KEY ?? ''
     }
   },
 

@@ -3,6 +3,7 @@ title: About
 mode: dev
 headline: Software Engineering student by night, freelance developer by day, filmmaker on weekends.
 teaser: I am a developer from Santo Domingo who covers the whole stack, from interface to infrastructure. Behind the code there is also a camera.
+now: "Studying Software Engineering at UNAPEC, building Ada System, and open to freelance front-end and full-stack work."
 portrait:
   src: /media/portrait.jpg
   alt: Víctor Garcés at night in Times Square, New York

@@ -1,210 +1,604 @@
 <script setup lang="ts">
-const { global, footer } = useAppConfig()
-const { t, locale } = useI18n()
+definePageMeta({ fullBleed: true })
+
+type FieldName = 'name' | 'email' | 'budget' | 'timeline' | 'date' | 'place' | 'message'
+
+const { locale, t } = useI18n()
 const route = useRoute()
 const { collection } = useLocalizedContent()
+const { isNight } = useMode()
+const { web3formsKey } = useRuntimeConfig().public
 
-const { data: profile } = await useAsyncData('contact-profile', () => queryCollection('profile').first())
-const { data: labels } = await useAsyncData(`contact-labels-${locale.value}`, () =>
-  queryCollection(collection('contact')).first()
-)
+const { data } = await useAsyncData(`contact-${locale.value}`, () => Promise.all([
+  queryCollection(collection('pages')).path(`/${locale.value}/pages/contact`).first(),
+  queryCollection(collection('contact')).first(),
+  queryCollection('profile').first()
+]))
 
-// What the home message boxes passed along (M4 turns this into the real form)
-const single = (value: unknown) => Array.isArray(value) ? value[0] : value as string | undefined
-const prefill = computed(() => [
-  single(route.query.date) && `${t('home.date')}: ${single(route.query.date)}`,
-  single(route.query.place) && `${t('home.place')}: ${single(route.query.place)}`,
-  single(route.query.message)
-].filter(Boolean).join('\n'))
-const topicLabel = computed(() => labels.value?.topics.find(topic => topic.id === single(route.query.topic))?.label)
+const page = computed(() => data.value?.[0])
+const labels = computed(() => data.value?.[1])
+if (!page.value || !labels.value) {
+  throw createError({ statusCode: 404, statusMessage: 'Page not found', fatal: true })
+}
 
-const seoDescription = computed(() => t('contact.intro'))
+const sections = computed(() => page.value?.sections ?? {})
+const budgets = computed(() => labels.value?.budgets ?? [])
+const timelines = computed(() => labels.value?.timelines ?? [])
+const profile = computed(() => data.value?.[2])
+const email = computed(() => profile.value?.email ?? '')
 
-useSeoMeta({
-  title: () => t('contact.eyebrow'),
-  description: seoDescription,
-  ogTitle: () => `${t('contact.eyebrow')} · Víctor Garcés`,
-  ogDescription: seoDescription
+const single = (value: unknown) => Array.isArray(value) ? value[0] as string : value as string | undefined
+const topics = computed(() => labels.value?.topics ?? [])
+
+/**
+ * The home blocks and the night nav link here with ?topic=web|film and the details filled in.
+ * This page is prerendered without a query, so the URL is only read after mount: Vue does not
+ * rectify a class mismatch while hydrating, and the "Web project" pill would keep the accent
+ * highlight from the prerendered HTML while the film fields showed underneath it. The mode is
+ * client-only for the same reason.
+ */
+const topic = ref('web')
+function applyQuery() {
+  const wanted = single(route.query.topic)
+  if (topics.value.some(entry => entry.id === wanted)) topic.value = wanted!
+  else if (isNight.value) topic.value = 'film'
+  form.date = single(route.query.date) ?? form.date
+  form.place = single(route.query.place) ?? form.place
+  form.message = single(route.query.message) ?? form.message
+}
+onMounted(applyQuery)
+watch(() => route.query, applyQuery)
+
+const fields = computed<FieldName[]>(() =>
+  topics.value.find(entry => entry.id === topic.value)?.fields ?? ['name', 'email', 'message'])
+const shows = (field: FieldName) => fields.value.includes(field)
+
+const form = reactive({
+  name: '',
+  email: '',
+  budget: '',
+  timeline: '',
+  date: '',
+  place: '',
+  message: ''
 })
+/** Bots fill hidden inputs; people do not. Web3Forms drops the submission when it is set. */
+const botcheck = ref('')
 
-const email = computed(() => profile.value?.email ?? global?.email ?? '')
-const mailto = computed(() => {
-  const subject = topicLabel.value ? `?subject=${encodeURIComponent(topicLabel.value)}` : ''
-  const body = prefill.value ? `${subject ? '&' : '?'}body=${encodeURIComponent(prefill.value)}` : ''
-  return `mailto:${email.value}${subject}${body}`
-})
-const copied = ref(false)
+const errors = ref<Partial<Record<FieldName, string>>>({})
+const state = ref<'idle' | 'sending' | 'sent' | 'error'>('idle')
 
-const copyEmail = async () => {
+/** Only name, email and message are required; the rest help but never block a message. */
+function validate() {
+  const found: Partial<Record<FieldName, string>> = {}
+  for (const field of fields.value) {
+    if (field === 'budget' || field === 'timeline' || field === 'date' || field === 'place') continue
+    if (!form[field].trim()) found[field] = t('form.required')
+  }
+  if (!found.email && shows('email') && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) {
+    found.email = t('form.invalidEmail')
+  }
+  errors.value = found
+  return Object.keys(found).length === 0
+}
+
+const topicLabel = computed(() => topics.value.find(entry => entry.id === topic.value)?.label ?? topic.value)
+
+/** Plain-text body, used by the Web3Forms message and the mailto fallback alike. */
+const body = computed(() => ([
+  ['budget', t('form.budget')], ['timeline', t('form.timeline')],
+  ['date', t('form.date')], ['place', t('form.place')]
+] as Array<[FieldName, string]>)
+  .filter(([field]) => shows(field) && form[field])
+  .map(([field, label]) => `${label}: ${form[field]}`)
+  .concat(form.message)
+  .join('\n'))
+
+const mailto = computed(() =>
+  `mailto:${email.value}?subject=${encodeURIComponent(topicLabel.value)}&body=${encodeURIComponent(body.value)}`)
+
+async function submit() {
+  if (!validate()) {
+    // Focus the first field that failed, so the error is not only visual
+    document.getElementById(`field-${Object.keys(errors.value)[0]}`)?.focus()
+    return
+  }
+  if (botcheck.value) return
+  state.value = 'sending'
   try {
-    await navigator.clipboard.writeText(email.value)
-    copied.value = true
-    setTimeout(() => {
-      copied.value = false
-    }, 2000)
+    await $fetch('https://api.web3forms.com/submit', {
+      method: 'POST',
+      body: {
+        access_key: web3formsKey,
+        subject: `${topicLabel.value} — ${form.name}`,
+        from_name: form.name,
+        name: form.name,
+        email: form.email,
+        message: body.value,
+        botcheck: botcheck.value
+      }
+    })
+    state.value = 'sent'
   } catch {
-    // clipboard unavailable; the mailto link still works
+    state.value = 'error'
   }
 }
 
-const channels = computed(() => [
-  {
-    label: 'LinkedIn',
-    description: t('contact.linkedinDesc'),
-    icon: 'i-simple-icons-linkedin',
-    to: global?.meetingLink
-  },
-  {
-    label: 'GitHub',
-    description: t('contact.githubDesc'),
-    icon: 'i-simple-icons-github',
-    to: footer?.links?.find(l => l.icon?.includes('github'))?.to
-  },
-  {
-    label: 'Instagram',
-    description: t('contact.instagramDesc'),
-    icon: 'i-simple-icons-instagram',
-    to: footer?.links?.find(l => l.icon?.includes('instagram'))?.to
-  }
-].filter(c => c.to))
+useSeoMeta({
+  title: page.value.title,
+  ogTitle: page.value.title,
+  description: page.value.description,
+  ogDescription: page.value.description
+})
 </script>
 
 <template>
-  <div class="pt-12 pb-20 px-4 sm:px-6 lg:px-8">
-    <div class="max-w-3xl mx-auto">
-      <!-- Header -->
-      <Reveal
-        immediate
-        :duration="600"
-      >
-        <p class="font-mono text-xs uppercase tracking-[0.25em] text-primary-600 dark:text-primary-400 mb-3">
-          {{ $t('contact.eyebrow') }}
-        </p>
-        <h1 class="text-4xl sm:text-5xl font-bold tracking-tight text-neutral-900 dark:text-white mb-6 text-balance">
-          {{ $t('contact.title') }}
-        </h1>
-        <p class="text-xl text-neutral-600 dark:text-neutral-300 mb-8 text-pretty">
-          {{ $t('contact.intro') }}
-        </p>
-      </Reveal>
+  <div v-if="page && labels">
+    <!-- Not PageTitle: the eyebrow and lead change with the mode, so both variants render -->
+    <div class="head">
+      <p class="eyebrow eyebrow--accent day-only">
+        {{ page.eyebrow }}
+      </p>
+      <p class="eyebrow eyebrow--accent night-only">
+        {{ sections.film?.eyebrow }}
+      </p>
+      <h1 class="title">
+        {{ page.title }}
+      </h1>
+      <p class="lead day-only">
+        {{ page.lead }}
+      </p>
+      <p class="lead night-only">
+        {{ sections.film?.lead }}
+      </p>
+    </div>
 
-      <!-- Availability -->
-      <Reveal
-        immediate
-        :delay="100"
-        :duration="600"
+    <div class="section layout">
+      <form
+        class="card form"
+        novalidate
+        @submit.prevent="submit"
       >
-        <div
-          class="inline-flex items-center gap-2 mb-12 px-4 py-2 rounded-full border border-neutral-200 dark:border-neutral-800 text-sm"
-          :class="global?.available ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'"
-        >
-          <span class="relative flex size-2">
-            <span
-              class="absolute inline-flex size-full rounded-full opacity-75 motion-safe:animate-ping"
-              :class="global?.available ? 'bg-green-500' : 'bg-red-500'"
-            />
-            <span
-              class="relative inline-flex size-2 scale-90 rounded-full"
-              :class="global?.available ? 'bg-green-500' : 'bg-red-500'"
-            />
-          </span>
-          {{ global?.available ? $t('hero.available') : $t('hero.unavailable') }}
-        </div>
-      </Reveal>
-
-      <!-- Email card (primary action) -->
-      <Reveal
-        immediate
-        :delay="200"
-        :duration="600"
-      >
-        <div
-          class="flex flex-col sm:flex-row sm:items-center gap-4 p-6 rounded-xl border border-primary-300/50 dark:border-primary-800/60 bg-primary-50/50 dark:bg-primary-950/20 mb-8"
-        >
-          <div class="flex-1">
-            <p class="font-semibold text-neutral-900 dark:text-white mb-1">
-              {{ topicLabel ?? $t('contact.emailMe') }}
-            </p>
-            <p class="font-mono text-sm text-neutral-600 dark:text-neutral-300 break-all">
-              {{ email }}
-            </p>
-            <!-- Carried over from the home message box, so nothing the visitor typed is lost -->
-            <p
-              v-if="prefill"
-              class="mt-3 whitespace-pre-line rounded-lg bg-white/60 dark:bg-black/20 p-3 text-sm text-neutral-700 dark:text-neutral-200"
-            >
-              {{ prefill }}
-            </p>
-          </div>
-          <div class="flex gap-2">
-            <UButton
-              :to="mailto"
-              icon="i-lucide-mail"
-              color="primary"
-              size="lg"
-            >
-              {{ $t('contact.writeMe') }}
-            </UButton>
-            <UTooltip :text="copied ? $t('contact.copied') : $t('contact.copy')">
-              <UButton
-                :icon="copied ? 'i-lucide-check' : 'i-lucide-copy'"
-                color="neutral"
-                variant="outline"
-                size="lg"
-                :aria-label="copied ? $t('contact.copiedAria') : $t('contact.copyAria')"
-                @click="copyEmail"
-              />
-            </UTooltip>
-          </div>
-        </div>
-      </Reveal>
-
-      <!-- Other channels -->
-      <div class="grid sm:grid-cols-3 gap-4">
-        <Reveal
-          v-for="(channel, index) in channels"
-          :key="channel.label"
-          immediate
-          :delay="300 + index * 100"
-          :duration="600"
-        >
-          <a
-            :href="channel.to"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="group flex flex-col gap-3 p-6 h-full rounded-xl border border-neutral-200 dark:border-neutral-800 hover:border-primary-300 dark:hover:border-primary-800 hover:shadow-lg transition-all duration-300 hover:-translate-y-1"
+        <fieldset class="topics">
+          <legend class="eyebrow">
+            {{ t('form.topic') }}
+          </legend>
+          <label
+            v-for="entry in topics"
+            :key="entry.id"
+            class="pill"
+            :class="{ active: topic === entry.id }"
           >
-            <UIcon
-              :name="channel.icon"
-              class="size-6 text-neutral-500 dark:text-neutral-400 group-hover:text-primary-500 transition-colors"
-              aria-hidden="true"
-            />
-            <div>
-              <p
-                class="font-semibold text-neutral-900 dark:text-white group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors"
-              >
-                {{ channel.label }}
-              </p>
-              <p class="text-sm text-neutral-600 dark:text-neutral-400 mt-1">{{ channel.description }}</p>
-            </div>
-          </a>
-        </Reveal>
-      </div>
+            <input
+              v-model="topic"
+              type="radio"
+              name="topic"
+              :value="entry.id"
+              class="sr-only"
+            >
+            {{ entry.label }}
+          </label>
+        </fieldset>
 
-      <!-- Location note -->
-      <Reveal
-        :delay="200"
-        :duration="600"
-      >
-        <p class="flex items-center gap-2 mt-12 text-sm text-neutral-500 dark:text-neutral-400">
-          <UIcon
-            name="i-lucide-map-pin"
-            class="size-4"
-            aria-hidden="true"
+        <div class="row">
+          <div
+            v-if="shows('name')"
+            class="field"
+          >
+            <label for="field-name">{{ t('form.name') }}</label>
+            <input
+              id="field-name"
+              v-model="form.name"
+              class="input"
+              autocomplete="name"
+              :placeholder="t('form.namePlaceholder')"
+              :aria-invalid="Boolean(errors.name)"
+              :aria-describedby="errors.name ? 'error-name' : undefined"
+            >
+            <p
+              v-if="errors.name"
+              id="error-name"
+              class="error"
+            >
+              {{ errors.name }}
+            </p>
+          </div>
+
+          <div
+            v-if="shows('email')"
+            class="field"
+          >
+            <label for="field-email">{{ t('form.email') }}</label>
+            <input
+              id="field-email"
+              v-model="form.email"
+              type="email"
+              class="input"
+              autocomplete="email"
+              :placeholder="t('form.emailPlaceholder')"
+              :aria-invalid="Boolean(errors.email)"
+              :aria-describedby="errors.email ? 'error-email' : undefined"
+            >
+            <p
+              v-if="errors.email"
+              id="error-email"
+              class="error"
+            >
+              {{ errors.email }}
+            </p>
+          </div>
+        </div>
+
+        <div class="row">
+          <div
+            v-if="shows('budget') && budgets.length"
+            class="field"
+          >
+            <label for="field-budget">{{ t('form.budget') }}</label>
+            <select
+              id="field-budget"
+              v-model="form.budget"
+              class="input"
+            >
+              <option value="">
+                {{ t('form.budgetPlaceholder') }}
+              </option>
+              <option
+                v-for="option in budgets"
+                :key="option"
+                :value="option"
+              >
+                {{ option }}
+              </option>
+            </select>
+          </div>
+
+          <div
+            v-if="shows('timeline')"
+            class="field"
+          >
+            <label for="field-timeline">{{ t('form.timeline') }}</label>
+            <select
+              id="field-timeline"
+              v-model="form.timeline"
+              class="input"
+            >
+              <option value="">
+                {{ t('form.timelinePlaceholder') }}
+              </option>
+              <option
+                v-for="option in timelines"
+                :key="option"
+                :value="option"
+              >
+                {{ option }}
+              </option>
+            </select>
+          </div>
+
+          <div
+            v-if="shows('date')"
+            class="field"
+          >
+            <label for="field-date">{{ t('form.date') }}</label>
+            <input
+              id="field-date"
+              v-model="form.date"
+              type="date"
+              class="input"
+            >
+          </div>
+
+          <div
+            v-if="shows('place')"
+            class="field"
+          >
+            <label for="field-place">{{ t('form.place') }}</label>
+            <input
+              id="field-place"
+              v-model="form.place"
+              class="input"
+              :placeholder="t('form.placePlaceholder')"
+            >
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="field-message">{{ t('form.message') }}</label>
+          <textarea
+            id="field-message"
+            v-model="form.message"
+            class="input"
+            rows="6"
+            :placeholder="t('form.messagePlaceholder')"
+            :aria-invalid="Boolean(errors.message)"
+            :aria-describedby="errors.message ? 'error-message' : undefined"
           />
-          {{ $t('contact.location') }}
+          <p
+            v-if="errors.message"
+            id="error-message"
+            class="error"
+          >
+            {{ errors.message }}
+          </p>
+        </div>
+
+        <!-- Honeypot: off-screen rather than display:none, which bots skip. Hidden from
+             assistive tech, so nobody using a screen reader is asked to fill it in. -->
+        <label
+          class="sr-only"
+          aria-hidden="true"
+        >
+          <span>Leave this field empty</span>
+          <input
+            v-model="botcheck"
+            type="text"
+            tabindex="-1"
+            autocomplete="off"
+          >
+        </label>
+
+        <div class="actions">
+          <button
+            v-if="web3formsKey"
+            type="submit"
+            class="btn btn--accent btn--md"
+            :disabled="state === 'sending'"
+          >
+            {{ state === 'sending' ? t('form.sending') : t('form.send') }}
+          </button>
+          <!-- No form endpoint configured: the same message, composed in the visitor's email app -->
+          <a
+            v-else
+            :href="mailto"
+            class="btn btn--accent btn--md"
+          >{{ t('form.emailFallback') }}</a>
+          <p class="consent">
+            {{ t('form.consent') }}
+          </p>
+        </div>
+
+        <!-- Always mounted: a live region inserted together with its text is often not read -->
+        <p
+          class="note"
+          :class="{ 'note--ok': state === 'sent', 'note--bad': state === 'error' }"
+          role="status"
+          aria-live="polite"
+        >
+          <template v-if="state === 'sent'">
+            {{ t('form.success') }}
+          </template>
+          <template v-else-if="state === 'error'">
+            {{ t('form.error', { email }) }}
+          </template>
         </p>
-      </Reveal>
+      </form>
+
+      <aside class="aside">
+        <p class="eyebrow">
+          {{ sections.aside?.eyebrow }}
+        </p>
+        <a
+          :href="`mailto:${email}`"
+          class="email display"
+        >{{ email }}</a>
+        <p class="reply mono">
+          {{ labels.responseTime }}
+        </p>
+
+        <p class="eyebrow elsewhere">
+          {{ sections.aside?.title }}
+        </p>
+        <ul class="socials">
+          <li
+            v-for="social in profile?.socials"
+            :key="social.href"
+          >
+            <a
+              :href="social.href"
+              target="_blank"
+              rel="me noopener"
+            >
+              <span>{{ social.label }}</span>
+              <span class="mono">{{ social.handle }}</span>
+            </a>
+          </li>
+        </ul>
+      </aside>
     </div>
   </div>
 </template>
+
+<style scoped>
+.head {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 720px;
+  padding: var(--section) var(--gutter) 0;
+}
+
+.head p {
+  margin: 0;
+}
+
+.title {
+  font-size: var(--h1-page);
+  line-height: 1.02;
+}
+
+.lead {
+  font-size: 18px;
+  color: var(--muted);
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 300px;
+  gap: 32px;
+  align-items: start;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 28px;
+}
+
+.topics {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.topics legend {
+  margin-bottom: 10px;
+}
+
+.topics .pill {
+  cursor: pointer;
+}
+
+.topics .pill:has(:focus-visible) {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.topics .pill.active {
+  color: var(--on-accent);
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.row:empty {
+  display: none;
+}
+
+.field {
+  display: flex;
+  flex: 1 1 200px;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.field label {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.error {
+  margin: 0;
+  font-size: 12px;
+  color: var(--danger);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px;
+}
+
+.consent {
+  flex: 1 1 260px;
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.45;
+  color: var(--muted);
+}
+
+.note {
+  margin: 0;
+  padding: 12px 16px;
+  font-size: 14px;
+  border-radius: var(--r-inner);
+}
+
+/* The live region stays in the DOM with nothing to say, so it must take no space */
+.note:empty {
+  padding: 0;
+}
+
+.note--ok {
+  color: var(--on-accent);
+  background: var(--accent);
+}
+
+.note--bad {
+  color: var(--text);
+  background: var(--raised);
+}
+
+.aside {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.aside p {
+  margin: 0;
+}
+
+.email {
+  font-size: 22px;
+  color: var(--text);
+  text-decoration: none;
+  overflow-wrap: anywhere;
+}
+
+.email:hover {
+  color: var(--accent);
+}
+
+.elsewhere {
+  margin-top: 24px !important;
+}
+
+.socials {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 8px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.socials a {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 14px;
+  color: var(--text);
+  text-decoration: none;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-pill);
+  font-size: 14px;
+}
+
+.socials a:hover {
+  border-color: color-mix(in oklab, var(--accent) 40%, var(--border));
+}
+
+@media (max-width: 1023px) {
+  .layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 767px) {
+  .form {
+    padding: 20px;
+  }
+}
+</style>

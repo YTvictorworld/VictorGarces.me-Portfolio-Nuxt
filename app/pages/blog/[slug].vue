@@ -1,271 +1,350 @@
 <script setup lang="ts">
-import { formatDate } from '~/utils/format'
+definePageMeta({ fullBleed: true })
 
-const route = useRoute()
-const { t, locale } = useI18n()
+const { locale, t, te } = useI18n()
 const localePath = useLocalePath()
+const route = useRoute()
+const { collection, published, showDrafts } = useLocalizedContent()
 
-const blogCollection = (locale.value === 'es' ? 'blog_es' : 'blog_en') as 'blog_en'
-const contentPath = `/${locale.value}/blog/${route.params.slug}`
+const slug = String(route.params.slug)
+const { data } = await useAsyncData(`post-${locale.value}-${slug}`, () => Promise.all([
+  queryCollection(collection('blog')).path(`/${locale.value}/blog/${slug}`).first(),
+  queryCollection(collection('blog')).order('date', 'DESC')
+    .select('path', 'title', 'date', 'draft').all()
+]))
 
-const { data: post } = await useAsyncData(`blog-post-${contentPath}`, () =>
-  queryCollection(blogCollection).path(contentPath).first()
-)
-
-if (!post.value) {
-  throw createError({
-    statusCode: 404,
-    statusMessage: 'Post not found',
-    fatal: true
-  })
+const post = computed(() => data.value?.[0])
+if (!post.value || (post.value.draft && !showDrafts)) {
+  throw createError({ statusCode: 404, statusMessage: 'Post not found', fatal: true })
 }
 
-// social crawlers require absolute URLs for og:image
-const coverSrc = post.value?.cover?.src
-const ogImage = coverSrc?.startsWith('/') ? `${SITE_URL}${coverSrc}` : coverSrc
+const siblings = computed(() => {
+  const list = published(data.value?.[1])
+  const index = list.findIndex(entry => entry.path === post.value?.path)
+  return { previous: index > 0 ? list[index - 1] : undefined, next: list[index + 1] }
+})
+
+/** `##` headings only: a two-level list would be noise on posts this short. */
+const toc = computed(() => post.value?.body?.toc?.links ?? [])
+
+// Same guarded lookup as /blog and /film/journal: a tag without a label shows as written
+const tagLabel = (tag: string) => te(`blog.tag.${tag}`) ? t(`blog.tag.${tag}`) : tag
+
+const url = computed(() => `${SITE_URL}${localePath(`/blog/${slug}`)}`)
+const share = computed(() => [
+  { label: 'X', href: `https://x.com/intent/tweet?text=${encodeURIComponent(post.value?.title ?? '')}&url=${encodeURIComponent(url.value)}` },
+  { label: 'LinkedIn', href: `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url.value)}` }
+])
+
+const copied = ref(false)
+async function copyLink() {
+  try {
+    await navigator.clipboard.writeText(url.value)
+    copied.value = true
+    setTimeout(() => (copied.value = false), 2000)
+  } catch {
+    // clipboard blocked: the address bar still has the URL
+  }
+}
 
 useSeoMeta({
-  title: post.value?.seo?.title || post.value?.title,
-  ogTitle: post.value?.seo?.title || post.value?.title,
-  description: post.value?.seo?.description || post.value?.description,
-  ogDescription: post.value?.seo?.description || post.value?.description,
-  ogImage,
-  twitterCard: 'summary_large_image'
+  title: post.value.title,
+  ogTitle: post.value.title,
+  description: post.value.description,
+  ogDescription: post.value.description,
+  ogType: 'article',
+  articlePublishedTime: new Date(post.value.date).toISOString(),
+  articleTag: post.value.tags
 })
 </script>
 
 <template>
-  <article
-    v-if="post"
-    class="pt-12 pb-20 px-4 sm:px-6 lg:px-8"
-  >
+  <article v-if="post">
     <BlogReadingProgress />
-    <div class="max-w-3xl mx-auto">
-      <!-- Back link -->
-      <Reveal
-        immediate
-        :duration="500"
-        :y="12"
+
+    <div class="head">
+      <NuxtLink
+        :to="localePath('/blog')"
+        class="back mono"
       >
-        <UButton
-          :to="localePath('/blog')"
-          icon="i-lucide-arrow-left"
-          variant="ghost"
-          color="neutral"
-          size="sm"
-          class="mb-8"
-        >
-          {{ t('blog.allPosts') }}
-        </UButton>
-      </Reveal>
-
-      <!-- Header -->
-      <header class="mb-10">
-        <Reveal
-          immediate
-          :delay="100"
-          :duration="600"
-        >
-          <div class="flex items-center gap-4 text-sm text-neutral-500 dark:text-neutral-400 mb-4">
-            <time
-              v-if="post.date"
-              :datetime="post.date.toString()"
-            >
-              {{ formatDate(post.date, locale === 'es' ? 'es-DO' : 'en-US') }}
-            </time>
-            <span
-              v-if="post.minRead"
-              class="flex items-center gap-1.5"
-            >
-              <UIcon
-                name="i-lucide-clock"
-                class="size-4"
-                aria-hidden="true"
-              />
-              {{ t('blog.minRead', { min: post.minRead }) }}
-            </span>
-          </div>
-          <h1 class="text-4xl sm:text-5xl font-bold tracking-tight text-neutral-900 dark:text-white text-balance mb-6">
-            {{ post.title }}
-          </h1>
-          <p class="text-xl text-neutral-600 dark:text-neutral-300 text-pretty">
-            {{ post.description }}
-          </p>
-        </Reveal>
-
-        <!-- Author -->
-        <Reveal
-          v-if="post.author"
-          immediate
-          :delay="200"
-          :duration="600"
-        >
-          <div class="flex items-center gap-3 mt-8 pt-6 border-t border-neutral-200 dark:border-neutral-800">
-            <UAvatar
-              v-if="post.author.avatar?.src"
-              :src="post.author.avatar.src"
-              :alt="post.author.name"
-              size="md"
-            />
-            <div>
-              <p class="font-medium text-neutral-900 dark:text-white">
-                {{ post.author.name }}
-              </p>
-              <p
-                v-if="post.author.description"
-                class="text-sm text-neutral-500 dark:text-neutral-400"
-              >
-                {{ post.author.description }}
-              </p>
-            </div>
-          </div>
-        </Reveal>
-      </header>
-
-      <!-- Cover image -->
-      <Reveal
-        v-if="post.cover"
-        immediate
-        :delay="300"
-        :duration="700"
+        ← {{ t('page.backToPosts') }}
+      </NuxtLink>
+      <p class="eyebrow eyebrow--accent">
+        <time :datetime="new Date(post.date).toISOString().slice(0, 10)">{{ formatDate(post.date, locale) }}</time>
+        <template v-if="post.minRead">
+          · {{ t('page.minRead', { min: post.minRead }) }}
+        </template>
+      </p>
+      <h1 class="title">
+        {{ post.title }}
+      </h1>
+      <p class="lead">
+        {{ post.description }}
+      </p>
+      <ul
+        v-if="post.tags?.length"
+        class="tags"
       >
-        <AppImage
-          :src="post.cover.src"
-          :alt="post.cover.alt"
-          loading="eager"
-          fetchpriority="high"
-          class="w-full rounded-xl shadow-lg mb-12"
-          img-class="w-full aspect-video object-cover"
-        />
-      </Reveal>
-
-      <!-- Body -->
-      <Reveal
-        immediate
-        :delay="400"
-        :duration="700"
-      >
-        <div class="post-body">
-          <ContentRenderer :value="post" />
-        </div>
-      </Reveal>
-
-      <!-- Footer CTA -->
-      <Reveal :duration="600">
-        <footer class="mt-16 pt-8 border-t border-neutral-200 dark:border-neutral-800 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p class="text-neutral-600 dark:text-neutral-300">
-            {{ t('blog.thanks') }}
-          </p>
-          <UButton
-            :to="localePath('/blog')"
-            icon="i-lucide-arrow-left"
-            variant="outline"
-            color="neutral"
-          >
-            {{ t('blog.backToPosts') }}
-          </UButton>
-        </footer>
-      </Reveal>
+        <li
+          v-for="tag in post.tags"
+          :key="tag"
+          class="chip"
+        >
+          {{ tagLabel(tag) }}
+        </li>
+      </ul>
     </div>
+
+    <NuxtImg
+      v-if="post.cover"
+      :src="post.cover.src"
+      :alt="post.cover.alt"
+      class="cover"
+      width="1200"
+      height="600"
+      sizes="(max-width: 1023px) 100vw, 1100px"
+      loading="eager"
+      fetchpriority="high"
+    />
+
+    <div class="section layout">
+      <div class="prose body">
+        <ContentRenderer :value="post" />
+      </div>
+
+      <aside class="aside">
+        <nav
+          v-if="toc.length"
+          class="toc"
+          :aria-label="t('page.onThisPage')"
+        >
+          <p class="eyebrow">
+            {{ t('page.onThisPage') }}
+          </p>
+          <ul>
+            <li
+              v-for="entry in toc"
+              :key="entry.id"
+            >
+              <a :href="`#${entry.id}`">{{ entry.text }}</a>
+            </li>
+          </ul>
+        </nav>
+
+        <div class="share">
+          <p class="eyebrow">
+            {{ t('page.share') }}
+          </p>
+          <button
+            type="button"
+            class="pill"
+            @click="copyLink"
+          >
+            {{ copied ? t('page.linkCopied') : t('page.copyLink') }}
+          </button>
+          <a
+            v-for="target in share"
+            :key="target.label"
+            :href="target.href"
+            class="pill"
+            target="_blank"
+            rel="noopener"
+          >{{ target.label }}</a>
+        </div>
+      </aside>
+    </div>
+
+    <nav
+      class="section siblings"
+      :aria-label="t('page.backToPosts')"
+    >
+      <NuxtLink
+        v-if="siblings.previous"
+        :to="localePath(`/blog/${slugOf(siblings.previous.path)}`)"
+        class="card sibling"
+      >
+        <span class="eyebrow">{{ t('page.previous') }}</span>
+        <span class="sibling-title">{{ siblings.previous.title }}</span>
+      </NuxtLink>
+      <NuxtLink
+        v-if="siblings.next"
+        :to="localePath(`/blog/${slugOf(siblings.next.path)}`)"
+        class="card sibling sibling--next"
+      >
+        <span class="eyebrow">{{ t('page.next') }}</span>
+        <span class="sibling-title">{{ siblings.next.title }}</span>
+      </NuxtLink>
+    </nav>
   </article>
 </template>
 
 <style scoped>
-/* Content typography (Nuxt UI Pro prose styles are not available on the free tier) */
-.post-body :deep(h1),
-.post-body :deep(h2),
-.post-body :deep(h3) {
-    font-weight: 700;
-    letter-spacing: -0.02em;
-    color: var(--color-neutral-900);
-    margin-top: 2.5rem;
-    margin-bottom: 1rem;
+.head {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 820px;
+  padding: var(--section) var(--gutter) 0;
 }
 
-.dark .post-body :deep(h1),
-.dark .post-body :deep(h2),
-.dark .post-body :deep(h3) {
-    color: white;
+.head p {
+  margin: 0;
 }
 
-.post-body :deep(h1) { font-size: 1.875rem; }
-.post-body :deep(h2) { font-size: 1.5rem; }
-.post-body :deep(h3) { font-size: 1.25rem; }
-
-.post-body :deep(p) {
-    margin-bottom: 1.25rem;
-    line-height: 1.75;
-    color: var(--color-neutral-600);
+.back {
+  color: var(--muted);
+  text-decoration: none;
 }
 
-.dark .post-body :deep(p) {
-    color: var(--color-neutral-300);
+.back:hover {
+  color: var(--accent);
 }
 
-.post-body :deep(ul),
-.post-body :deep(ol) {
-    margin-bottom: 1.25rem;
-    padding-left: 1.5rem;
-    color: var(--color-neutral-600);
+.title {
+  font-size: var(--h1-page);
+  line-height: 1.05;
 }
 
-.dark .post-body :deep(ul),
-.dark .post-body :deep(ol) {
-    color: var(--color-neutral-300);
+.lead {
+  font-size: 18px;
+  line-height: 1.5;
+  color: var(--muted);
 }
 
-.post-body :deep(ul) { list-style: disc; }
-.post-body :deep(ol) { list-style: decimal; }
-
-.post-body :deep(li) {
-    margin-bottom: 0.5rem;
-    line-height: 1.7;
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 4px 0 0;
+  padding: 0;
+  list-style: none;
 }
 
-.post-body :deep(a) {
-    color: var(--color-primary-600);
-    text-decoration: underline;
-    text-underline-offset: 2px;
+/* These chips sit on the page, not in a card, where --chip-bg equals the day background */
+.tags .chip {
+  background: var(--raised);
 }
 
-.dark .post-body :deep(a) {
-    color: var(--color-primary-400);
+.cover {
+  display: block;
+  width: calc(100% - var(--gutter) * 2);
+  height: auto;
+  margin: 28px var(--gutter) 0;
+  object-fit: cover;
+  border-radius: var(--r-stage);
 }
 
-.post-body :deep(pre) {
-    background: var(--color-neutral-950);
-    color: var(--color-neutral-100);
-    border-radius: 0.75rem;
-    padding: 1rem 1.25rem;
-    overflow-x: auto;
-    margin-bottom: 1.25rem;
-    font-size: 0.875rem;
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 220px;
+  gap: 48px;
+  align-items: start;
 }
 
-.post-body :deep(:not(pre) > code) {
-    background: var(--color-neutral-100);
-    border-radius: 0.375rem;
-    padding: 0.125rem 0.375rem;
-    font-size: 0.875em;
+.body {
+  max-width: 720px;
 }
 
-.dark .post-body :deep(:not(pre) > code) {
-    background: color-mix(in srgb, white 10%, transparent);
+.body :deep(h2) {
+  scroll-margin-top: calc(var(--header-h) + 16px);
 }
 
-.post-body :deep(hr) {
-    border-color: var(--color-neutral-200);
-    margin: 2.5rem 0;
+.aside {
+  position: sticky;
+  top: calc(var(--header-h) + 16px);
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
 }
 
-.dark .post-body :deep(hr) {
-    border-color: var(--color-neutral-800);
+.aside p {
+  margin: 0 0 10px;
 }
 
-.post-body :deep(blockquote) {
-    border-left: 3px solid var(--color-primary-500);
-    padding-left: 1rem;
-    font-style: italic;
-    margin-bottom: 1.25rem;
+.toc ul {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.toc a {
+  font-size: 14px;
+  line-height: 1.35;
+  color: var(--muted);
+  text-decoration: none;
+}
+
+.toc a:hover {
+  color: var(--accent);
+}
+
+.share {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.share p {
+  flex-basis: 100%;
+}
+
+.share .pill {
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.siblings {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.sibling {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 20px 24px;
+  color: var(--text);
+  text-decoration: none;
+}
+
+.sibling:hover {
+  border-color: color-mix(in oklab, var(--accent) 40%, var(--border));
+}
+
+.sibling--next {
+  grid-column: 2;
+  text-align: right;
+}
+
+.sibling-title {
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+@media (max-width: 1023px) {
+  .layout {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 32px;
+  }
+
+  .aside {
+    position: static;
+  }
+}
+
+@media (max-width: 767px) {
+  .siblings {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .sibling--next {
+    grid-column: 1;
+    text-align: left;
+  }
 }
 </style>

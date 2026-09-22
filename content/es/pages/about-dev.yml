@@ -1,0 +1,12 @@
+title: Sobre mí
+description: "Desarrollador de Santo Domingo: qué construyo, con qué stack y dónde he trabajado y estudiado."
+eyebrow: Sobre mí · Día
+sections:
+  stack:
+    title: Stack
+  experience:
+    eyebrow: Experiencia
+    title: Dónde he trabajado y estudiado
+  now:
+    eyebrow: Ahora
+    cta: Escríbeme

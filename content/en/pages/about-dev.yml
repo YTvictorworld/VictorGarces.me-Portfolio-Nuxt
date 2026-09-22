@@ -1,0 +1,12 @@
+title: About
+description: "Developer from Santo Domingo: what I build, the stack I use and where I have worked and studied."
+eyebrow: About · Day
+sections:
+  stack:
+    title: Stack
+  experience:
+    eyebrow: Experience
+    title: Where I have worked and studied
+  now:
+    eyebrow: Now
+    cta: Say hello

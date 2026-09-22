@@ -38,7 +38,9 @@
     "unavailable": "No disponible por el momento"
   },
   "about": {
-    "eyebrow": "Quién soy"
+    "eyebrow": "Quién soy",
+    "downloadCv": "Descargar CV",
+    "stack": "Stack"
   },
   "experience": {
     "eyebrow": "Trayectoria"
@@ -65,23 +67,9 @@
       "ai": "IA",
       "development": "Desarrollo",
       "machine-learning": "Machine learning",
-      "talks": "Charlas"
+      "talks": "Charlas",
+      "film": "Cine"
     }
-  },
-  "contact": {
-    "eyebrow": "Contacto",
-    "title": "Trabajemos juntos",
-    "intro": "¿Tienes un proyecto en mente, como una web, un video o una sesión de fotos? Cuéntame. Suelo responder en menos de 24 horas.",
-    "emailMe": "Escríbeme un correo",
-    "writeMe": "Escribir",
-    "copy": "Copiar dirección",
-    "copied": "¡Copiado!",
-    "copyAria": "Copiar dirección de correo",
-    "copiedAria": "Correo copiado",
-    "linkedinDesc": "Ideal para oportunidades laborales y consultas profesionales.",
-    "githubDesc": "Mi código, proyectos y actividad open-source.",
-    "instagramDesc": "Fotografía, filmmaking y detrás de cámaras.",
-    "location": "Santo Domingo, República Dominicana · Trabajo con clientes de todo el mundo"
   },
   "bag": {
     "eyebrow": "Equipo",
@@ -141,5 +129,94 @@
       "archived": "archivado"
     },
     "caseStudy": "Caso de estudio"
+  },
+  "filters": {
+    "all": "Todo",
+    "label": "Filtrar por tipo",
+    "series": "Filtrar por serie",
+    "tag": "Filtrar por etiqueta"
+  },
+  "kind": {
+    "web-app": "Aplicaciones web",
+    "infra": "Infraestructura",
+    "client": "Clientes",
+    "experiment": "Experimentos",
+    "archive": "Archivo",
+    "short": "Cortometrajes",
+    "reel": "Reels",
+    "vertical": "Vertical"
+  },
+  "page": {
+    "backToWork": "Todos los proyectos",
+    "backToFilms": "Todas las películas",
+    "backToPosts": "Todos los artículos",
+    "results": "{n} de {total}",
+    "empty": "Todavía no hay nada aquí.",
+    "role": "Rol",
+    "year": "Año",
+    "status": "Estado",
+    "stack": "Stack",
+    "links": "Enlaces",
+    "decisions": "Decisiones",
+    "gallery": "Galería",
+    "next": "Siguiente",
+    "nextProject": "Siguiente proyecto",
+    "previous": "Anterior",
+    "onThisPage": "En esta página",
+    "share": "Compartir",
+    "copyLink": "Copiar enlace",
+    "linkCopied": "Enlace copiado",
+    "credits": "Créditos",
+    "stills": "Fotogramas",
+    "runtime": "Duración",
+    "openPhoto": "Abrir la foto {n} de {total}",
+    "closeLightbox": "Cerrar",
+    "previousPhoto": "Foto anterior",
+    "nextPhoto": "Foto siguiente",
+    "photoOf": "Foto {n} de {total}",
+    "search": "Buscar",
+    "minRead": "{min} min",
+    "openPhotoNamed": "Abrir foto {n} de {total}: {alt}"
+  },
+  "form": {
+    "topic": "Tema",
+    "name": "Nombre",
+    "namePlaceholder": "Tu nombre",
+    "email": "Correo",
+    "emailPlaceholder": "tu{'@'}ejemplo.com",
+    "budget": "Presupuesto",
+    "budgetPlaceholder": "Elige una opción",
+    "timeline": "Plazo",
+    "timelinePlaceholder": "Para cuándo lo necesitas",
+    "date": "Fecha",
+    "datePlaceholder": "Cuándo es",
+    "place": "Lugar",
+    "placePlaceholder": "Dónde es",
+    "message": "Mensaje",
+    "messagePlaceholder": "Qué es, para quién y qué existe ya",
+    "send": "Enviar",
+    "sending": "Enviando…",
+    "success": "Gracias. Tu mensaje va en camino; suelo responder en menos de 24 horas.",
+    "error": "Algo salió mal. Escríbeme a {email}.",
+    "required": "Este campo es obligatorio",
+    "invalidEmail": "Escribe un correo válido",
+    "consent": "Lo que envías llega a mi correo a través de Web3Forms y solo se usa para responderte.",
+    "emailFallback": "Abrir tu app de correo"
+  },
+  "cross": {
+    "toFilm": {
+      "title": "¿Buscas el lado cineasta?",
+      "lead": "Los cortos y la fotografía viven en el modo noche.",
+      "cta": "Cambiar a cineasta"
+    },
+    "toDev": {
+      "title": "¿Buscas el lado desarrollador?",
+      "lead": "Los casos de estudio, el código y el blog viven en el modo día.",
+      "cta": "Cambiar a desarrollador"
+    }
+  },
+  "cta": {
+    "similar": "¿Estás construyendo algo parecido?",
+    "shoot": "¿Estás planeando una sesión?"
   }
 }

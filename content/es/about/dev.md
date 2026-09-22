@@ -3,6 +3,7 @@ title: Sobre mí
 mode: dev
 headline: Estudiante de Ingeniería de Software de noche, desarrollador freelance de día, cineasta los fines de semana.
 teaser: Soy un desarrollador de Santo Domingo que cubre todo el stack, de la interfaz a la infraestructura. Detrás del código también hay una cámara.
+now: "Estudiando Ingeniería de Software en UNAPEC, construyendo Ada System y disponible para trabajo freelance de front-end y full-stack."
 portrait:
   src: /media/portrait.jpg
   alt: Víctor Garcés de noche en Times Square, Nueva York
