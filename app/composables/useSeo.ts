@@ -39,8 +39,7 @@ export function useSeo(input: SeoInput) {
     ogType: input.type ?? 'website',
     ...input.meta
   })
-
-  defineOgImageComponent(isNight ? 'OgNight' : 'OgDay', {
+  defineOgImage(isNight ? 'OgNight' : 'OgDay', {
     title: input.cardTitle ?? input.title,
     description: input.description ?? t(isNight ? 'og.film.lead' : 'og.dev.lead'),
     eyebrow: t(isNight ? 'og.film.eyebrow' : 'og.dev.eyebrow')

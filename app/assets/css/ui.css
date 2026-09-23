@@ -98,6 +98,12 @@
     color: var(--muted);
   }
 
+  /* The page region between header and footer */
+  .main {
+    min-height: 100vh;
+    outline: none;
+  }
+
   /* A home or index section: gutters from the tokens, top padding from --section */
   .section {
     padding: var(--section) var(--gutter) 0;

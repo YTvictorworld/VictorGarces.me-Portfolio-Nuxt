@@ -93,10 +93,17 @@ Found in the audit (`docs/AUDIT.md`, ids in brackets). Where they conflict with 
 - Gotcha found: `nuxt-og-image` v6 refuses any component without a renderer suffix, so the files are `OgDay.satori.vue` / `OgNight.satori.vue`, and `satori` itself must be an explicit dependency (the module only warns at build time). Satori resolves no CSS custom properties and has no grid, so those two components are the one place literal hex and flexbox are correct.
 - Gotcha found: a newly added composable fails `pnpm generate`'s typecheck with "Cannot find name" until `pnpm typecheck` has run once on its own; the generate flow typechecks against a stale snapshot. Run `pnpm typecheck` first after adding one.
 
-## M7 · Motion
-- GSAP for scroll-linked and timeline motion (lazy chunk, registered on demand, never in the entry). Mode transition polish, card hovers, More tile fan, FAQ height animation, testimonial crossfade.
-- Update the blog post line that says every animation is hand-rolled (both locales).
+## M7 · Motion and the bundle cut (done)
+- ~~GSAP for scroll-linked and timeline motion~~ **Owner decision (2026-09-23): no GSAP yet.** Every effect this milestone listed already exists, hand-rolled: the FAQ answer animates with the grid-rows `0fr → 1fr` trick (`Faq/Item.vue`), the testimonial cross-fades with a Vue transition (`Testimonials/Single.vue`), card hovers and the More tile are CSS transforms, and the mode change uses the View Transitions API. Adding a 45 KiB library for effects CSS already does would also have made a published blog post false. GSAP stays installed but unused until the M10 heroes need genuine scroll-linked scrubbing.
+- ~~Update the blog post line that says every animation is hand-rolled~~ **Not needed.** It is still true, in both locales.
+- **The cut that this milestone was really for.** Only three Nuxt UI components were still in use (`UApp`, `USlideover`, one `UIcon` twice) while its stylesheet shipped 247 KiB in which 500 of 526 selectors never matched anything on the site. Nuxt UI is gone: `USlideover` is now a native `<dialog>` (the `Media/Lightbox` pattern), `UIcon` is inline SVG, `UApp` and `UContainer` were doing nothing, Tailwind is wired directly through `@tailwindcss/vite`, `@nuxt/fonts` is its own module, `@nuxt/icon` is not needed at all, and the `--ui-*` bridge in `tokens.css` went with it. `/bag` was rewritten on the token system: it was the last page on the old Tailwind-palette styling, and the only reason that bridge still had a consumer. `app.config.ts` and the unused `AppImage.vue` were deleted.
 - Check: GSAP is not in the entry chunk; reduced motion disables every non-essential animation.
+- Result, measured on `/dev`:
+  - **CSS 254.9 KiB raw / 35.6 KiB gz → 29.9 KiB raw / 8.8 KiB gz** (−88% raw, −75% gz) on the render-blocking path.
+  - **JS 229.0 KiB gz over 51 chunks → 145.3 KiB gz over 28.** That is 55 KiB under the handoff's "initial JS under 200 KB gzipped" budget, which M0 had recorded as already exhausted at 244 KiB.
+  - Reduced motion verified in the browser: every transition drops to 0.01 ms and no element keeps one longer than 50 ms, while the content stays visible. Without it, cards animate at 0.24 s as designed.
+  - Fonts, both modes, the rewritten `/bag`, and the new dialog menu (opens, traps focus, closes on Esc, correct links per mode) all check out. Still zero third-party requests, zero failed requests, zero console errors.
+- Owner decision (2026-09-23) that moves M10: **the heroes are SVG, not 3D.** The handoff's TresJS/three approach is dropped, and with it the `three + TresJS under 200 KB` problem the audit flagged as unachievable. M10 builds scroll-linked SVG motion instead, with references gathered first. Whether that needs GSAP or CSS scroll-driven animations is decided there.
 
 ## M8 · Media pipeline hookup
 - `scripts/media-pull.ts`, `pnpm media:pull` in the generate script, CSP meta for `media.victorgarces.me`, real manifest.
@@ -105,9 +112,25 @@ Found in the audit (`docs/AUDIT.md`, ids in brackets). Where they conflict with 
 ## M9 · Release
 - Sentry (optional, only if DSN set), CV PDF in `public/`, redirects for changed slugs, final Lighthouse and axe pass, MX records for `hello@victorgarces.me` confirmed, merge to `master` (deploys through Actions).
 
-## M10 · 3D heroes
-- `Hero/PageExploded` with the GLB (or the PNG until it arrives), GSAP ScrollTrigger scrub, hover tilt, reduced-motion path. `Hero/MoonStage` procedural. Add @tresjs/nuxt + @tresjs/cientos (or plain three).
-- Check: 3D code in lazy chunks only, within the 3D budget; CPU idle under 5 % with the hero at rest; reduced motion disables scrub and tilt.
+## M10 · Animated heroes (SVG, not 3D)
+**Owner decision (2026-09-23): the handoff's 3D is dropped.** No GLB, no three, no @tresjs/*. The
+owner did not like the Claude Design 3D, and the audit had already shown its budget was
+unachievable (`three` + TresJS is ~207 to 217 KiB gz against a 200 KiB ceiling, because
+`@tresjs/core` does `import * as THREE` and `extend(THREE)`, which defeats tree-shaking). Both
+`gltf-optimize-breaks-contract` and `tresjs-3d-budget` in `docs/AUDIT.md` are therefore moot.
+
+Instead: **scroll-linked SVG heroes**, hand-built.
+- Gather references first for a scroll-linked effect the owner likes (his example: something that
+  leaves or resolves as the page scrolls up). Agree the idea before building it.
+- Day (`Hero/PageExploded`) and night (`Hero/MoonStage`) keep their names and their slots; only
+  the technique changes. Both already render a static fallback today, so there is a floor.
+- Decide the mechanism with numbers: CSS scroll-driven animations (`animation-timeline: view()`,
+  zero JS, but no Firefox support yet, so it must degrade to the static fallback) versus GSAP
+  ScrollTrigger (~45 KiB gz, works everywhere, must stay in a lazy chunk). GSAP is already in
+  `package.json` and unused; this is where it earns its place or gets removed.
+- Check: the hero code is in a lazy chunk only; CPU idle under 5 % at rest; `prefers-reduced-motion`
+  disables the scrub and renders the static frame; the blog post line about hand-rolled animation
+  is revisited if a library lands.
 
 ## Technical checklist (from the brief) → milestone
 privacy M5 · media compression M8 (pipeline) + M2/M4 (@nuxt/image) · terms M5 · sitemap.xml M6 · meta titles M6 · real contact M4 · cookie notice M5 · alt on images M2 · custom 404 M5 · mobile breakpoints M3 · analytics M6 · favicon M6 · Open Graph M6 · reduced motion M7 · JSON-LD M6 · RSS M6 · CV M9 · Sentry M9 · 3D M10.

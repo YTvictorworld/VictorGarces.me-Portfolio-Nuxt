@@ -1,88 +1,141 @@
 <script setup lang="ts">
-const { t, locale } = useI18n()
+definePageMeta({ fullBleed: true })
 
-const bagCollection = (locale.value === 'es' ? 'bag_es' : 'bag_en') as 'bag_en'
-const { data: page } = await useAsyncData(`bag-page-${locale.value}`, () =>
-  queryCollection(bagCollection).first()
-)
+const { t, locale } = useI18n()
+const { collection } = useLocalizedContent()
+
+const { data: page } = await useAsyncData(`bag-${locale.value}`, () =>
+  queryCollection(collection('bag')).first())
 
 if (!page.value) {
-  throw createError({
-    statusCode: 404,
-    statusMessage: 'Page not found',
-    fatal: true
-  })
+  throw createError({ statusCode: 404, statusMessage: 'Page not found', fatal: true })
 }
 
 useSeo({ title: t('bag.title'), description: t('bag.description') })
 </script>
 
 <template>
-  <div class="pt-12 pb-20 px-4 sm:px-6 lg:px-8">
-    <div class="max-w-3xl mx-auto">
-      <Reveal
-        immediate
-        :duration="600"
-      >
-        <p class="font-mono text-xs uppercase tracking-[0.25em] text-primary-600 dark:text-primary-400 mb-3">
-          {{ $t('bag.eyebrow') }}
-        </p>
-        <h1 class="text-4xl sm:text-5xl font-bold tracking-tight text-neutral-900 dark:text-white mb-6">
-          {{ $t('bag.title') }}
-        </h1>
-        <p class="text-xl text-neutral-600 dark:text-neutral-300 mb-12 text-pretty">
-          {{ $t('bag.description') }}
-        </p>
-      </Reveal>
+  <div v-if="page">
+    <PageTitle
+      :eyebrow="t('bag.eyebrow')"
+      :title="t('bag.title')"
+      :lead="t('bag.description')"
+    />
 
-      <div class="space-y-12">
-        <Reveal
-          v-for="(category, index) in page?.categories"
-          :key="category.title"
-          :delay="index * 100"
-          :duration="600"
+    <section
+      v-for="category in page.categories"
+      :key="category.title"
+      class="section"
+      :aria-labelledby="`bag-${category.title}`"
+    >
+      <h2
+        :id="`bag-${category.title}`"
+        class="h2"
+      >
+        {{ category.title }}
+      </h2>
+      <ul class="items">
+        <li
+          v-for="item in category.items"
+          :key="item.title"
         >
-          <section>
-            <h2 class="text-2xl font-bold tracking-tight mb-6">
-              {{ category.title }}
-            </h2>
-            <ul class="space-y-4">
-              <li
-                v-for="item in category.items"
-                :key="item.title"
+          <component
+            :is="item.url ? 'a' : 'div'"
+            class="card item"
+            :class="{ linked: item.url }"
+            :href="item.url"
+            :target="item.url ? '_blank' : undefined"
+            :rel="item.url ? 'noopener' : undefined"
+          >
+            <div class="text">
+              <p class="item-title">
+                {{ item.title }}
+              </p>
+              <p
+                v-if="item.description"
+                class="item-note"
               >
-                <component
-                  :is="item.url ? 'a' : 'div'"
-                  :href="item.url"
-                  :target="item.url ? '_blank' : undefined"
-                  :rel="item.url ? 'noopener noreferrer' : undefined"
-                  class="group flex items-start gap-4 p-4 rounded-xl border border-neutral-200 dark:border-neutral-800 hover:border-primary-300 dark:hover:border-primary-800 hover:shadow-md transition-all duration-300"
-                >
-                  <div class="flex-1">
-                    <p
-                      class="font-semibold text-neutral-900 dark:text-white group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors"
-                    >
-                      {{ item.title }}
-                    </p>
-                    <p
-                      v-if="item.description"
-                      class="text-sm text-neutral-600 dark:text-neutral-400 mt-1"
-                    >
-                      {{ item.description }}
-                    </p>
-                  </div>
-                  <UIcon
-                    v-if="item.url"
-                    name="i-lucide-arrow-up-right"
-                    class="size-4 text-neutral-400 group-hover:text-primary-500 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all mt-1"
-                    aria-hidden="true"
-                  />
-                </component>
-              </li>
-            </ul>
-          </section>
-        </Reveal>
-      </div>
-    </div>
+                {{ item.description }}
+              </p>
+            </div>
+            <svg
+              v-if="item.url"
+              class="arrow"
+              width="14"
+              height="14"
+              viewBox="0 0 14 14"
+              aria-hidden="true"
+            ><path
+              d="M4 10L10 4M10 4H5M10 4V9"
+              stroke="currentColor"
+              stroke-width="1.6"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            /></svg>
+          </component>
+        </li>
+      </ul>
+    </section>
   </div>
 </template>
+
+<style scoped>
+.items {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin: 20px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.item {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  height: 100%;
+  padding: 18px 20px;
+  color: var(--text);
+  text-decoration: none;
+}
+
+.linked:hover {
+  border-color: color-mix(in oklab, var(--accent) 40%, var(--border));
+}
+
+.text {
+  min-width: 0;
+}
+
+.item-title {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.item-note {
+  margin: 6px 0 0;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--muted);
+}
+
+.arrow {
+  flex-shrink: 0;
+  margin-top: 2px;
+  color: var(--muted);
+  transition: transform var(--t-micro) var(--ease-out), color var(--t-micro) var(--ease-out);
+}
+
+.linked:hover .arrow {
+  color: var(--accent);
+  transform: translate(2px, -2px);
+}
+
+@media (max-width: 767px) {
+  .items {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+</style>

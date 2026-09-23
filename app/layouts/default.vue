@@ -1,9 +1,6 @@
 <script setup lang="ts">
 const { t } = useI18n()
 const { announcement } = useMode()
-const route = useRoute()
-// One NuxtPage for both layouts, so the page transition still plays across the boundary
-const UContainer = resolveComponent('UContainer')
 </script>
 
 <template>
@@ -16,16 +13,11 @@ const UContainer = resolveComponent('UContainer')
     <main
       id="main"
       tabindex="-1"
-      class="min-h-screen outline-none"
+      class="main"
     >
-      <!-- Rebuilt pages set `fullBleed` and lay themselves out with the --gutter tokens.
-           Only /bag still relies on the old container. -->
-      <component
-        :is="route.meta.fullBleed ? 'div' : UContainer"
-        :class="route.meta.fullBleed ? undefined : 'max-w-6xl mx-auto px-4 sm:px-6 lg:px-8'"
-      >
-        <NuxtPage />
-      </component>
+      <!-- Every page now lays itself out with the --gutter tokens, so there is no container.
+           One NuxtPage for both layouts, so the page transition plays across the boundary. -->
+      <NuxtPage />
     </main>
     <ShellFooter />
     <ShellMobileModePill />

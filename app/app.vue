@@ -1,9 +1,5 @@
 <script setup lang="ts">
-import { en, es } from '@nuxt/ui/locale'
-
 const { locale } = useI18n()
-// Nuxt UI's own strings (close buttons, carousel controls) follow the site language
-const uiLocale = computed(() => locale.value === 'es' ? es : en)
 const { mode } = useMode()
 const { showPlaceholders } = useRuntimeConfig().public
 
@@ -64,8 +60,8 @@ useSeoMeta({
 </script>
 
 <template>
-  <UApp :locale="uiLocale">
+  <div>
     <NuxtRouteAnnouncer />
     <NuxtLayout />
-  </UApp>
+  </div>
 </template>

@@ -11,8 +11,18 @@ const { styles } = useFixedHeader(headerRef)
 const siteName = SITE_NAME
 
 const menuOpen = ref(false)
+const menuDialog = ref<HTMLDialogElement | null>(null)
+
 watch(() => route.fullPath, () => {
   menuOpen.value = false
+})
+
+// showModal/close are imperative, so the ref drives the element rather than a prop
+watch(menuOpen, (open) => {
+  const dialog = menuDialog.value
+  if (!dialog) return
+  if (open && !dialog.open) dialog.showModal()
+  if (!open && dialog.open) dialog.close()
 })
 </script>
 
@@ -101,37 +111,61 @@ watch(() => route.fullPath, () => {
       </div>
     </div>
 
-    <USlideover
-      v-model:open="menuOpen"
-      side="right"
-      :title="t('nav.menu')"
+    <!-- A native dialog gives the focus trap, Esc and the backdrop for free, the same way the
+         lightbox does. It replaces USlideover, which was the last reason to ship Nuxt UI. -->
+    <dialog
+      ref="menuDialog"
+      class="menu"
+      :aria-label="t('nav.menu')"
+      @close="menuOpen = false"
     >
-      <template #body>
-        <nav :aria-label="t('nav.main')">
-          <ul
-            v-for="(items, key) in { day, night }"
-            :key="key"
-            class="menu-list"
-            :class="key === 'day' ? 'day-only' : 'night-only'"
+      <div class="menu-head">
+        <p class="eyebrow">
+          {{ t('nav.menu') }}
+        </p>
+        <button
+          type="button"
+          class="menu-close"
+          :aria-label="t('page.closeLightbox')"
+          @click="menuOpen = false"
+        >
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 16 16"
+            aria-hidden="true"
+          ><path
+            d="M3 3l10 10M13 3L3 13"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+          /></svg>
+        </button>
+      </div>
+      <nav :aria-label="t('nav.main')">
+        <ul
+          v-for="(items, key) in { day, night }"
+          :key="key"
+          class="menu-list"
+          :class="key === 'day' ? 'day-only' : 'night-only'"
+        >
+          <li
+            v-for="item in items"
+            :key="item.path"
           >
-            <li
-              v-for="item in items"
-              :key="item.path"
+            <NuxtLink
+              :to="item.to"
+              class="menu-link"
+              :class="{ active: isActive(item) }"
+              :aria-current="isActive(item) ? 'page' : undefined"
+              @click="menuOpen = false"
             >
-              <NuxtLink
-                :to="item.to"
-                class="menu-link"
-                :class="{ active: isActive(item) }"
-                :aria-current="isActive(item) ? 'page' : undefined"
-                @click="menuOpen = false"
-              >
-                {{ item.label }}
-              </NuxtLink>
-            </li>
-          </ul>
-        </nav>
-      </template>
-    </USlideover>
+              {{ item.label }}
+            </NuxtLink>
+          </li>
+        </ul>
+      </nav>
+    </dialog>
   </header>
 </template>
 
@@ -243,6 +277,49 @@ watch(() => route.fullPath, () => {
 
 [data-mode='night'] .menu-button {
   background: transparent;
+}
+
+/* Slides in from the right, like the panel it replaces */
+.menu {
+  width: min(360px, 86vw);
+  max-width: none;
+  height: 100%;
+  max-height: none;
+  margin: 0 0 0 auto;
+  padding: 24px var(--gutter);
+  color: var(--text);
+  background: var(--bg);
+  border: 0;
+  border-left: 1px solid var(--border);
+}
+
+.menu::backdrop {
+  background: rgb(0 0 0 / 45%);
+}
+
+.menu-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 12px;
+}
+
+.menu-head p {
+  margin: 0;
+}
+
+.menu-close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  color: var(--text);
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  cursor: pointer;
 }
 
 .menu-list {

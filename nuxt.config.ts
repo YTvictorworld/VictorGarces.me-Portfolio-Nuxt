@@ -1,6 +1,7 @@
 import { existsSync, readdirSync, readFileSync } from 'node:fs'
 import { checkManifest, manifestSchema, validateContentFile, type MediaManifest } from './content.schemas'
 import { MODE_PREPAINT_SCRIPT } from './app/utils/mode'
+import tailwindcss from '@tailwindcss/vite'
 
 const production = process.env.NODE_ENV === 'production'
 const MANIFEST_FILE = new URL('./content/media/manifest.json', import.meta.url)
@@ -69,7 +70,7 @@ function checkLocaleParity() {
 export default defineNuxtConfig({
   modules: [
     '@nuxt/eslint',
-    '@nuxt/ui',
+    '@nuxt/fonts',
     '@nuxt/content',
     '@nuxt/image',
     '@nuxt/scripts',
@@ -120,11 +121,6 @@ export default defineNuxtConfig({
     name: 'Víctor Garcés'
   },
 
-  // Mode is data-mode on <html> (useMode); Nuxt UI's own color mode would follow the OS instead
-  ui: {
-    colorMode: false
-  },
-
   runtimeConfig: {
     public: {
       // Dashed outline + chip on data-driven areas; on in dev, off in production builds
@@ -157,6 +153,11 @@ export default defineNuxtConfig({
       // routes: the crawler only follows extensionless and .json links, so they are listed too.
       routes: ['/bag', '/es/bag', '/rss.xml', '/es/rss.xml']
     }
+  },
+
+  // Tailwind came bundled with Nuxt UI; it is wired directly now that Nuxt UI is gone
+  vite: {
+    plugins: [tailwindcss()]
   },
 
   typescript: {
@@ -232,13 +233,6 @@ export default defineNuxtConfig({
       { code: 'en', language: 'en-US', name: 'English', file: 'en.json' },
       { code: 'es', language: 'es-DO', name: 'Español', file: 'es.json' }
     ]
-  },
-
-  // Icons are bundled at build time. Without this, an icon the scanner cannot see statically
-  // would be fetched from api.iconify.design at runtime: a third-party request on a site that
-  // promises none. A missing icon should render nothing instead.
-  icon: {
-    fallbackToApi: false
   },
 
   // Rendered at build time by Satori from app/components/OgImage/*.satori.vue (v6 requires that

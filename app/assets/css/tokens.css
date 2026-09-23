@@ -124,55 +124,10 @@
   :root, [data-mode='day'], [data-mode='night'] { --t-micro: 0ms; --t-card: 0ms; --t-page: 0ms; --t-mode: 150ms; }
 }
 
-/* --- Bridge: Nuxt UI primitives and Tailwind palettes follow the tokens ---
-   Nuxt UI declares these in cascade layers; unlayered declarations here win.
-   `neutral-*` runs from --scale-light (50) to --scale-dark (950) in both modes, so the
-   `dark:` variants (the .dark class follows night) keep their meaning. */
+/* Tailwind reads the body face from here; everything else comes from the tokens above. */
 :root,
 [data-mode] {
   --font-sans: var(--font-body);
-
-  --ui-bg: var(--bg);
-  --ui-bg-muted: var(--surface);
-  --ui-bg-elevated: var(--surface);
-  --ui-bg-accented: var(--track);
-  --ui-bg-inverted: var(--text);
-  --ui-text: var(--text);
-  --ui-text-highlighted: var(--text);
-  --ui-text-toned: var(--text);
-  --ui-text-muted: var(--muted);
-  --ui-text-dimmed: var(--muted);
-  --ui-text-inverted: var(--bg);
-  --ui-border: var(--border);
-  --ui-border-muted: var(--border);
-  --ui-border-accented: color-mix(in oklab, var(--text) 22%, var(--bg));
-  --ui-border-inverted: var(--text);
-  --ui-primary: var(--accent);
-
-  --ui-color-neutral-50: color-mix(in oklab, var(--scale-dark) 2%, var(--scale-light));
-  --ui-color-neutral-100: color-mix(in oklab, var(--scale-dark) 4%, var(--scale-light));
-  --ui-color-neutral-200: color-mix(in oklab, var(--scale-dark) 9%, var(--scale-light));
-  --ui-color-neutral-300: color-mix(in oklab, var(--scale-dark) 16%, var(--scale-light));
-  --ui-color-neutral-400: color-mix(in oklab, var(--scale-dark) 35%, var(--scale-light));
-  /* 500 is body-copy grey: 60% keeps it above 4.5:1 on the day --bg */
-  --ui-color-neutral-500: color-mix(in oklab, var(--scale-dark) 60%, var(--scale-light));
-  --ui-color-neutral-600: color-mix(in oklab, var(--scale-dark) 70%, var(--scale-light));
-  --ui-color-neutral-700: color-mix(in oklab, var(--scale-dark) 78%, var(--scale-light));
-  --ui-color-neutral-800: color-mix(in oklab, var(--scale-dark) 87%, var(--scale-light));
-  --ui-color-neutral-900: color-mix(in oklab, var(--scale-dark) 94%, var(--scale-light));
-  --ui-color-neutral-950: var(--scale-dark);
-
-  --ui-color-primary-50: color-mix(in oklab, var(--accent) 10%, var(--scale-light));
-  --ui-color-primary-100: color-mix(in oklab, var(--accent) 18%, var(--scale-light));
-  --ui-color-primary-200: color-mix(in oklab, var(--accent) 32%, var(--scale-light));
-  --ui-color-primary-300: color-mix(in oklab, var(--accent) 52%, var(--scale-light));
-  --ui-color-primary-400: color-mix(in oklab, var(--accent) 76%, var(--scale-light));
-  --ui-color-primary-500: var(--accent);
-  --ui-color-primary-600: color-mix(in oklab, var(--accent) 85%, var(--scale-dark));
-  --ui-color-primary-700: color-mix(in oklab, var(--accent) 70%, var(--scale-dark));
-  --ui-color-primary-800: color-mix(in oklab, var(--accent) 55%, var(--scale-dark));
-  --ui-color-primary-900: color-mix(in oklab, var(--accent) 42%, var(--scale-dark));
-  --ui-color-primary-950: color-mix(in oklab, var(--accent) 30%, var(--scale-dark));
 }
 
 html { background: var(--bg); color: var(--text); font-family: var(--font-body); }
