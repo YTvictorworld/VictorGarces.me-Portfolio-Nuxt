@@ -11,6 +11,9 @@ import { encode } from 'blurhash'
 
 const ROOT = path.resolve(import.meta.dirname, '..')
 const CACHE = path.join(ROOT, 'node_modules/.cache/media-ingest')
+// Originals dropped by hand live here, untracked. A photo entry uses either `file` (a name in
+// this folder) or `source` (the Behance path the first seven came from).
+const INCOMING = path.join(ROOT, 'media-src')
 const OUT = path.join(ROOT, 'public/media/photos')
 const MANIFEST = path.join(ROOT, 'content/media/manifest.json')
 const WIDTHS = [480, 960, 1440, 2048]
@@ -66,11 +69,16 @@ const videos = {
   'reel-2026': { title: 'Reel 2026', duration: 90, aspect: '16:9', status: 'pending' }
 }
 
-async function download(source) {
-  const file = path.join(CACHE, source.replace('/', '__'))
+async function resolveSource(photo) {
+  if (photo.file) {
+    const file = path.join(INCOMING, photo.file)
+    if (!fs.existsSync(file)) throw new Error(`${photo.id}: media-src/${photo.file} not found`)
+    return file
+  }
+  const file = path.join(CACHE, photo.source.replace('/', '__'))
   if (!fs.existsSync(file)) {
-    const response = await fetch(BEHANCE + source)
-    if (!response.ok) throw new Error(`${source}: HTTP ${response.status}`)
+    const response = await fetch(BEHANCE + photo.source)
+    if (!response.ok) throw new Error(`${photo.source}: HTTP ${response.status}`)
     fs.writeFileSync(file, Buffer.from(await response.arrayBuffer()))
   }
   return file
@@ -88,7 +96,7 @@ fs.mkdirSync(path.dirname(MANIFEST), { recursive: true })
 const manifest = { version: 1, base: '/media', photos: {}, videos, series: {} }
 
 for (const photo of photos) {
-  const file = await download(photo.source)
+  const file = await resolveSource(photo)
   const { width, height } = await sharp(file).metadata()
   // Standard widths the source can fill, plus the source width itself when it sits between them
   const sizes = WIDTHS.filter(w => w <= width)

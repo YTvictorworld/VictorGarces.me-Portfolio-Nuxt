@@ -3,6 +3,11 @@ title: About
 mode: film
 headline: Writer, director and the person holding the camera, most of the time.
 teaser: Short films and event photography from Santo Domingo. Small crews, one camera, a lot of natural light.
+portrait:
+  src: /media/portrait-film.jpg
+  alt: Víctor Garcés checking the screen of his camera with a telephoto lens, in an auditorium lit blue
+  width: 1200
+  height: 1600
 kit:
   - label: Camera
     value: Sony a7III

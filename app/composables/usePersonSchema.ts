@@ -19,7 +19,7 @@ export function usePersonSchema(profile: MaybeRefOrGetter<Profile | null | undef
       url: SITE_URL,
       email: person.value?.email,
       jobTitle,
-      image: `${SITE_URL}/media/portrait.jpg`,
+      image: `${SITE_URL}/media/portrait-dev.jpg`,
       sameAs: (person.value?.socials ?? []).map(social => social.href)
     })
   ])

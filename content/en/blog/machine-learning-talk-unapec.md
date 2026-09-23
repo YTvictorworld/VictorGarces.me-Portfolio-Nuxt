@@ -15,7 +15,7 @@ author:
   username: YTvictorworld
   twitter: https://twitter.com/YTvictorworld
   avatar:
-    src: /media/portrait.jpg
+    src: /media/portrait-dev.jpg
     alt: Víctor Garcés
 ---
 

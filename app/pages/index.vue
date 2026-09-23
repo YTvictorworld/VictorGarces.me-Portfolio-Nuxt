@@ -38,7 +38,7 @@ useHead({
       '@type': 'Person',
       'name': SITE_NAME,
       'url': SITE_URL,
-      'image': `${SITE_URL}/media/portrait.jpg`,
+      'image': `${SITE_URL}/media/portrait-dev.jpg`,
       'jobTitle': t('landing.heading').replace(`${SITE_NAME}, `, ''),
       'email': profile.value ? `mailto:${profile.value.email}` : undefined,
       'address': { '@type': 'PostalAddress', 'addressLocality': 'Santo Domingo', 'addressCountry': 'DO' },

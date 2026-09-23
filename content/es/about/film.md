@@ -3,6 +3,11 @@ title: Sobre mí
 mode: film
 headline: Guionista, director y, casi siempre, quien sostiene la cámara.
 teaser: Cortometrajes y fotografía de eventos desde Santo Domingo. Equipos pequeños, una cámara y mucha luz natural.
+portrait:
+  src: /media/portrait-film.jpg
+  alt: Víctor Garcés revisando la pantalla de su cámara con un teleobjetivo, en un auditorio con luz azul
+  width: 1200
+  height: 1600
 kit:
   - label: Cámara
     value: Sony a7III

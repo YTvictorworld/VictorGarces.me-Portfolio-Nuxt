@@ -5,8 +5,10 @@ headline: Estudiante de Ingeniería de Software de noche, desarrollador freelanc
 teaser: Soy un desarrollador de Santo Domingo que cubre todo el stack, de la interfaz a la infraestructura. Detrás del código también hay una cámara.
 now: "Estudiando Ingeniería de Software en UNAPEC, construyendo Ada System y disponible para trabajo freelance de front-end y full-stack."
 portrait:
-  src: /media/portrait.jpg
-  alt: Víctor Garcés de noche en Times Square, Nueva York
+  src: /media/portrait-dev.jpg
+  alt: Víctor Garcés de perfil frente a un edificio de la Universidad de Yale, envuelto en la bandera dominicana
+  width: 1080
+  height: 1440
 stack:
   - group: Front
     items:

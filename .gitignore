@@ -22,3 +22,6 @@ logs
 .env
 .env.*
 !.env.example
+
+# Originals handed over by hand; `pnpm media:ingest` turns them into public/media/photos
+media-src

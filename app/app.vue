@@ -53,8 +53,8 @@ useSeoMeta({
   ogSiteName: SITE_NAME,
   ogType: 'website',
   // Victor's own portrait, served from this site. M6 replaces it with a rendered OG image.
-  ogImage: `${SITE_URL}/media/portrait.jpg`,
-  twitterImage: `${SITE_URL}/media/portrait.jpg`,
+  ogImage: `${SITE_URL}/media/portrait-dev.jpg`,
+  twitterImage: `${SITE_URL}/media/portrait-dev.jpg`,
   twitterCard: 'summary_large_image'
 })
 </script>
