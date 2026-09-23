@@ -1,6 +1,7 @@
 {
   "name": "victorgarces-portfolio",
   "private": true,
+  "type": "module",
   "pnpm": {
     "onlyBuiltDependencies": [
       "better-sqlite3"
