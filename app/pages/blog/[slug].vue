@@ -1,5 +1,9 @@
 <script setup lang="ts">
-definePageMeta({ fullBleed: true })
+definePageMeta({
+  fullBleed: true,
+  // Reject an unknown slug here, before the content database is instantiated
+  validate: route => useRuntimeConfig().public.slugs.blog.includes(String(route.params.slug))
+})
 
 const { locale, t, te } = useI18n()
 const localePath = useLocalePath()
@@ -246,7 +250,7 @@ useSeoMeta({
 }
 
 .body :deep(h2) {
-  scroll-margin-top: calc(var(--header-h) + 16px);
+  scroll-margin-top: 16px;
 }
 
 .aside {

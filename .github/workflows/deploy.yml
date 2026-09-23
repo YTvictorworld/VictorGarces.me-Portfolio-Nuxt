@@ -45,6 +45,10 @@ jobs:
 
       - name: Generate static site
         run: pnpm generate
+        env:
+          # Public by design (it identifies the form, not the account). Without the secret the
+          # contact form falls back to opening the visitor's email app, so the build still works.
+          NUXT_PUBLIC_WEB3FORMS_KEY: ${{ secrets.WEB3FORMS_KEY }}
 
       - name: Deploy to gh-pages
         uses: peaceiris/actions-gh-pages@v4

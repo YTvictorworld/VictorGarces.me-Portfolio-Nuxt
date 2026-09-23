@@ -201,7 +201,8 @@
     "required": "This field is required",
     "invalidEmail": "Please enter a valid email address",
     "consent": "What you send goes to my inbox through Web3Forms and is used only to reply.",
-    "emailFallback": "Open your email app"
+    "emailFallback": "Open your email app",
+    "consentEmail": "Your email app opens with the message ready to send, so nothing passes through another service."
   },
   "cross": {
     "toFilm": {
@@ -218,5 +219,31 @@
   "cta": {
     "similar": "Building something similar?",
     "shoot": "Planning a shoot?"
+  },
+  "legal": {
+    "eyebrow": "Legal",
+    "sections": "Sections",
+    "updated": "Last updated {date}.",
+    "tabs": "Legal pages"
+  },
+  "error": {
+    "home": "Back home",
+    "tryFilm": "Try the film side",
+    "tryDev": "Try the developer side",
+    "notFound": {
+      "title": "Page not found",
+      "day": {
+        "title": "This page never shipped.",
+        "lead": "The link is old or the slug changed. Search the blog or go back to the projects."
+      },
+      "night": {
+        "title": "Scene missing.",
+        "lead": "Nothing was shot here. The reel and the stills are one click away."
+      }
+    },
+    "generic": {
+      "title": "Something went wrong",
+      "lead": "The page could not be loaded. Reloading usually fixes it; if it does not, start again from the home page."
+    }
   }
 }

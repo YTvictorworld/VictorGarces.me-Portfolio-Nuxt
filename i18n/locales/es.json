@@ -201,7 +201,8 @@
     "required": "Este campo es obligatorio",
     "invalidEmail": "Escribe un correo válido",
     "consent": "Lo que envías llega a mi correo a través de Web3Forms y solo se usa para responderte.",
-    "emailFallback": "Abrir tu app de correo"
+    "emailFallback": "Abrir tu app de correo",
+    "consentEmail": "Se abre tu aplicación de correo con el mensaje listo para enviar, así que nada pasa por otro servicio."
   },
   "cross": {
     "toFilm": {
@@ -218,5 +219,31 @@
   "cta": {
     "similar": "¿Estás construyendo algo parecido?",
     "shoot": "¿Estás planeando una sesión?"
+  },
+  "legal": {
+    "eyebrow": "Legal",
+    "sections": "Secciones",
+    "updated": "Última actualización: {date}.",
+    "tabs": "Páginas legales"
+  },
+  "error": {
+    "home": "Volver al inicio",
+    "tryFilm": "Ver el lado cineasta",
+    "tryDev": "Ver el lado desarrollador",
+    "notFound": {
+      "title": "Página no encontrada",
+      "day": {
+        "title": "Esta página nunca se publicó.",
+        "lead": "El enlace es viejo o la dirección cambió. Busca en el blog o vuelve a los proyectos."
+      },
+      "night": {
+        "title": "Escena perdida.",
+        "lead": "Aquí no se rodó nada. El reel y las fotos están a un clic."
+      }
+    },
+    "generic": {
+      "title": "Algo salió mal",
+      "lead": "La página no se pudo cargar. Recargar suele resolverlo; si no, empieza de nuevo desde el inicio."
+    }
   }
 }

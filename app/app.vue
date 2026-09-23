@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { en, es } from '@nuxt/ui/locale'
 
-const { global } = useAppConfig()
 const { locale } = useI18n()
 // Nuxt UI's own strings (close buttons, carousel controls) follow the site language
 const uiLocale = computed(() => locale.value === 'es' ? es : en)
@@ -27,13 +26,10 @@ useHead(() => ({
   ],
   link: [
     { rel: 'icon', href: '/favicon.ico' },
-    { rel: 'preconnect', href: 'https://mir-s3-cdn-cf.behance.net', crossorigin: '' },
     ...(localeHead.value.link || [])
-  ],
-  script: [
-    // Sets data-mode before first paint: no flash of day for a returning night visitor
-    { key: 'mode-prepaint', innerHTML: MODE_PREPAINT_SCRIPT, tagPriority: 'critical' }
   ]
+  // The pre-paint mode script lives in nuxt.config's app.head, not here: app.vue does not
+  // render for the SPA shell (404.html), and that is the one page that most needs it.
 }))
 
 /**
@@ -54,8 +50,9 @@ useSeoMeta({
   title: `${SITE_NAME} | Full-Stack Developer & Filmmaker`,
   ogSiteName: SITE_NAME,
   ogType: 'website',
-  ogImage: global?.picture?.light,
-  twitterImage: global?.picture?.light,
+  // Victor's own portrait, served from this site. M6 replaces it with a rendered OG image.
+  ogImage: `${SITE_URL}/media/portrait.jpg`,
+  twitterImage: `${SITE_URL}/media/portrait.jpg`,
   twitterCard: 'summary_large_image'
 })
 </script>

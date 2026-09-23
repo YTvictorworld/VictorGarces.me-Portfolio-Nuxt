@@ -35,5 +35,5 @@ Forcing mode: a route middleware reads `route.path`, sets `data-mode` for `/dev/
 
 ## Static generation
 - `nitro.prerender.crawlLinks: true` plus explicit routes for every collection entry in both locales (hook `nitro:config` or `prerender:routes` reading the collections).
-- `app/error.vue` is generated to `404.html` by the static preset; verify after `pnpm generate`.
+- `404.html` is NOT a prerendered `app/error.vue`. Nuxt renders `/200.html` and `/404.html` with SSR disabled for every static preset, so both are the empty SPA shell and `error.vue` mounts client-side on top of whichever URL failed. That is why the mode pre-paint script lives in `nuxt.config.ts` under `app.head`: only that reaches the shell, so an unknown URL still paints in the right mode. GitHub Pages serves the one root `404.html` for every unknown path, `/es/**` included.
 - Images: @nuxt/image with the `ipx` static provider for local assets; manifest images come pre-sized from the CDN and bypass @nuxt/image.

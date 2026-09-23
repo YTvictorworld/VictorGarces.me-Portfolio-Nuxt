@@ -9,7 +9,7 @@ Naming: `app/components/<Group>/<Name>.vue`, auto-imported as `<GroupName>`. Eve
 | `Shell/ModeToggle` | F-Sistema | 72×36 pill, knob left = day, right = night. Emits `change`, runs `useModeTransition()` (circle clip-path from the knob), announces "Filmmaker mode" / "Developer mode" via `aria-live="polite"` |
 | `Shell/MobileModePill` | M-Home-* | fixed bottom pill, same toggle |
 | `Shell/Footer` | all | year, city, Privacy · Terms · Cookies; extra line at night |
-| `Shell/CookieBanner` | S-Cookies | driven by @nuxt/scripts consent; only "Only necessary" and "Allow embeds"; EN/ES |
+| ~~`Shell/CookieBanner`~~ | ~~S-Cookies~~ | **Cancelled.** No embeds (owner decision) and no analytics cookies, so there is nothing to consent to. `/cookies` is a static notice rendered with the S-Legal template. |
 | `Shell/Placeholder` | everywhere | dashed box + chip; renders `slot` when data exists, chip when it does not; hidden in production unless `showPlaceholders` |
 
 ## First visit
@@ -57,7 +57,8 @@ Naming: `app/components/<Group>/<Name>.vue`, auto-imported as `<GroupName>`. Eve
 | `Film/Page` (`Media/FilmPlayer` full width, synopsis, `Film/Credits`, `Film/Stills`, `Film/VerticalCut`, next) | N-Film |
 | `Photo/Series` (pills) + `Photo/Masonry` (3 cols, `Media/FilmImage`, lightbox) | N-Photography |
 | `Blog/JournalGrid` | N-Journal |
-| `Legal/Page` (`Legal/Toc` sticky + sections from `content/legal/*.md`) | S-Legal |
+| `Legal/Page` (title block, `Legal/Tabs`, sticky table of contents from `body.toc`, numbered prose sections) | S-Legal |
+| `Legal/Tabs` (Privacy / Terms / Cookies as real NuxtLinks from `useNav().legal`, `aria-current` on the open one) | S-Legal |
 | `error.vue` | S-404, split by mode |
 
 ## Shared page furniture (M4)

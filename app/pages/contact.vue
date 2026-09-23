@@ -7,6 +7,10 @@ const { locale, t } = useI18n()
 const route = useRoute()
 const { collection } = useLocalizedContent()
 const { isNight } = useMode()
+const { exists } = useNav()
+const localePath = useLocalePath()
+// The privacy page landed in M5; the link only appears once that route resolves
+const privacyHref = computed(() => exists('/privacy') ? localePath('/privacy') : null)
 const { web3formsKey } = useRuntimeConfig().public
 
 const { data } = await useAsyncData(`contact-${locale.value}`, () => Promise.all([
@@ -354,7 +358,14 @@ useSeoMeta({
             class="btn btn--accent btn--md"
           >{{ t('form.emailFallback') }}</a>
           <p class="consent">
-            {{ t('form.consent') }}
+            {{ web3formsKey ? t('form.consent') : t('form.consentEmail') }}
+            <NuxtLink
+              v-if="privacyHref"
+              :to="privacyHref"
+              class="link-accent"
+            >
+              {{ t('footer.privacy') }}
+            </NuxtLink>
           </p>
         </div>
 

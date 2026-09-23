@@ -1,5 +1,9 @@
 <script setup lang="ts">
-definePageMeta({ fullBleed: true })
+definePageMeta({
+  fullBleed: true,
+  // Reject an unknown slug here, before the content database is instantiated
+  validate: route => useRuntimeConfig().public.slugs.projects.includes(String(route.params.slug))
+})
 
 const { locale, t } = useI18n()
 const localePath = useLocalePath()

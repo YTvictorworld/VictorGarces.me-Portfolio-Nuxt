@@ -6,12 +6,12 @@ updated: 2026-09-22
 
 ## This site runs without tracking cookies
 
-There are no advertising or tracking cookies, and the analytics are cookieless. That is why there is no cookie banner.
+There are no advertising or tracking cookies, and there is no analytics at all. That is why there is no cookie banner.
 
 ## What is stored on your device
 
 - **Day or night mode** (`vg-mode`, stored in your browser's local storage): remembers whether you prefer the Developer or the Filmmaker side. It never leaves your device.
-- **Language** (`i18n_redirected` cookie, one year): remembers whether you chose English or Spanish, so the site does not switch languages on you.
+- **Language** (`i18n_redirected` cookie, one year): remembers whether you chose English or Spanish, so the site does not switch languages on you. If you arrive at the home page, the site reads your browser's language setting to pick one for you; if you open any other page, it stores the language of that page.
 - **Page cache** (`content_` entries in local storage, only on some visits): a copy of the site's public text, kept so pages load faster. It holds nothing about you.
 
 They are needed for the site to work the way you set it, and none of them is shared with anyone.
