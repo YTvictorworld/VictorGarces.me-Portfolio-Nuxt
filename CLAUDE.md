@@ -5,7 +5,7 @@ Personal portfolio of Víctor Garcés: developer (Vue/Nuxt front-end; C#/.NET, S
 Read this file first. Then `docs/PLAN.md` (order of work, plus the **owner decisions that override every other doc**) and `docs/DESIGN.md` before touching any UI. `docs/AUDIT.md` lists every known gap in the handoff, grouped by milestone: read the section for the milestone you are working on. `docs/MIGRATION.md` maps every piece of the old site to its new home.
 
 ## Status
-Dual-mode refactor in progress on branch `refactor/dual-mode`, milestone by milestone (`docs/PLAN.md`). M0 to M5 are done: the landing, both homes, every inner page, the legal pages and the error page are rebuilt. Still to come: SEO and analytics (M6), motion (M7), the media pipeline (M8), release (M9) and the 3D heroes (M10).
+Dual-mode refactor in progress on branch `refactor/dual-mode`, milestone by milestone (`docs/PLAN.md`). M0 to M6 are done: the landing, both homes, every inner page, the legal pages, the error page and the whole SEO layer are built. Still to come: motion (M7), the media pipeline (M8), release (M9) and the 3D heroes (M10).
 
 ## What this is
 Two switchable modes that change the whole look:
@@ -47,6 +47,8 @@ Both modes share components and content sources. Only the Home pages differ stru
 - `app/error.vue` renders **in place of** `app.vue`, not inside it: no `UApp`, no layout, no route announcer, no `titleTemplate`. It sets its own `data-mode`, theme colour, robots and title, and must not query content (it only ever runs in the browser). On a path that matches a dynamic route, app.vue *does* mount first, so its `titleTemplate` would wrap the error title twice: `error.vue` passes `titleTemplate: null`.
 - `404.html` and `200.html` are the SPA shell, always: Nuxt forces both through the no-SSR renderer for static presets. Only `nuxt.config`'s `app.head` reaches them, which is why `MODE_PREPAINT_SCRIPT` lives there and not in `app.vue`.
 - State that comes from the URL query must be applied **after mount**, never during setup. Pages are prerendered without a query, and Vue does not rectify a class mismatch while hydrating (only node types and form values), so a shared `/dev/work?kind=infra` would keep the "All" pill highlighted above filtered content, forever. Use `useQueryFilter()` for filters; `/contact` does the same for its topic.
+- Open Graph cards are rendered by Satori, which resolves no CSS custom properties and has no grid. `app/components/OgImage/*.satori.vue` is therefore the one place literal hex and flexbox belong, and the `.satori.vue` suffix is mandatory in nuxt-og-image v6. `satori` must stay an explicit dependency.
+- A newly added composable fails `pnpm generate`'s typecheck with "Cannot find name" until `pnpm typecheck` has run once on its own. Run it first after adding one.
 - vue-i18n reads a bare `@` as its linked-message syntax, so `you@example.com` in a locale file throws "Invalid linked format" and the page 500s at prerender. Escape literal at signs: `you{'@'}example.com`.
 - `eslint --fix` rewrites `slot="media"` into `<template #media>`, which never reaches media-chrome (a custom element reads the real DOM attribute). `Media/FilmPlayer.vue` keeps an inline `eslint-disable` block around that element.
 - Tailwind v4 scans every project file: `design/` and `docs/` are excluded with `@source not` in `main.css`.

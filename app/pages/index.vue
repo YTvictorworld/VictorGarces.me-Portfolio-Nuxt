@@ -20,11 +20,13 @@ if (!page.value) {
   throw createError({ statusCode: 404, statusMessage: 'Page not found', fatal: true })
 }
 
-useSeoMeta({
+usePersonSchema(profile, t('og.dev.eyebrow'))
+
+useSeo({
   title: page.value.title,
-  ogTitle: page.value.title,
   description: page.value.description,
-  ogDescription: page.value.description
+  // The first-visit card shows the name, not the page title
+  cardTitle: SITE_NAME
 })
 
 // DESIGN: moves to nuxt-schema-org in M6

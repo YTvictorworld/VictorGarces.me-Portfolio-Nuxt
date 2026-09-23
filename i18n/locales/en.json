@@ -245,5 +245,19 @@
       "title": "Something went wrong",
       "lead": "The page could not be loaded. Reloading usually fixes it; if it does not, start again from the home page."
     }
+  },
+  "og": {
+    "dev": {
+      "eyebrow": "DEVELOPER · SANTO DOMINGO, DO",
+      "lead": "Vue, Nuxt, .NET and AWS. Case studies, code and a blog."
+    },
+    "film": {
+      "eyebrow": "FILMMAKER · {'@'}VGFILMX",
+      "lead": "Short films and event photography from Santo Domingo."
+    }
+  },
+  "schema": {
+    "jobDev": "Full-stack developer",
+    "jobFilm": "Filmmaker and photographer"
   }
 }

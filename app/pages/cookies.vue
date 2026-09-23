@@ -11,12 +11,7 @@ if (!doc.value) {
   throw createError({ statusCode: 404, statusMessage: 'Page not found', fatal: true })
 }
 
-useSeoMeta({
-  title: doc.value.title,
-  ogTitle: doc.value.title,
-  description: doc.value.description,
-  ogDescription: doc.value.description
-})
+useSeo({ title: doc.value.title, description: doc.value.description })
 </script>
 
 <template>

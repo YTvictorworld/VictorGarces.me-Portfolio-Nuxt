@@ -25,12 +25,7 @@ const label = (tags: string[] = []) => {
   return tag && te(`blog.tag.${tag}`) ? t(`blog.tag.${tag}`) : undefined
 }
 
-useSeoMeta({
-  title: page.value.title,
-  ogTitle: page.value.title,
-  description: page.value.description,
-  ogDescription: page.value.description
-})
+useSeo({ title: page.value.title, description: page.value.description })
 </script>
 
 <template>

@@ -27,12 +27,7 @@ const href = (path: string) => localePath(`/film/films/${slugOf(path)}`)
 const subtitle = (film: { kind: string, year: string, runtime: string }) =>
   `${t(`film.kind.${film.kind}`)} · ${film.year} · ${film.runtime}`
 
-useSeoMeta({
-  title: page.value.title,
-  ogTitle: page.value.title,
-  description: page.value.description,
-  ogDescription: page.value.description
-})
+useSeo({ title: page.value.title, description: page.value.description })
 </script>
 
 <template>

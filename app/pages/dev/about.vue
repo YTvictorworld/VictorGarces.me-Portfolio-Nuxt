@@ -23,12 +23,8 @@ const sections = computed(() => page.value?.sections ?? {})
 const entries = computed(() => published(data.value?.[2]?.entries))
 const profile = computed(() => data.value?.[3])
 
-useSeoMeta({
-  title: page.value.title,
-  ogTitle: page.value.title,
-  description: page.value.description,
-  ogDescription: page.value.description
-})
+usePersonSchema(profile, t('schema.jobDev'))
+useSeo({ title: page.value.title, description: page.value.description })
 </script>
 
 <template>

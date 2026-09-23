@@ -26,12 +26,16 @@ All routes exist in `en` (no prefix) and `es` (`/es/...`) via @nuxtjs/i18n `pref
 Forcing mode: a route middleware reads `route.path`, sets `data-mode` for `/dev/**` and `/film/**`, and does not touch the stored preference. The header toggle on a forced page navigates to the sibling in the other mode (`/dev` ↔ `/film`, `/dev/about` ↔ `/film/about`, `/dev/work` ↔ `/film/films`), and on shared pages it just flips the attribute.
 
 ## SEO per page
-- `titleTemplate: '%s · Víctor Garcés'`, `useSeoMeta` with description from front matter or i18n.
-- OG image: `defineOgImageComponent('OgDay' | 'OgNight', { title, subtitle })` matching S-OG-Dev / S-OG-Film. 1200×630, fonts loaded from `public/fonts`.
-- Schema.org: `Person` on `/`, `/dev/about`, `/film/about`; `BlogPosting` on posts; `VideoObject` on film pages (name, description, thumbnailUrl from manifest, uploadDate, duration); `ImageGallery` on photography.
-- `robots`: allow all except `/bag` and `/es/bag`. Sitemap from @nuxtjs/seo with both locales and `lastmod` from content.
-- Canonical per locale, `hreflang` en/es, `x-default` = en.
-- RSS: `server/routes/rss.xml.ts` from the blog collection.
+- Every page calls **`useSeo({ title, description, mode?, type?, cardTitle?, meta? })`** (`app/composables/useSeo.ts`). It sets the title, the description and the Open Graph card in one place; no page calls `useSeoMeta` directly. `titleTemplate: '%s · Víctor Garcés'` lives in `app.vue`.
+- OG image: rendered by Satori at build time from `app/components/OgImage/OgDay.satori.vue` and `OgNight.satori.vue` (S-OG-Dev / S-OG-Film), 1200×630. The `.satori.vue` suffix is required by nuxt-og-image v6. Fonts come from the `@nuxt/fonts` config, not from `public/fonts`. `zeroRuntime` is on: the cards exist as files, and no generator ships.
+  - Template by route: `/film/**` → OgNight, everything else → OgDay. A blog post tagged `film` passes `mode: 'night'`.
+  - The card's big line is the page title, except on `/`, `/dev` and `/film`, which pass `cardTitle: SITE_NAME` as the artboards draw it. The eyebrow and the fallback strapline are i18n (`og.dev.*`, `og.film.*`), so both languages get their own.
+  - Post covers are not used as OG images; every page gets the rendered card.
+- Schema.org: `Person` on `/`, `/dev/about`, `/film/about` (from `content/profile.yml`, with `sameAs` for all three accounts); `Article`/`BlogPosting` on posts; `ImageGallery` on `/film/photography`. **No `VideoObject` yet**: it needs `uploadDate`, no film has one, and the videos are still `pending` in the manifest. It lands with M8.
+- `robots`: allow all, no `Disallow`; `/bag` and `/es/bag` carry `robots: false` through `routeRules`, which also drops them from the sitemap. Sitemap is a single `/sitemap.xml` (`sitemaps: false`) with both locales; `lastmod` comes from the blog dates.
+- Canonical per locale, `hreflang` en/es, `x-default` = en, all from `useLocaleHead()` in `app.vue`.
+- RSS: `server/routes/rss.xml.ts` and `server/routes/es/rss.xml.ts`, both built on `server/utils/feed.ts`. Drafts are excluded. They are server routes, so they are listed explicitly in `nitro.prerender.routes` (the crawler only follows extensionless and `.json` links), and each page links its own locale's feed.
+- Favicons: `pnpm favicons` regenerates the whole set from the tokens (`scripts/make-favicons.mjs`). `favicon.svg` follows the reader's system theme through a `prefers-color-scheme` media query; the PNGs are the day mark; the 180 and 512 tiles are full bleed, plus a maskable 512. No `.ico` ships. The links live in `nuxt.config`'s `app.head` so the SPA shell and the error page get them too.
 
 ## Static generation
 - `nitro.prerender.crawlLinks: true` plus explicit routes for every collection entry in both locales (hook `nitro:config` or `prerender:routes` reading the collections).

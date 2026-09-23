@@ -24,12 +24,7 @@ const kinds = computed(() => [...new Set(projects.value.map(project => project.k
 const kind = useQueryFilter('kind')
 const shown = computed(() => kind.value ? projects.value.filter(project => project.kind === kind.value) : projects.value)
 
-useSeoMeta({
-  title: page.value.title,
-  ogTitle: page.value.title,
-  description: page.value.description,
-  ogDescription: page.value.description
-})
+useSeo({ title: page.value.title, description: page.value.description })
 </script>
 
 <template>

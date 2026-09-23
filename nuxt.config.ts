@@ -92,6 +92,16 @@ export default defineNuxtConfig({
         // It lives here rather than in app.vue because only `app.head` reaches the SPA shell
         // that nitro writes to 404.html, and an unknown URL is exactly where it is needed.
         { key: 'mode-prepaint', innerHTML: MODE_PREPAINT_SCRIPT, tagPriority: 'critical' }
+      ],
+      // Built by `pnpm favicons` from the tokens (scripts/make-favicons.mjs). The SVG follows
+      // the reader's system theme; the PNGs are the day mark. Here rather than in app.vue so
+      // the SPA shell and the error page get them too.
+      link: [
+        { rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' },
+        { rel: 'icon', type: 'image/png', sizes: '32x32', href: '/favicon-32.png' },
+        { rel: 'icon', type: 'image/png', sizes: '16x16', href: '/favicon-16.png' },
+        { rel: 'apple-touch-icon', sizes: '180x180', href: '/apple-touch-icon.png' },
+        { rel: 'manifest', href: '/manifest.webmanifest' }
       ]
     }
   },
@@ -143,8 +153,9 @@ export default defineNuxtConfig({
   nitro: {
     preset: 'static',
     prerender: {
-      // /bag is intentionally off-nav, so the crawler never finds it
-      routes: ['/bag', '/es/bag']
+      // /bag is intentionally off-nav, so the crawler never finds it. The feeds are server
+      // routes: the crawler only follows extensionless and .json links, so they are listed too.
+      routes: ['/bag', '/es/bag', '/rss.xml', '/es/rss.xml']
     }
   },
 
@@ -230,9 +241,14 @@ export default defineNuxtConfig({
     fallbackToApi: false
   },
 
-  // Rendered per mode from OgDay / OgNight in M6; off until those components exist
+  // Rendered at build time by Satori from app/components/OgImage/*.satori.vue (v6 requires that
+  // suffix). Each page picks its template through useSeo(), because a prerendered card cannot
+  // know the visitor's stored mode. Fonts come from the @nuxt/fonts config above.
   ogImage: {
-    enabled: false
+    defaults: { width: 1200, height: 630 },
+    // Every card is rendered during the build, so the runtime generator would only ship dead
+    // code and a route that GitHub Pages cannot serve anyway
+    zeroRuntime: true
   },
 
   sitemap: {

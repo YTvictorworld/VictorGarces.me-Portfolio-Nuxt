@@ -14,10 +14,7 @@ if (!page.value) {
   })
 }
 
-useSeoMeta({
-  title: () => t('bag.title'),
-  description: () => t('bag.description')
-})
+useSeo({ title: t('bag.title'), description: t('bag.description') })
 </script>
 
 <template>

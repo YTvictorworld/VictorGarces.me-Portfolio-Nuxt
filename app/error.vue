@@ -32,7 +32,6 @@ useHead(() => ({
     { name: 'theme-color', content: THEME_COLOR[mode.value] },
     { name: 'robots', content: 'noindex' }
   ],
-  link: [{ rel: 'icon', href: '/favicon.ico' }],
   // A full title, not a template. On an unmatched URL app.vue never mounts, but on a path that
   // matches a dynamic route it does, and its titleTemplate would wrap this one a second time.
   titleTemplate: null,

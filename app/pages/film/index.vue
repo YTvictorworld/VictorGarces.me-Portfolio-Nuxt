@@ -64,11 +64,11 @@ const bookLinks = computed(() => (profile.value?.socials ?? [])
   .filter(social => social.mode !== 'dev')
   .map(social => ({ label: social.label, href: social.href })))
 
-useSeoMeta({
+useSeo({
   title: page.value.title,
-  ogTitle: page.value.title,
   description: page.value.description,
-  ogDescription: page.value.description
+  // The home card shows the name, as S-OG-Film draws it
+  cardTitle: SITE_NAME
 })
 </script>
 

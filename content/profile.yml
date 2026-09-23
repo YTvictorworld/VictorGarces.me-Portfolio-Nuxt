@@ -11,7 +11,8 @@ socials:
     handle: vgfilm07
     href: https://www.linkedin.com/in/vgfilm07/
     mode: both
+  # The film-specific account: the night side and the night OG image use this one
   - label: Instagram
-    handle: "@victorg.v0"
-    href: https://www.instagram.com/victorg.v0/
+    handle: "@vgfilmx"
+    href: https://www.instagram.com/vgfilmx/
     mode: film

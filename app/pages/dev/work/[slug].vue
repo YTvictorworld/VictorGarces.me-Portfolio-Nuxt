@@ -40,12 +40,7 @@ const meta = computed(() => [
   { label: t('page.stack'), value: project.value?.stack?.join(', ') }
 ].filter(row => row.value))
 
-useSeoMeta({
-  title: project.value.title,
-  ogTitle: project.value.title,
-  description: project.value.oneLiner,
-  ogDescription: project.value.oneLiner
-})
+useSeo({ title: project.value.title, description: project.value.oneLiner })
 </script>
 
 <template>

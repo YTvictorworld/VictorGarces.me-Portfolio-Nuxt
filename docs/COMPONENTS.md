@@ -82,8 +82,14 @@ Naming: `app/components/<Group>/<Name>.vue`, auto-imported as `<GroupName>`. Eve
 | `Hero/PageExploded` | `<ClientOnly>`, lazy; loads `public/models/page-exploded.glb` with `useGLTF`; GSAP ScrollTrigger scrubs `position.z` of `layer_*`; hover tilt; static PNG fallback (`public/models/page-exploded.png`) on mobile and reduced motion |
 | `Hero/MoonStage` | procedural: sphere light + 3 planes textured with manifest stills, parallax on pointer; static fallback |
 
+## Open Graph (M6)
+| component | notes |
+|---|---|
+| `OgImage/OgDay.satori.vue`, `OgImage/OgNight.satori.vue` | S-OG-Dev / S-OG-Film, 1200×630, rendered by Satori at build time. The `.satori.vue` suffix is required by nuxt-og-image v6. Literal hex and flexbox only: Satori resolves no CSS custom properties and has no grid, which is the exception the "no hard-coded hex" rule allows. Props: `title`, `description`, `eyebrow`, all supplied by `useSeo()`. |
+
 ## Composables
 - `useMode()` → `{ mode, setMode, isDay, isNight }`; localStorage `vg-mode` (no cookie, see PLAN M1); inline head script sets `data-mode` before paint.
 - `useModeTransition()` → circle clip-path animation, respects reduced motion.
 - `useNav(mode)` → nav items per mode with i18n keys.
-- `useSeo({ title, description, mode, image? })` → wraps `useSeoMeta`, sets `ogImage` component per mode, `titleTemplate` "%s · Víctor Garcés".
+- `useSeo({ title, description, mode?, type?, cardTitle?, meta? })` → title, description and the Open Graph card in one call. Every page uses it; none calls `useSeoMeta` directly. The template is OgDay unless the route forces night.
+- `usePersonSchema(profile, jobTitle)` → Person structured data from `content/profile.yml`, on the landing and both About pages.

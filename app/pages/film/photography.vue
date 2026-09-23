@@ -25,12 +25,15 @@ const photos = computed(() => allSeries.value
 
 const open = ref<number | null>(null)
 
-useSeoMeta({
-  title: page.value.title,
-  ogTitle: page.value.title,
-  description: page.value.description,
-  ogDescription: page.value.description
-})
+// A real gallery of real photographs: the ids all resolve in the media manifest
+useSchemaOrg([{
+  '@type': 'ImageGallery',
+  'name': page.value.title,
+  'description': page.value.description,
+  'image': photos.value.map(id => `${SITE_URL}${media.largest(id)}`)
+}])
+
+useSeo({ title: page.value.title, description: page.value.description })
 </script>
 
 <template>

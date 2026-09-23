@@ -192,7 +192,7 @@ Night gets four film questions ("Before you book") written in M2 from facts alre
 - **Mailbox:** `hello@victorgarces.me` needs MX records before merging to `master`; until then the live site keeps the Gmail address.
 - **Positioning:** the design says "Front-end developer and Software Engineering student"; the current site says "Full-stack developer … studying Computer Science", and the experience list includes a back-end role at Sigmedic (2025 to now; the design also lists Sigmedic as a 2026 beta project). The design copy is used unless you say otherwise, applied to every place that states it: hero, about story and teaser, `/dev` SEO, the default title, JSON-LD `jobTitle`, FAQ Q1/Q2 and the post author descriptions.
 - **Years** for the four design experience entries and the PLERD start year are unknown, so they are stored as `null` (nothing renders) until you give them.
-- **Socials:** the design shows Instagram `@vgfilmx` and a YouTube channel; the site today links Instagram (personal account), has no YouTube, and the posts' front matter names Twitter/X `YTvictorworld`. The current accounts are kept until you confirm.
+- **Socials:** answered 2026-09-23. `@vgfilmx` is the film-specific Instagram and is what the night side and the night OG card link to; the personal account is not linked from the site. Still open: whether a YouTube channel should be listed, and the Twitter/X handle `YTvictorworld` in the posts' front matter.
 - **Testimonial 2:** confirm the spelling "Elcilia Del Carme Torres G." (possibly "Carmen").
 - **Portrait:** the only portrait available is the 240×320 Behance thumbnail (`public/media/portrait.jpg`). The About pages need a larger one (the design uses a 4:5 photo at 380×460), plus an on-set portrait for the Filmmaker side.
 - **Film files:** `¿Por qué no?`, its vertical cut and the 2026 reel are listed in the manifest as `pending`; the players need the video files (or the pipeline in M8), and the film pages need stills and a poster.
@@ -214,4 +214,25 @@ Initial JS (gzip -9, `modulepreload` + entry, prefetch excluded):
 The upgrade added 45 to 49 KiB per page before any new page exists. M3 has to bring the homes back to or below the M0 number, and investigate what the entry chunk (75.8 KiB alone) carries.
 
 ## 9. Analytics
-To be chosen and documented in M6 (Umami or Cloudflare Web Analytics, both cookieless).
+**None. Owner decision, 2026-09-23 (M6).**
+
+Both candidates cost something the site currently has. Cloudflare Web Analytics is free and
+cookieless, but its beacon sends every visitor's IP to Cloudflare on every page load, which would
+end the "zero third-party requests" property that M5 established and verified. Self-hosted Umami
+keeps the data in your hands but needs a server and a database to run, and its default counting
+stores a daily salted hash of IP plus user agent server-side.
+
+Nothing counts a visit today, and `/privacy` and `/cookies` say exactly that, in both languages.
+
+### Adding it later
+`@nuxt/scripts` is already installed, so this is a small, self-contained change:
+
+1. Add the provider with `useScript` in a client plugin (a `defer`red beacon; no consent is
+   needed for a cookieless one, so there is still no banner).
+2. Rewrite the Analytics section of `content/en/legal/privacy.md` and its Spanish twin: name the
+   vendor, say what it counts and where the data goes. For Cloudflare, say it is a third party.
+   For Umami, say the server keeps a daily hash that cannot be traced back to the visitor.
+3. Update the "no analytics at all" sentence in `content/{en,es}/legal/cookies.md`.
+4. Bump `updated:` in all four legal files, and update this section.
+5. Re-run the M5 network check and move the beacon's origin into the documented exemption list in
+   `docs/PLAN.md` M5, which currently reads "zero".

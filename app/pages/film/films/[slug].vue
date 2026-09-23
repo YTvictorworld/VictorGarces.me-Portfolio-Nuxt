@@ -43,12 +43,10 @@ const synopsis = computed(() => (film.value?.synopsis ?? '').split(/\n{2,}/).fil
 const stills = computed(() => (film.value?.stills ?? []).map(still => still.id))
 const openStill = ref<number | null>(null)
 
-useSeoMeta({
+useSeo({
   title: film.value.title,
-  ogTitle: film.value.title,
   description: film.value.logline ?? film.value.synopsis,
-  ogDescription: film.value.logline ?? film.value.synopsis,
-  ogType: 'video.movie'
+  type: 'video.movie'
 })
 </script>
 

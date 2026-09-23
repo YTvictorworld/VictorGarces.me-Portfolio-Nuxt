@@ -52,11 +52,11 @@ const contactLinks = computed(() => [
 
 const workEyebrow = computed(() => `${s.value.work?.eyebrow} · ${t('home.ofTotal', { shown: featured.value.length, total: projects.value.length })}`)
 
-useSeoMeta({
+useSeo({
   title: page.value.title,
-  ogTitle: page.value.title,
   description: page.value.description,
-  ogDescription: page.value.description
+  // The home card shows the name, as S-OG-Dev draws it
+  cardTitle: SITE_NAME
 })
 </script>
 

@@ -51,14 +51,27 @@ async function copyLink() {
   }
 }
 
-useSeoMeta({
+useSchemaOrg([
+  defineArticle({
+    '@type': 'BlogPosting',
+    'headline': post.value.title,
+    'description': post.value.description,
+    'datePublished': new Date(post.value.date).toISOString(),
+    'author': { name: SITE_NAME, url: SITE_URL },
+    ...(post.value.cover ? { image: `${SITE_URL}${post.value.cover.src}` } : {})
+  })
+])
+
+useSeo({
   title: post.value.title,
-  ogTitle: post.value.title,
   description: post.value.description,
-  ogDescription: post.value.description,
-  ogType: 'article',
-  articlePublishedTime: new Date(post.value.date).toISOString(),
-  articleTag: post.value.tags
+  type: 'article',
+  // A post about a film shares the night card; everything else is day
+  mode: post.value.tags?.includes('film') ? 'night' : 'day',
+  meta: {
+    articlePublishedTime: new Date(post.value.date).toISOString(),
+    articleTag: post.value.tags
+  }
 })
 </script>
 

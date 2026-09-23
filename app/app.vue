@@ -25,7 +25,13 @@ useHead(() => ({
     ...(localeHead.value.meta || [])
   ],
   link: [
-    { rel: 'icon', href: '/favicon.ico' },
+    // One feed per locale, prerendered by server/routes (see nitro.prerender.routes)
+    {
+      rel: 'alternate',
+      type: 'application/rss+xml',
+      title: `${SITE_NAME} · Blog`,
+      href: locale.value === 'es' ? '/es/rss.xml' : '/rss.xml'
+    },
     ...(localeHead.value.link || [])
   ]
   // The pre-paint mode script lives in nuxt.config's app.head, not here: app.vue does not

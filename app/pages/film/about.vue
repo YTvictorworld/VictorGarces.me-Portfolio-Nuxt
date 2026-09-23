@@ -29,12 +29,8 @@ const bagHref = computed(() => exists('/bag') ? localePath('/bag') : null)
 const { showDrafts } = useLocalizedContent()
 const showPortrait = computed(() => Boolean(about.value?.portrait) || showDrafts)
 
-useSeoMeta({
-  title: page.value.title,
-  ogTitle: page.value.title,
-  description: page.value.description,
-  ogDescription: page.value.description
-})
+usePersonSchema(profile, t('schema.jobFilm'))
+useSeo({ title: page.value.title, description: page.value.description })
 </script>
 
 <template>
