@@ -55,6 +55,8 @@ export const schemas = {
     oneLiner: text,
     year: text,
     role: text,
+    /** Whose product it is, when it is not Victor's. Absent means his own. */
+    org: optionalText,
     status: z.enum(['live', 'beta', 'in-progress', 'archived']).default('live'),
     kind: z.enum(['web-app', 'infra', 'client', 'experiment', 'archive']),
     stack: z.array(text),

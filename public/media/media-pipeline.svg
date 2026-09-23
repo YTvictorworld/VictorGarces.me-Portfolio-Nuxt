@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 800" width="1600" height="800" role="img" aria-label="Diagram of the planned media pipeline: S3 originals feed a Lambda for images and MediaConvert for video, CloudFront serves them, and a manifest is the contract the site reads at build time">
+  <!--
+    Day palette only, on purpose: this cover is only ever shown on /dev/work and
+    /dev/work/media-pipeline, both of which force day mode. An SVG loaded through <img> also
+    gets no access to the page fonts, so the stack falls back to the reader's system sans.
+  -->
+  <style>
+    .label { fill: #151617; font-family: 'Albert Sans', system-ui, -apple-system, 'Segoe UI', sans-serif; font-weight: 700; font-size: 30px }
+    .label-inv { fill: #F7F7F4; font-family: 'Albert Sans', system-ui, -apple-system, 'Segoe UI', sans-serif; font-weight: 700; font-size: 30px }
+    .note { fill: #5F6266; font-family: 'Albert Sans', system-ui, -apple-system, 'Segoe UI', sans-serif; font-size: 22px }
+    .note-inv { fill: #A5A7AE; font-family: 'Albert Sans', system-ui, -apple-system, 'Segoe UI', sans-serif; font-size: 22px }
+    .stage { fill: #1F7A63; font-family: 'Source Code Pro', ui-monospace, 'Cascadia Mono', monospace; font-size: 19px; letter-spacing: 0.06em }
+    .planned { fill: #5F6266; font-family: 'Source Code Pro', ui-monospace, 'Cascadia Mono', monospace; font-size: 20px; letter-spacing: 0.06em }
+    .box { fill: #FFFFFF; stroke: #E2E1DB; stroke-width: 2 }
+    .accent-box { fill: #E6F1EC; stroke: #1F7A63; stroke-width: 2 }
+    .dark-box { fill: #151617 }
+    .flow { stroke: #1F7A63; stroke-width: 3; fill: none }
+  </style>
+
+  <rect fill="#F7F7F4" width="1600" height="800"/>
+
+  <text class="planned" x="72" y="80">PLANNED DESIGN · NOT YET BUILT</text>
+
+  <text class="stage" x="72" y="170">01 · SOURCE</text>
+  <rect class="box" x="72" y="196" width="280" height="150" rx="18"/>
+  <text class="label" x="104" y="256">S3</text>
+  <text class="note" x="104" y="296">Originals, one bucket</text>
+
+  <text class="stage" x="472" y="170">02 · ENCODE</text>
+  <rect class="accent-box" x="472" y="196" width="340" height="150" rx="18"/>
+  <text class="label" x="504" y="250">Lambda</text>
+  <text class="note" x="504" y="288">AVIF and WebP at</text>
+  <text class="note" x="504" y="318">480 / 960 / 1440 / 2048, blurhash</text>
+
+  <rect class="accent-box" x="472" y="396" width="340" height="150" rx="18"/>
+  <text class="label" x="504" y="450">MediaConvert</text>
+  <text class="note" x="504" y="488">HLS at 1080 / 720 / 480 / 360,</text>
+  <text class="note" x="504" y="518">poster and muted preview</text>
+
+  <!-- S3 splits into the image branch and the video branch -->
+  <path class="flow" d="M352 271 H 452"/>
+  <path class="flow" d="M444 261 l 12 10 l -12 10"/>
+  <path class="flow" d="M212 346 V 471 H 452"/>
+  <path class="flow" d="M444 461 l 12 10 l -12 10"/>
+
+  <!-- Both branches converge on the CDN -->
+  <path class="flow" d="M812 271 H 912"/>
+  <path class="flow" d="M904 261 l 12 10 l -12 10"/>
+  <path class="flow" d="M812 471 H 872 V 301 H 912"/>
+  <path class="flow" d="M904 291 l 12 10 l -12 10"/>
+
+  <text class="stage" x="932" y="170">03 · SERVE</text>
+  <rect class="box" x="932" y="196" width="300" height="150" rx="18"/>
+  <text class="label" x="964" y="250">CloudFront</text>
+  <text class="note" x="964" y="290">media.victorgarces.me</text>
+
+  <path class="flow" d="M1232 271 H 1332"/>
+  <path class="flow" d="M1324 261 l 12 10 l -12 10"/>
+
+  <text class="stage" x="1352" y="170">04 · CONTRACT</text>
+  <rect class="dark-box" x="1352" y="196" width="180" height="150" rx="18"/>
+  <text class="label-inv" x="1382" y="256">manifest</text>
+  <text class="note-inv" x="1382" y="296">.json</text>
+
+  <!-- The manifest is the only thing the site consumes, and it reads it at build time -->
+  <path class="flow" d="M1442 346 V 636 H 892" stroke-dasharray="10 10"/>
+  <path class="flow" d="M900 626 l -12 10 l 12 10"/>
+
+  <rect class="box" x="472" y="576" width="400" height="120" rx="18"/>
+  <text class="label" x="504" y="632">victorgarces.me</text>
+  <text class="note" x="504" y="670">Reads the manifest at build time</text>
+
+  <text class="note" x="932" y="702">One JSON file is the whole contract,</text>
+  <text class="note" x="932" y="732">so the pipeline and the site ship apart.</text>
+</svg>

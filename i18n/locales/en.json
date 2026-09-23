@@ -128,7 +128,8 @@
       "in-progress": "in progress",
       "archived": "archived"
     },
-    "caseStudy": "Case study"
+    "caseStudy": "Case study",
+    "forOrg": "{role} for {org}"
   },
   "filters": {
     "all": "All",
@@ -176,7 +177,8 @@
     "photoOf": "Photo {n} of {total}",
     "search": "Search",
     "minRead": "{min} min",
-    "openPhotoNamed": "Open photo {n} of {total}: {alt}"
+    "openPhotoNamed": "Open photo {n} of {total}: {alt}",
+    "forOrg": "For"
   },
   "form": {
     "topic": "Topic",

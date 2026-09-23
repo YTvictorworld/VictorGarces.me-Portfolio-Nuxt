@@ -5,6 +5,8 @@ export interface ProjectCardData {
   year: string
   role: string
   status?: string
+  /** Set when the project belongs to a client or an employer, not to Victor */
+  org?: string
   stack?: string[]
   tags?: string[]
   cover?: { src: string, alt: string }
@@ -48,7 +50,7 @@ const statusLabel = computed(() => props.project.status && props.project.status 
 
     <div class="meta mono">
       <span>{{ project.year }}<template v-if="statusLabel"> · {{ statusLabel }}</template></span>
-      <span>{{ project.role }}</span>
+      <span>{{ project.org ? t('project.forOrg', { org: project.org, role: project.role }) : project.role }}</span>
     </div>
 
     <h3 class="title">

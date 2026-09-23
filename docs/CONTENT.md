@@ -2,6 +2,10 @@
 
 All copy lives in `content/`; components render whatever the collections return. The schemas are in `content.schemas.ts` (shared by `content.config.ts` and the build-time validator), and `docs/MIGRATION.md` records where every piece of the old site went.
 
+> **`projects.org`** names whose product a project is, when it is not Víctor's. Absent means
+> his own work. The card renders "<role> for <org>" and the case study gains a FOR row, so a
+> client or employer project can never read as if he owned it.
+
 ## Layout
 
 ```

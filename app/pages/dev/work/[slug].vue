@@ -35,6 +35,7 @@ const profile = computed(() => data.value?.[2])
 
 const meta = computed(() => [
   { label: t('page.role'), value: project.value?.role },
+  { label: t('page.forOrg'), value: project.value?.org },
   { label: t('page.year'), value: project.value?.year },
   { label: t('page.status'), value: project.value?.status ? t(`project.status.${project.value.status}`) : undefined },
   { label: t('page.stack'), value: project.value?.stack?.join(', ') }

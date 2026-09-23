@@ -2,6 +2,7 @@
 title: Sigmedic
 oneLiner: Expediente de salud personal para la República Dominicana, con perfiles de pacientes y médicos.
 role: Full-stack
+org: Sigmedic
 year: "2026"
 status: beta
 kind: web-app
@@ -19,8 +20,8 @@ next: media-pipeline
 
 ## Contexto
 
-Sigmedic es un expediente de salud personal para la República Dominicana. Pacientes y médicos tienen cada uno su propio perfil.
+Sigmedic es un expediente de salud personal para la República Dominicana, donde pacientes y médicos tienen cada uno su propio perfil. No es mi producto: trabajo en él como desarrollador.
 
 ## Qué construí
 
-Un back end en .NET y un front end en Nuxt, ahora en beta.
+El back end en .NET y el front end en Nuxt, ahora en beta.

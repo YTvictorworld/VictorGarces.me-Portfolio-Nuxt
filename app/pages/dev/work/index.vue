@@ -8,7 +8,7 @@ const { collection, published } = useLocalizedContent()
 const { data } = await useAsyncData(`work-${locale.value}`, () => Promise.all([
   queryCollection(collection('pages')).path(`/${locale.value}/pages/work`).first(),
   queryCollection(collection('projects')).order('order', 'ASC')
-    .select('path', 'title', 'oneLiner', 'year', 'role', 'status', 'stack', 'tags', 'cover', 'kind', 'draft').all()
+    .select('path', 'title', 'oneLiner', 'year', 'role', 'org', 'status', 'stack', 'tags', 'cover', 'kind', 'draft').all()
 ]))
 
 const page = computed(() => data.value?.[0])

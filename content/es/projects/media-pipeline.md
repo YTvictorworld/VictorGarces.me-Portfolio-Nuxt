@@ -3,6 +3,11 @@ title: Media pipeline
 headline: El pipeline detrás del lado cineasta de este sitio.
 oneLiner: Pipeline serverless de imágenes y HLS en AWS que sirve el lado cineasta de este sitio.
 role: Creador
+cover:
+  src: /media/media-pipeline.svg
+  alt: "Diagrama del pipeline previsto: los originales en S3 alimentan una Lambda para imágenes y MediaConvert para video, CloudFront los sirve, y un manifiesto es lo que el sitio lee al construirse"
+  width: 1600
+  height: 800
 decisions:
   - title: Un manifiesto como contrato
     why: El sitio lee un solo archivo JSON al compilar, así que el pipeline y el sitio se publican por separado.

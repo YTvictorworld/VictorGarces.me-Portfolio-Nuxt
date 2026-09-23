@@ -3,6 +3,11 @@ title: Media pipeline
 headline: The pipeline behind the Filmmaker side of this site.
 oneLiner: Serverless image and HLS pipeline on AWS that serves the Filmmaker side of this site.
 role: Creator
+cover:
+  src: /media/media-pipeline.svg
+  alt: "Diagram of the planned pipeline: S3 originals feed a Lambda for images and MediaConvert for video, CloudFront serves them, and a manifest is what the site reads at build time"
+  width: 1600
+  height: 800
 decisions:
   - title: A manifest is the contract
     why: The site reads one JSON file at build time, so the pipeline and the site ship independently.
