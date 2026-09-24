@@ -5,7 +5,7 @@ oneLiner: Pipeline serverless de imágenes y HLS en AWS que sirve el lado cineas
 role: Creador
 cover:
   src: /media/media-pipeline.svg
-  alt: "Diagrama del pipeline previsto: los originales en S3 alimentan una Lambda para imágenes y MediaConvert para video, CloudFront los sirve, y un manifiesto es lo que el sitio lee al construirse"
+  alt: "Diagrama del pipeline previsto: lo que se sube a S3 se enruta según el tipo, una foto va a una Lambda que escribe AVIF y WebP, una película va a MediaConvert que escribe HLS. CloudFront sirve el resultado, y un manifiesto es lo que el sitio lee al construirse"
   width: 1600
   height: 800
 decisions:

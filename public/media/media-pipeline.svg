@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 800" width="1600" height="800" role="img" aria-label="Diagram of the planned media pipeline: S3 originals feed a Lambda for images and MediaConvert for video, CloudFront serves them, and a manifest is the contract the site reads at build time">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 800" width="1600" height="800" role="img" aria-label="Diagram of the planned pipeline: an upload to S3 is routed by type, a photo to a Lambda that writes AVIF and WebP, a film to MediaConvert that writes HLS. CloudFront serves the result, and a manifest is what the site reads at build time">
   <!--
     Day palette only, on purpose: this cover is only ever shown on /dev/work and
     /dev/work/media-pipeline, both of which force day mode. An SVG loaded through <img> also
@@ -10,6 +10,7 @@
     .note { fill: #5F6266; font-family: 'Albert Sans', system-ui, -apple-system, 'Segoe UI', sans-serif; font-size: 22px }
     .note-inv { fill: #A5A7AE; font-family: 'Albert Sans', system-ui, -apple-system, 'Segoe UI', sans-serif; font-size: 22px }
     .stage { fill: #1F7A63; font-family: 'Source Code Pro', ui-monospace, 'Cascadia Mono', monospace; font-size: 19px; letter-spacing: 0.06em }
+    .branch { fill: #1F7A63; font-family: 'Source Code Pro', ui-monospace, 'Cascadia Mono', monospace; font-size: 17px; letter-spacing: 0.04em }
     .planned { fill: #5F6266; font-family: 'Source Code Pro', ui-monospace, 'Cascadia Mono', monospace; font-size: 20px; letter-spacing: 0.06em }
     .box { fill: #FFFFFF; stroke: #E2E1DB; stroke-width: 2 }
     .accent-box { fill: #E6F1EC; stroke: #1F7A63; stroke-width: 2 }
@@ -37,11 +38,14 @@
   <text class="note" x="504" y="488">HLS at 1080 / 720 / 480 / 360,</text>
   <text class="note" x="504" y="518">poster and muted preview</text>
 
-  <!-- S3 splits into the image branch and the video branch -->
+  <!-- The upload is routed by type: a file takes one branch, never both -->
   <path class="flow" d="M352 271 H 452"/>
   <path class="flow" d="M444 261 l 12 10 l -12 10"/>
+  <text class="branch" x="364" y="256">a photo</text>
+
   <path class="flow" d="M212 346 V 471 H 452"/>
   <path class="flow" d="M444 461 l 12 10 l -12 10"/>
+  <text class="branch" x="232" y="456">a film</text>
 
   <!-- Both branches converge on the CDN -->
   <path class="flow" d="M812 271 H 912"/>

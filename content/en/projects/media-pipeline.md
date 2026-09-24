@@ -5,7 +5,7 @@ oneLiner: Serverless image and HLS pipeline on AWS that serves the Filmmaker sid
 role: Creator
 cover:
   src: /media/media-pipeline.svg
-  alt: "Diagram of the planned pipeline: S3 originals feed a Lambda for images and MediaConvert for video, CloudFront serves them, and a manifest is what the site reads at build time"
+  alt: "Diagram of the planned pipeline: an upload to S3 is routed by type, a photo to a Lambda that writes AVIF and WebP, a film to MediaConvert that writes HLS. CloudFront serves the result, and a manifest is what the site reads at build time"
   width: 1600
   height: 800
 decisions:
