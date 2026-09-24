@@ -1,17 +1,17 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 800" width="1600" height="800" role="img" aria-label="Diagram of the planned pipeline: an upload to S3 is routed by type, a photo to a Lambda that writes AVIF and WebP, a film to MediaConvert that writes HLS. CloudFront serves the result, and a manifest is what the site reads at build time">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 800" width="1600" height="800" role="img" aria-label="Diagram of the planned pipeline. Uploading to S3 fires an object-created event, which is routed by file type. A photo goes to a Lambda that writes AVIF and WebP renditions with a blurhash. A film goes to a Lambda that submits a MediaConvert job, and MediaConvert writes the HLS renditions, a poster and a preview. Everything is written back to S3, CloudFront serves it from media.victorgarces.me, and a manifest file is what the site reads when it builds.">
   <!--
     Day palette only, on purpose: this cover is only ever shown on /dev/work and
     /dev/work/media-pipeline, both of which force day mode. An SVG loaded through <img> also
     gets no access to the page fonts, so the stack falls back to the reader's system sans.
   -->
   <style>
-    .label { fill: #151617; font-family: 'Albert Sans', system-ui, -apple-system, 'Segoe UI', sans-serif; font-weight: 700; font-size: 30px }
-    .label-inv { fill: #F7F7F4; font-family: 'Albert Sans', system-ui, -apple-system, 'Segoe UI', sans-serif; font-weight: 700; font-size: 30px }
-    .note { fill: #5F6266; font-family: 'Albert Sans', system-ui, -apple-system, 'Segoe UI', sans-serif; font-size: 22px }
-    .note-inv { fill: #A5A7AE; font-family: 'Albert Sans', system-ui, -apple-system, 'Segoe UI', sans-serif; font-size: 22px }
-    .stage { fill: #1F7A63; font-family: 'Source Code Pro', ui-monospace, 'Cascadia Mono', monospace; font-size: 19px; letter-spacing: 0.06em }
-    .branch { fill: #1F7A63; font-family: 'Source Code Pro', ui-monospace, 'Cascadia Mono', monospace; font-size: 17px; letter-spacing: 0.04em }
-    .planned { fill: #5F6266; font-family: 'Source Code Pro', ui-monospace, 'Cascadia Mono', monospace; font-size: 20px; letter-spacing: 0.06em }
+    .label { fill: #151617; font-family: 'Albert Sans', system-ui, -apple-system, 'Segoe UI', sans-serif; font-weight: 700; font-size: 26px }
+    .label-inv { fill: #F7F7F4; font-family: 'Albert Sans', system-ui, -apple-system, 'Segoe UI', sans-serif; font-weight: 700; font-size: 26px }
+    .note { fill: #5F6266; font-family: 'Albert Sans', system-ui, -apple-system, 'Segoe UI', sans-serif; font-size: 19px }
+    .note-inv { fill: #A5A7AE; font-family: 'Albert Sans', system-ui, -apple-system, 'Segoe UI', sans-serif; font-size: 19px }
+    .stage { fill: #1F7A63; font-family: 'Source Code Pro', ui-monospace, 'Cascadia Mono', monospace; font-size: 17px; letter-spacing: 0.06em }
+    .branch { fill: #1F7A63; font-family: 'Source Code Pro', ui-monospace, 'Cascadia Mono', monospace; font-size: 16px; letter-spacing: 0.04em }
+    .planned { fill: #5F6266; font-family: 'Source Code Pro', ui-monospace, 'Cascadia Mono', monospace; font-size: 18px; letter-spacing: 0.06em }
     .box { fill: #FFFFFF; stroke: #E2E1DB; stroke-width: 2 }
     .accent-box { fill: #E6F1EC; stroke: #1F7A63; stroke-width: 2 }
     .dark-box { fill: #151617 }
@@ -19,61 +19,79 @@
   </style>
 
   <rect fill="#F7F7F4" width="1600" height="800"/>
+  <text class="planned" x="72" y="62">PLANNED DESIGN · NOT YET BUILT</text>
 
-  <text class="planned" x="72" y="80">PLANNED DESIGN · NOT YET BUILT</text>
+  <!-- 01 · the bucket that receives the upload -->
+  <text class="stage" x="72" y="126">01 · SOURCE</text>
+  <rect class="box" x="72" y="146" width="230" height="120" rx="18"/>
+  <text class="label" x="100" y="198">S3</text>
+  <text class="note" x="100" y="230">Originals</text>
 
-  <text class="stage" x="72" y="170">01 · SOURCE</text>
-  <rect class="box" x="72" y="196" width="280" height="150" rx="18"/>
-  <text class="label" x="104" y="256">S3</text>
-  <text class="note" x="104" y="296">Originals, one bucket</text>
+  <!-- 02 · the event, and the fork it takes. A file takes one branch, never both. -->
+  <text class="stage" x="352" y="126">02 · ROUTE BY FILE TYPE</text>
 
-  <text class="stage" x="472" y="170">02 · ENCODE</text>
-  <rect class="accent-box" x="472" y="196" width="340" height="150" rx="18"/>
-  <text class="label" x="504" y="250">Lambda</text>
-  <text class="note" x="504" y="288">AVIF and WebP at</text>
-  <text class="note" x="504" y="318">480 / 960 / 1440 / 2048, blurhash</text>
+  <path class="flow" d="M302 206 H 342"/>
+  <circle cx="352" cy="206" r="9" fill="#1F7A63"/>
+  <text class="branch" x="312" y="190">event</text>
 
-  <rect class="accent-box" x="472" y="396" width="340" height="150" rx="18"/>
-  <text class="label" x="504" y="450">MediaConvert</text>
-  <text class="note" x="504" y="488">HLS at 1080 / 720 / 480 / 360,</text>
-  <text class="note" x="504" y="518">poster and muted preview</text>
+  <path class="flow" d="M352 206 H 512"/>
+  <path class="flow" d="M504 196 l 12 10 l -12 10"/>
+  <text class="branch" x="378" y="190">.jpg .png</text>
 
-  <!-- The upload is routed by type: a file takes one branch, never both -->
-  <path class="flow" d="M352 271 H 452"/>
-  <path class="flow" d="M444 261 l 12 10 l -12 10"/>
-  <text class="branch" x="364" y="256">a photo</text>
+  <path class="flow" d="M352 206 V 396 H 512"/>
+  <path class="flow" d="M504 386 l 12 10 l -12 10"/>
+  <text class="branch" x="378" y="380">.mp4 .mov</text>
 
-  <path class="flow" d="M212 346 V 471 H 452"/>
-  <path class="flow" d="M444 461 l 12 10 l -12 10"/>
-  <text class="branch" x="232" y="456">a film</text>
+  <!-- The photo branch: one function does the whole job -->
+  <rect class="accent-box" x="532" y="146" width="330" height="120" rx="18"/>
+  <text class="label" x="560" y="196">Lambda</text>
+  <text class="note" x="560" y="228">AVIF and WebP, blurhash</text>
 
-  <!-- Both branches converge on the CDN -->
-  <path class="flow" d="M812 271 H 912"/>
-  <path class="flow" d="M904 261 l 12 10 l -12 10"/>
-  <path class="flow" d="M812 471 H 872 V 301 H 912"/>
-  <path class="flow" d="M904 291 l 12 10 l -12 10"/>
+  <!-- The film branch: the function only submits the job, MediaConvert does the encoding -->
+  <rect class="accent-box" x="532" y="336" width="330" height="120" rx="18"/>
+  <text class="label" x="560" y="386">Lambda</text>
+  <text class="note" x="560" y="418">Submits a job</text>
 
-  <text class="stage" x="932" y="170">03 · SERVE</text>
-  <rect class="box" x="932" y="196" width="300" height="150" rx="18"/>
-  <text class="label" x="964" y="250">CloudFront</text>
-  <text class="note" x="964" y="290">media.victorgarces.me</text>
+  <path class="flow" d="M862 396 H 952"/>
+  <path class="flow" d="M944 386 l 12 10 l -12 10"/>
+  <text class="branch" x="884" y="380">job</text>
 
-  <path class="flow" d="M1232 271 H 1332"/>
-  <path class="flow" d="M1324 261 l 12 10 l -12 10"/>
+  <rect class="box" x="972" y="336" width="380" height="120" rx="18"/>
+  <text class="label" x="1000" y="386">MediaConvert</text>
+  <text class="note" x="1000" y="418">HLS 1080 / 720 / 480 / 360</text>
 
-  <text class="stage" x="1352" y="170">04 · CONTRACT</text>
-  <rect class="dark-box" x="1352" y="196" width="180" height="150" rx="18"/>
-  <text class="label-inv" x="1382" y="256">manifest</text>
-  <text class="note-inv" x="1382" y="296">.json</text>
+  <!-- Both branches write their output back into the bucket -->
+  <path class="flow" d="M862 206 H 1452 V 516 H 187 V 546"/>
+  <path class="flow" d="M177 538 l 10 12 l 10 -12"/>
+  <path class="flow" d="M1352 396 H 1452"/>
+  <text class="branch" x="1046" y="500">renditions written back to S3</text>
 
-  <!-- The manifest is the only thing the site consumes, and it reads it at build time -->
-  <path class="flow" d="M1442 346 V 636 H 892" stroke-dasharray="10 10"/>
-  <path class="flow" d="M900 626 l -12 10 l 12 10"/>
+  <!-- 03 · one origin in front of the bucket -->
+  <text class="stage" x="72" y="586">03 · SERVE</text>
+  <rect class="box" x="72" y="606" width="230" height="120" rx="18"/>
+  <text class="label" x="100" y="658">S3</text>
+  <text class="note" x="100" y="690">Renditions and HLS</text>
 
-  <rect class="box" x="472" y="576" width="400" height="120" rx="18"/>
-  <text class="label" x="504" y="632">victorgarces.me</text>
-  <text class="note" x="504" y="670">Reads the manifest at build time</text>
+  <path class="flow" d="M302 666 H 392"/>
+  <path class="flow" d="M384 656 l 12 10 l -12 10"/>
 
-  <text class="note" x="932" y="702">One JSON file is the whole contract,</text>
-  <text class="note" x="932" y="732">so the pipeline and the site ship apart.</text>
+  <rect class="box" x="412" y="606" width="330" height="120" rx="18"/>
+  <text class="label" x="440" y="658">CloudFront</text>
+  <text class="note" x="440" y="690">media.victorgarces.me</text>
+
+  <path class="flow" d="M742 666 H 832"/>
+  <path class="flow" d="M824 656 l 12 10 l -12 10"/>
+
+  <!-- 04 · the only thing the site consumes -->
+  <text class="stage" x="852" y="586">04 · CONTRACT</text>
+  <rect class="dark-box" x="852" y="606" width="200" height="120" rx="18"/>
+  <text class="label-inv" x="880" y="658">manifest</text>
+  <text class="note-inv" x="880" y="690">.json</text>
+
+  <path class="flow" d="M1052 666 H 1142"/>
+  <path class="flow" d="M1134 656 l 12 10 l -12 10"/>
+
+  <rect class="box" x="1162" y="606" width="366" height="120" rx="18"/>
+  <text class="label" x="1190" y="658">victorgarces.me</text>
+  <text class="note" x="1190" y="690">Reads it at build time</text>
 </svg>
