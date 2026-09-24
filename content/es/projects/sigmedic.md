@@ -3,6 +3,11 @@ title: Sigmedic
 oneLiner: Expediente de salud personal para la República Dominicana, con perfiles de pacientes y médicos.
 role: Full-stack
 org: Sigmedic
+cover:
+  src: /media/sigmedic-cover.jpg
+  alt: "Marca de Sigmedic: un trébol de cuatro pétalos detrás del logotipo sigmedic, sobre azul intenso"
+  width: 1600
+  height: 800
 year: "2026"
 status: beta
 kind: web-app

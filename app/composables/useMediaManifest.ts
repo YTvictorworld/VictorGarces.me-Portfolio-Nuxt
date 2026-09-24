@@ -55,7 +55,13 @@ function blurhashAverage(hash: string): string | undefined {
  */
 export function useMediaManifest() {
   const { locale } = useI18n()
-  const url = (path: string) => `${manifest.base.replace(/\/$/, '')}/${path.replace(/^\//, '')}`
+  /**
+   * An absolute URL is used as it is, so the pipeline can serve video from CloudFront while the
+   * photos stay on this origin. Anything relative hangs off `base`.
+   */
+  const url = (path: string) => /^https?:\/\//.test(path)
+    ? path
+    : `${manifest.base.replace(/\/$/, '')}/${path.replace(/^\//, '')}`
 
   function photo(id: string): ManifestPhoto | undefined {
     return manifest.photos[id]
