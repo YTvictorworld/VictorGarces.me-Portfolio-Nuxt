@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 800" width="1600" height="800" role="img" aria-label="Diagram of the planned pipeline. Uploading to S3 fires an object-created event, which is routed by file type. A photo goes to a Lambda that writes AVIF and WebP renditions with a blurhash. A film goes to a Lambda that submits a MediaConvert job, and MediaConvert writes the HLS renditions, a poster and a preview. Everything is written back to S3, CloudFront serves it from media.victorgarces.me, and a manifest file is what the site reads when it builds.">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 800" width="1600" height="800" role="img" aria-label="Diagram of the planned pipeline. Uploading to S3 fires an object-created event, which is routed by file type. A photo goes to a Lambda that writes AVIF and WebP renditions with a blurhash. A film goes to a Lambda that submits a MediaConvert job, and MediaConvert writes the HLS renditions, a poster and a preview. The originals stay in a private prefix and are never served; the encoders write their output into the public prefix, which is the only one CloudFront serves, from media.victorgarces.me, and a manifest file is what the site reads when it builds.">
   <!--
     Day palette only, on purpose: this cover is only ever shown on /dev/work and
     /dev/work/media-pipeline, both of which force day mode. An SVG loaded through <img> also
@@ -25,7 +25,7 @@
   <text class="stage" x="72" y="126">01 · SOURCE</text>
   <rect class="box" x="72" y="146" width="230" height="120" rx="18"/>
   <text class="label" x="100" y="198">S3</text>
-  <text class="note" x="100" y="230">Originals</text>
+  <text class="note" x="100" y="230">originals, private</text>
 
   <!-- 02 · the event, and the fork it takes. A file takes one branch, never both. -->
   <text class="stage" x="352" y="126">02 · ROUTE BY FILE TYPE</text>
@@ -64,13 +64,13 @@
   <path class="flow" d="M862 206 H 1452 V 516 H 187 V 546"/>
   <path class="flow" d="M177 538 l 10 12 l 10 -12"/>
   <path class="flow" d="M1352 396 H 1452"/>
-  <text class="branch" x="1046" y="500">renditions written back to S3</text>
+  <text class="branch" x="1024" y="500">output written to public/</text>
 
   <!-- 03 · one origin in front of the bucket -->
   <text class="stage" x="72" y="586">03 · SERVE</text>
   <rect class="box" x="72" y="606" width="230" height="120" rx="18"/>
   <text class="label" x="100" y="658">S3</text>
-  <text class="note" x="100" y="690">Renditions and HLS</text>
+  <text class="note" x="100" y="690">public/, served</text>
 
   <path class="flow" d="M302 666 H 392"/>
   <path class="flow" d="M384 656 l 12 10 l -12 10"/>
