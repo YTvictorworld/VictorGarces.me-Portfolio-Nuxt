@@ -14,7 +14,7 @@ const props = defineProps<{
   }
 }>()
 
-const { t, locale } = useI18n()
+const { t, localeProperties } = useI18n()
 const toc = computed(() => props.doc.body?.toc?.links ?? [])
 </script>
 
@@ -26,7 +26,7 @@ const toc = computed(() => props.doc.body?.toc?.links ?? [])
       :lead="doc.description"
     />
     <p class="updated mono">
-      {{ t('legal.updated', { date: formatDate(doc.updated, locale) }) }}
+      {{ t('legal.updated', { date: formatDate(doc.updated, localeProperties.language) }) }}
     </p>
 
     <LegalTabs />

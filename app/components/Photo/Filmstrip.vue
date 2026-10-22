@@ -13,6 +13,7 @@ const props = withDefaults(defineProps<{
   limit?: number
 }>(), { limit: 8 })
 
+const { t } = useI18n()
 const media = useMediaManifest()
 const shown = computed(() => props.photos.slice(0, props.limit))
 const hidden = computed(() => props.photos.length - shown.value.length)
@@ -66,6 +67,7 @@ const width = (id: string) => {
         <NuxtLink
           :to="href"
           class="mono"
+          :aria-label="t('home.morePhotos', { n: hidden })"
         >+{{ hidden }}</NuxtLink>
       </li>
     </ul>

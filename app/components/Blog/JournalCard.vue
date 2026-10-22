@@ -9,7 +9,7 @@ defineProps<{
   cover?: { src: string, alt: string }
 }>()
 
-const { locale } = useI18n()
+const { localeProperties } = useI18n()
 </script>
 
 <template>
@@ -31,7 +31,7 @@ const { locale } = useI18n()
     />
     <div class="text">
       <p class="meta mono">
-        <time :datetime="new Date(date).toISOString().slice(0, 10)">{{ formatDate(date, locale) }}</time><template v-if="label">
+        <time :datetime="new Date(date).toISOString().slice(0, 10)">{{ formatDate(date, localeProperties.language) }}</time><template v-if="label">
           · {{ label }}
         </template>
       </p>
@@ -62,8 +62,22 @@ const { locale } = useI18n()
   transition: border-color var(--t-card) var(--ease-out-quart);
 }
 
-.entry:hover {
+/* Hover only where it can end: on touch it would stick after a tap */
+@media (hover: hover) {
+  .entry:hover {
+    border-color: color-mix(in oklab, var(--accent) 40%, var(--border));
+  }
+}
+
+/* Keyboard focus gets the hover tint, and the ring goes around the card the link covers */
+.entry:has(.stretched:focus-visible) {
   border-color: color-mix(in oklab, var(--accent) 40%, var(--border));
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.entry:has(.stretched:focus-visible) .stretched:focus-visible {
+  outline: none;
 }
 
 .cover {

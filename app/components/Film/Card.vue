@@ -48,10 +48,12 @@ const playable = computed(() => Boolean(props.href && props.video && media.video
         :to="href"
         class="stretched"
         :aria-label="t('home.openFilm', { title: props.title })"
+        translate="no"
       >{{ title }}</NuxtLink>
-      <template v-else>
-        {{ title }}
-      </template>
+      <span
+        v-else
+        translate="no"
+      >{{ title }}</span>
     </h3>
     <p class="subtitle">
       {{ subtitle }}
@@ -69,9 +71,24 @@ const playable = computed(() => Boolean(props.href && props.video && media.video
   transition: transform var(--t-card) var(--ease-out-quart), border-color var(--t-card) var(--ease-out-quart);
 }
 
-.linked:hover {
+/* Hover only where it can end: on touch it would stick after a tap */
+@media (hover: hover) {
+  .linked:hover {
+    transform: translateY(-2px);
+    border-color: color-mix(in oklab, var(--accent) 40%, var(--border));
+  }
+}
+
+/* Keyboard focus gets the hover treatment, and the ring goes around the card the link covers */
+.linked:has(.stretched:focus-visible) {
   transform: translateY(-2px);
   border-color: color-mix(in oklab, var(--accent) 40%, var(--border));
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.linked:has(.stretched:focus-visible) .stretched:focus-visible {
+  outline: none;
 }
 
 .poster {

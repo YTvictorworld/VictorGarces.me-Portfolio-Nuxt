@@ -105,7 +105,7 @@ The only form is `/contact` (Web3Forms). These apply to it and to any form added
 
 - MUST: Zero third-party origins on load. It is a published property of this site, not a guideline.
 - SHOULD: `<link rel="preconnect">` only for first-party asset hosts, such as the media subdomain once the pipeline serves from it.
-- Fonts are self-hosted by `@nuxt/fonts`, with `preload: false` on purpose (see the comment in `nuxt.config.ts`). Change it only with an LCP measurement in hand.
+- Fonts are self-hosted by `@nuxt/fonts`. Only Albert Sans is preloaded, because it is the body and day display face on every page; Newsreader is not, since day pages never use it (see `nuxt.config.ts`). Change either only with an LCP measurement in hand.
 - NEVER: Layout reads (`getBoundingClientRect`, `offsetHeight`, `scrollTop`) in `setup` or render. Read after mount, batch reads before writes, and use `requestAnimationFrame` for scroll work.
 - SHOULD: Flex and grid over JavaScript measurement.
 - MUST: Keep initial JS on the homes within the budget in `docs/MIGRATION.md`, and LCP under 2.5 s on 4G.

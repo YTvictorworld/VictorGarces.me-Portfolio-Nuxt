@@ -12,6 +12,15 @@ defineProps<{
 }>()
 
 const initials = (name: string) => name.split(/\s+/).slice(0, 2).map(part => part[0]).join('').toUpperCase()
+
+// Only a scroller that actually scrolls is a tab stop (the swipe row on phones). The prerendered
+// markup keeps tabindex, so hydration matches; the overflow is measured after mount.
+const grid = ref<HTMLElement | null>(null)
+const scrollable = ref(true)
+useResizeObserver(grid, () => {
+  const el = grid.value
+  if (el) scrollable.value = el.scrollWidth > el.clientWidth
+})
 </script>
 
 <template>
@@ -27,8 +36,9 @@ const initials = (name: string) => name.split(/\s+/).slice(0, 2).map(part => par
     />
     <!-- DESIGN: a carousel takes over when there are more than three; with three the grid shows all -->
     <div
+      ref="grid"
       class="grid"
-      tabindex="0"
+      :tabindex="scrollable ? 0 : undefined"
       role="group"
       :aria-label="title"
     >
@@ -45,7 +55,10 @@ const initials = (name: string) => name.split(/\s+/).slice(0, 2).map(part => par
             aria-hidden="true"
           >{{ initials(entry.name) }}</span>
           <span class="who">
-            <span class="name">{{ entry.name }}</span>
+            <span
+              class="name"
+              translate="no"
+            >{{ entry.name }}</span>
             <span class="role">{{ entry.role }}</span>
           </span>
         </figcaption>

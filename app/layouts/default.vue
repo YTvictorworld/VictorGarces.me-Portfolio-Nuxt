@@ -29,23 +29,3 @@ const { announcement } = useMode()
     </p>
   </div>
 </template>
-
-<style scoped>
-.skip-link {
-  position: absolute;
-  left: 16px;
-  top: -64px;
-  z-index: 50;
-  padding: 10px 16px;
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--on-accent);
-  background: var(--accent);
-  border-radius: var(--r-pill);
-  text-decoration: none;
-}
-
-.skip-link:focus {
-  top: 16px;
-}
-</style>

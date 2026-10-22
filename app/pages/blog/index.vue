@@ -3,6 +3,7 @@ definePageMeta({ fullBleed: true })
 
 const { locale, t, te } = useI18n()
 const localePath = useLocalePath()
+const router = useRouter()
 const { collection, published } = useLocalizedContent()
 
 const { data } = await useAsyncData(`blog-${locale.value}`, () => Promise.all([
@@ -22,7 +23,24 @@ const tags = computed(() => [...new Set(posts.value.flatMap(post => post.tags ??
   .map(tag => ({ id: tag, label: te(`blog.tag.${tag}`) ? t(`blog.tag.${tag}`) : tag })))
 
 const tag = useQueryFilter('tag')
+
+// The term goes in ?q= like the tag, so a search can be shared. The box keeps its own value and
+// the query follows it after a pause, so typing never waits on the router or fills history.
+const query = useQueryFilter('q')
 const search = ref('')
+let written = ''
+const listPath = router.currentRoute.value.path
+// A shared link fills the box after mount; the box's own writes do not echo back into it
+watch(query, (value) => {
+  if (value !== written) search.value = value
+  written = value
+})
+watchDebounced(search, (value) => {
+  // A write still pending when a post link is followed would land on the post's query
+  if (router.currentRoute.value.path !== listPath) return
+  written = value
+  query.value = value
+}, { debounce: 300 })
 
 const shown = computed(() => {
   const term = search.value.trim().toLowerCase()

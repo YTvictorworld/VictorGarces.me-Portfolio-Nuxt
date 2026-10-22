@@ -53,6 +53,11 @@ defineProps<{
   margin: 0;
 }
 
+/* Only changes a heading that wraps: its lines come out even instead of one orphaned word */
+.h2 {
+  text-wrap: balance;
+}
+
 .aside {
   display: flex;
   flex-wrap: wrap;

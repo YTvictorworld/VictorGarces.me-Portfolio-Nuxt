@@ -57,6 +57,7 @@ useSeo({ title: page.value.title, description: page.value.description })
           height="640"
           sizes="(max-width: 767px) 100vw, 380px"
           loading="eager"
+          fetchpriority="high"
         />
         <ShellPlaceholder
           v-else

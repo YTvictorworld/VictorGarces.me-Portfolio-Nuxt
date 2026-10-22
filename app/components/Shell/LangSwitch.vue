@@ -34,6 +34,7 @@ const other = computed(() => codes.value.find(code => code !== locale.value) ?? 
 
 <style scoped>
 .lang {
+  position: relative;
   display: inline-flex;
   align-items: center;
   flex: none;
@@ -56,6 +57,13 @@ const other = computed(() => codes.value.find(code => code !== locale.value) ?? 
 
 .lang--compact {
   padding: 8px 10px;
+}
+
+/* The compact pill is about 30px tall and only shown on touch layouts: grow the target to 44px */
+.lang--compact::before {
+  content: '';
+  position: absolute;
+  inset: min(0px, calc(50% - 22px)) 0;
 }
 
 .lang:hover {

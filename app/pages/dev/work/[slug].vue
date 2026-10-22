@@ -51,7 +51,7 @@ useSeo({ title: project.value.title, description: project.value.oneLiner })
         :to="localePath('/dev/work')"
         class="back mono"
       >
-        ← {{ t('page.backToWork') }}
+        <span aria-hidden="true">←</span> {{ t('page.backToWork') }}
       </NuxtLink>
       <p class="eyebrow eyebrow--accent">
         {{ t('project.caseStudy') }} · {{ project.title }}
@@ -265,7 +265,7 @@ useSeo({ title: project.value.title, description: project.value.oneLiner })
 
 .body :deep(h2)::before {
   counter-increment: section;
-  content: '0' counter(section);
+  content: counter(section, decimal-leading-zero);
   font-family: var(--font-mono);
   font-size: 13px;
   font-style: normal;

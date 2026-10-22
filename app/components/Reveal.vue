@@ -4,6 +4,12 @@
  * Fades + slides content in once it becomes visible (or on mount with `immediate`).
  * Pure CSS transitions driven by IntersectionObserver, no animation library.
  * Respects prefers-reduced-motion: renders content statically, no animation.
+ *
+ * The prerendered HTML is always visible, and hydration cannot hide it: Vue does not patch
+ * `style` while hydrating, so a hidden state computed during setup never reached the page and
+ * nothing animated on a direct load. A hydrated section is therefore hidden after mount, and only
+ * when it starts below the fold, where hiding it cannot flash. A section created by a client-side
+ * navigation has nothing on screen yet, so it starts hidden.
  */
 const props = withDefaults(defineProps<{
   delay?: number
@@ -18,48 +24,61 @@ const props = withDefaults(defineProps<{
   immediate: false
 })
 
+type State = 'shown' | 'hidden' | 'revealing'
+
 const el = ref<HTMLElement | null>(null)
-const reducedMotion = usePreferredReducedMotion()
-const revealed = ref(false)
+const hydrating = useNuxtApp().isHydrating
+
+function prefersReducedMotion() {
+  return window.matchMedia('(prefers-reduced-motion: reduce)').matches
+}
+
+const state = ref<State>(import.meta.client && !hydrating && !prefersReducedMotion() ? 'hidden' : 'shown')
 
 const style = computed(() => {
-  // SSR/prerender: emit fully visible content so crawlers and no-JS users see everything
-  if (import.meta.server) return {}
-  if (revealed.value) {
+  if (state.value === 'hidden') {
+    return { opacity: '0', transform: `translateY(${props.y}px)` }
+  }
+  if (state.value === 'revealing') {
     return {
-      transition: `opacity ${props.duration}ms ease-out ${props.delay}ms, transform ${props.duration}ms cubic-bezier(0.16, 1, 0.3, 1) ${props.delay}ms`,
+      transition: `opacity ${props.duration}ms ease-out ${props.delay}ms, transform ${props.duration}ms var(--ease-out) ${props.delay}ms`,
       opacity: '1',
       transform: 'none'
     }
   }
-  return {
-    opacity: '0',
-    transform: `translateY(${props.y}px)`
-  }
+  return {}
 })
 
+function reveal() {
+  // double rAF: let the hidden state paint once so the transition runs
+  requestAnimationFrame(() => requestAnimationFrame(() => {
+    state.value = 'revealing'
+  }))
+}
+
 onMounted(() => {
-  if (reducedMotion.value === 'reduce' || !('IntersectionObserver' in window)) {
-    revealed.value = true
+  if (prefersReducedMotion() || !('IntersectionObserver' in window) || !el.value) {
+    state.value = 'shown'
     return
   }
 
-  if (props.immediate) {
-    // double rAF: let the hidden state paint once so the transition runs
-    requestAnimationFrame(() => requestAnimationFrame(() => {
-      revealed.value = true
-    }))
+  if (state.value === 'shown') {
+    // Hydrated: content in or above the viewport stays as it is
+    if (el.value.getBoundingClientRect().top < window.innerHeight) return
+    state.value = 'hidden'
+  } else if (props.immediate) {
+    reveal()
     return
   }
 
   const observer = new IntersectionObserver(([entry]) => {
     if (entry?.isIntersecting) {
-      revealed.value = true
+      state.value = 'revealing'
       observer.disconnect()
     }
   }, { rootMargin: '0px 0px -40px 0px' })
 
-  if (el.value) observer.observe(el.value)
+  observer.observe(el.value)
   onUnmounted(() => observer.disconnect())
 })
 </script>
@@ -68,7 +87,6 @@ onMounted(() => {
   <div
     ref="el"
     :style="style"
-    data-allow-mismatch="style"
   >
     <slot />
   </div>

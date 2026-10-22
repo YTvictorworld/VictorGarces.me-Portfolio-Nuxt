@@ -9,7 +9,7 @@
 /* --- Page transitions --- */
 .page-enter-active,
 .page-leave-active {
-  transition: opacity var(--t-page) ease, transform var(--t-page) ease;
+  transition: opacity var(--t-page) var(--ease-out), transform var(--t-page) var(--ease-out);
 }
 
 .page-enter-from {
@@ -24,9 +24,20 @@
 
 /* --- Global polish --- */
 html {
+  /* In-page anchors only: app/router.options.ts makes page changes and Back instant */
   scroll-behavior: smooth;
   /* Anchors, the skip link and focused elements land below the sticky header */
   scroll-padding-top: var(--header-h);
+  /* No double-tap zoom delay; pinch zoom still works */
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: color-mix(in oklab, var(--accent) 20%, transparent);
+}
+
+/* No rubber-band bounce with a mouse or trackpad. Touch keeps it, and pull-to-refresh with it. */
+@media (pointer: fine) {
+  html {
+    overscroll-behavior: none;
+  }
 }
 
 /* ...and above the floating mode pill (20px offset + 58px + clearance) */

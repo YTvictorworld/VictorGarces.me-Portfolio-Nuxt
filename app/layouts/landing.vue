@@ -1,16 +1,26 @@
 <script setup lang="ts">
 /** First-visit layout: only the brand and the language switch, no nav or mode toggle. */
+const { t } = useI18n()
 const { announcement } = useMode()
 const siteName = SITE_NAME
 </script>
 
 <template>
   <div class="landing">
+    <a
+      href="#main"
+      class="skip-link"
+    >{{ t('a11y.skipToContent') }}</a>
     <header class="bar">
       <span class="brand display">{{ siteName }}</span>
       <ShellLangSwitch />
     </header>
-    <main id="main">
+    <!-- tabindex: app.vue moves focus here after a navigation, as in the default layout -->
+    <main
+      id="main"
+      tabindex="-1"
+      class="landing-main"
+    >
       <NuxtPage />
     </main>
     <p
@@ -34,6 +44,11 @@ const siteName = SITE_NAME
 .brand {
   font-size: 18px;
   letter-spacing: -0.01em;
+}
+
+/* Focused by script, never by Tab: no ring around the whole page (as .main in ui.css) */
+.landing-main {
+  outline: none;
 }
 </style>
 

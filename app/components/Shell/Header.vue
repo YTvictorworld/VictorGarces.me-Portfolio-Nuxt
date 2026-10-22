@@ -36,12 +36,14 @@ watch(menuOpen, (open) => {
       <NuxtLink
         :to="home.day"
         class="brand display day-only"
+        translate="no"
       >
         {{ siteName }}
       </NuxtLink>
       <NuxtLink
         :to="home.night"
         class="brand display night-only"
+        translate="no"
       >
         {{ siteName }}
       </NuxtLink>
@@ -291,10 +293,17 @@ watch(menuOpen, (open) => {
   background: var(--bg);
   border: 0;
   border-left: 1px solid var(--border);
+  overscroll-behavior: contain;
 }
 
 .menu::backdrop {
-  background: rgb(0 0 0 / 45%);
+  background: var(--backdrop);
+}
+
+/* A modal (this menu or the lightbox) keeps the page behind it still. Here rather than in the
+   lightbox because the header is on every page, so the rule is always loaded. */
+:global(html:has(dialog:modal)) {
+  overflow: hidden;
 }
 
 .menu-head {
@@ -310,6 +319,7 @@ watch(menuOpen, (open) => {
 }
 
 .menu-close {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -320,6 +330,13 @@ watch(menuOpen, (open) => {
   border: 1px solid var(--border);
   border-radius: 50%;
   cursor: pointer;
+}
+
+/* 44px touch target around the 40px circle, without changing what is drawn */
+.menu-close::before {
+  content: '';
+  position: absolute;
+  inset: -3px;
 }
 
 .menu-list {

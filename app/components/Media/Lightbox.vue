@@ -113,10 +113,12 @@ watch(() => props.index, (value) => {
   color: var(--text);
   background: var(--bg);
   border: 0;
+  /* Page scroll behind it is locked by a rule in Shell/Header */
+  overscroll-behavior: contain;
 }
 
 .lightbox::backdrop {
-  background: rgb(0 0 0 / 80%);
+  background: var(--backdrop-strong);
 }
 
 .frame {

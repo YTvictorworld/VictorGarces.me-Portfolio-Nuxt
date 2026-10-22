@@ -158,7 +158,8 @@ useSeo({
       />
     </Reveal>
 
-    <Reveal>
+    <!-- No film posts and no about: no empty section (nothing links to #journal) -->
+    <Reveal v-if="journal.length || about">
       <section
         id="journal"
         class="section journal"
@@ -177,7 +178,7 @@ useSeo({
               :to="journalHref"
               class="link-accent"
             >
-              {{ s.journal?.cta }} →
+              {{ s.journal?.cta }} <span aria-hidden="true">→</span>
             </NuxtLink>
           </SectionHead>
           <BlogJournalCard

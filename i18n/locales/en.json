@@ -54,12 +54,12 @@
   },
   "blog": {
     "eyebrow": "Writing",
-    "searchPlaceholder": "Search blog posts...",
+    "searchPlaceholder": "Search blog posts…",
     "postsFound": "{count} post found | {count} posts found",
     "noResults": "No posts found matching your search.",
     "clearSearch": "Clear search",
     "allPosts": "All posts",
-    "minRead": "{min} min read",
+    "minRead": "{min} min read",
     "thanks": "Thanks for reading!",
     "backToPosts": "Back to all posts",
     "readPost": "Read the post",
@@ -87,7 +87,7 @@
   "home": {
     "ofTotal": "{shown} of {total}",
     "more": "{n} more",
-    "readMin": "Read · {min} min",
+    "readMin": "Read · {min} min",
     "toNow": "to now",
     "stack": "Stack",
     "allProjects": "See all projects",
@@ -108,7 +108,8 @@
     "photos": "{n} photos",
     "to": "to",
     "pause": "Pause",
-    "resume": "Play"
+    "resume": "Play",
+    "morePhotos": "{n} more photos"
   },
   "film": {
     "kind": {
@@ -176,9 +177,11 @@
     "nextPhoto": "Next photo",
     "photoOf": "Photo {n} of {total}",
     "search": "Search",
-    "minRead": "{min} min",
+    "minRead": "{min} min",
     "openPhotoNamed": "Open photo {n} of {total}: {alt}",
-    "forOrg": "For"
+    "forOrg": "For",
+    "linkCopyFailed": "Could not copy the link. Copy it from the address bar instead.",
+    "postNav": "Previous and next posts"
   },
   "form": {
     "topic": "Topic",
@@ -200,7 +203,7 @@
     "sending": "Sending…",
     "success": "Thank you. Your message is on its way; I usually reply within 24 hours.",
     "error": "Something went wrong. Please write to {email} instead.",
-    "required": "This field is required",
+    "required": "Fill in this field to send your message",
     "invalidEmail": "Please enter a valid email address",
     "consent": "What you send goes to my inbox through Web3Forms and is used only to reply.",
     "emailFallback": "Open your email app",
@@ -261,5 +264,9 @@
   "schema": {
     "jobDev": "Full-stack developer",
     "jobFilm": "Filmmaker and photographer"
+  },
+  "lang": {
+    "en": "English",
+    "es": "Spanish"
   }
 }

@@ -58,7 +58,7 @@ const stack = computed(() => (props.about.stack ?? []).flatMap(group => group.it
         :to="href"
         class="link-accent"
       >
-        {{ cta }} →
+        {{ cta }} <span aria-hidden="true">→</span>
       </NuxtLink>
     </div>
 

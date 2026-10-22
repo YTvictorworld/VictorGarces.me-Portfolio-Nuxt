@@ -114,7 +114,7 @@ async function submit() {
       method: 'POST',
       body: {
         access_key: web3formsKey,
-        subject: `${topicLabel.value} — ${form.name}`,
+        subject: `${topicLabel.value} · ${form.name}`,
         from_name: form.name,
         name: form.name,
         email: form.email,
@@ -187,7 +187,8 @@ useSeo({ title: page.value.title, description: page.value.description })
             <label for="field-name">{{ t('form.name') }}</label>
             <input
               id="field-name"
-              v-model="form.name"
+              v-model.trim="form.name"
+              name="name"
               class="input"
               autocomplete="name"
               :placeholder="t('form.namePlaceholder')"
@@ -210,10 +211,12 @@ useSeo({ title: page.value.title, description: page.value.description })
             <label for="field-email">{{ t('form.email') }}</label>
             <input
               id="field-email"
-              v-model="form.email"
+              v-model.trim="form.email"
+              name="email"
               type="email"
               class="input"
               autocomplete="email"
+              spellcheck="false"
               :placeholder="t('form.emailPlaceholder')"
               :aria-invalid="Boolean(errors.email)"
               :aria-describedby="errors.email ? 'error-email' : undefined"
@@ -237,6 +240,7 @@ useSeo({ title: page.value.title, description: page.value.description })
             <select
               id="field-budget"
               v-model="form.budget"
+              name="budget"
               class="input"
             >
               <option value="">
@@ -260,6 +264,7 @@ useSeo({ title: page.value.title, description: page.value.description })
             <select
               id="field-timeline"
               v-model="form.timeline"
+              name="timeline"
               class="input"
             >
               <option value="">
@@ -283,6 +288,7 @@ useSeo({ title: page.value.title, description: page.value.description })
             <input
               id="field-date"
               v-model="form.date"
+              name="date"
               type="date"
               class="input"
             >
@@ -295,7 +301,8 @@ useSeo({ title: page.value.title, description: page.value.description })
             <label for="field-place">{{ t('form.place') }}</label>
             <input
               id="field-place"
-              v-model="form.place"
+              v-model.trim="form.place"
+              name="place"
               class="input"
               :placeholder="t('form.placePlaceholder')"
             >
@@ -307,6 +314,7 @@ useSeo({ title: page.value.title, description: page.value.description })
           <textarea
             id="field-message"
             v-model="form.message"
+            name="message"
             class="input"
             rows="6"
             :placeholder="t('form.messagePlaceholder')"
@@ -344,6 +352,11 @@ useSeo({ title: page.value.title, description: page.value.description })
             class="btn btn--accent btn--md"
             :disabled="state === 'sending'"
           >
+            <span
+              v-if="state === 'sending'"
+              class="spinner"
+              aria-hidden="true"
+            />
             {{ state === 'sending' ? t('form.sending') : t('form.send') }}
           </button>
           <!-- No form endpoint configured: the same message, composed in the visitor's email app -->
@@ -605,6 +618,22 @@ useSeo({ title: page.value.title, description: page.value.description })
 @media (max-width: 767px) {
   .form {
     padding: 20px;
+  }
+}
+
+/* Sending: the label changes too, so the spinner is never the only cue */
+.spinner {
+  width: 12px;
+  height: 12px;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
   }
 }
 </style>

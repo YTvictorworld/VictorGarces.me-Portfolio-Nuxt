@@ -57,12 +57,15 @@ useSeo({
         :to="localePath('/film/films')"
         class="back mono"
       >
-        ← {{ t('page.backToFilms') }}
+        <span aria-hidden="true">←</span> {{ t('page.backToFilms') }}
       </NuxtLink>
       <p class="eyebrow eyebrow--accent">
         {{ t(`film.kind.${film.kind}`) }} · {{ film.year }} · {{ film.runtime }}
       </p>
-      <h1 class="title">
+      <h1
+        class="title"
+        translate="no"
+      >
         {{ film.title }}
       </h1>
       <p
@@ -78,6 +81,7 @@ useSeo({
         :id="film.video?.id"
         :poster="film.poster?.id"
         :title="film.title"
+        priority
       />
     </div>
 
@@ -131,7 +135,9 @@ useSeo({
             :key="credit.role + credit.name"
           >
             <dt>{{ credit.role }}</dt>
-            <dd>{{ credit.name }}</dd>
+            <dd translate="no">
+              {{ credit.name }}
+            </dd>
           </template>
           <template v-if="film.camera">
             <dt>{{ t('film.camera') }}</dt>

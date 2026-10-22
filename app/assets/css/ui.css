@@ -27,6 +27,11 @@
     border-color: color-mix(in oklab, var(--accent) 40%, var(--border));
   }
 
+  /* Pressed: the transform in the transition above was there for this and never used */
+  .btn:active {
+    transform: translateY(1px);
+  }
+
   .btn--accent {
     color: var(--on-accent);
     background: var(--accent);
@@ -74,6 +79,24 @@
     border-radius: var(--r-pill);
   }
 
+  :is(a, button, label).pill:active {
+    transform: translateY(1px);
+  }
+
+  /* A pill is 38px tall; on touch its hit area reaches 44px without moving anything.
+     Vertical only, so neighbours in a row never overlap. */
+  @media (pointer: coarse) {
+    :is(a, button, label).pill {
+      position: relative;
+    }
+
+    :is(a, button, label).pill::after {
+      content: '';
+      position: absolute;
+      inset: -3px 0;
+    }
+  }
+
   .card {
     background: var(--surface);
     border: 1px solid var(--border);
@@ -98,9 +121,31 @@
     color: var(--muted);
   }
 
+  /* First stop in the tab order on every page: both layouts and error.vue */
+  .skip-link {
+    position: absolute;
+    left: 16px;
+    top: -64px;
+    z-index: 50;
+    padding: 10px 16px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--on-accent);
+    background: var(--accent);
+    border-radius: var(--r-pill);
+    text-decoration: none;
+  }
+
+  .skip-link:focus {
+    top: 16px;
+  }
+
   /* The page region between header and footer */
   .main {
     min-height: 100vh;
+    min-height: 100dvh;
+    /* Only ever focused by script (the focus reset after a navigation), never by Tab, so no
+       control loses its ring. A ring around the whole page would read as a bug. */
     outline: none;
   }
 
@@ -122,6 +167,7 @@
     font-size: 17px;
     line-height: 1.65;
     color: var(--muted);
+    text-wrap: pretty;
   }
 
   .prose > :first-child {
@@ -231,6 +277,13 @@
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: var(--r-pill);
+  }
+
+  /* Below 16px, iOS zooms the page in when a field takes focus */
+  @media (max-width: 767px) {
+    .input {
+      font-size: 16px;
+    }
   }
 
   .input::placeholder {

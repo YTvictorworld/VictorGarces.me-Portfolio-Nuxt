@@ -2,7 +2,7 @@
 /** Eyebrow + h1 + lead, with an optional right slot for filters or actions (every index page). */
 defineProps<{
   eyebrow?: string
-  title?: string
+  title: string
   lead?: string
   /** Appended to the eyebrow, e.g. "12 posts" */
   count?: string

@@ -12,9 +12,13 @@ const props = withDefaults(defineProps<{
   poster?: string
   title?: string
   variant?: 'full' | 'inline'
-}>(), { variant: 'full' })
+  /** Eager, high-priority poster, for the player that is the page's LCP */
+  priority?: boolean
+}>(), { variant: 'full', priority: false })
 
-const { t } = useI18n()
+const { t, te } = useI18n()
+// The track menu shows a language name, not the raw code from the manifest
+const trackLabel = (lang: string) => te(`lang.${lang}`) ? t(`lang.${lang}`) : lang
 const media = useMediaManifest()
 const video = computed(() => props.id ? media.video(props.id) : undefined)
 const ready = computed(() => Boolean(video.value?.ready))
@@ -51,7 +55,7 @@ onMounted(async () => {
             kind="subtitles"
             :src="caption.src"
             :srclang="caption.lang"
-            :label="caption.lang"
+            :label="trackLabel(caption.lang)"
           >
         </hls-video>
         <!-- eslint-enable vue/no-deprecated-slot-attribute -->
@@ -73,6 +77,7 @@ onMounted(async () => {
         :id="poster"
         sizes="(max-width: 1023px) 100vw, 60vw"
         decorative
+        :priority="priority"
       />
       <FilmRoomArt v-else />
       <span

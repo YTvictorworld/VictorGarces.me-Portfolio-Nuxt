@@ -5,7 +5,7 @@ definePageMeta({
   validate: route => useRuntimeConfig().public.slugs.blog.includes(String(route.params.slug))
 })
 
-const { locale, t, te } = useI18n()
+const { locale, localeProperties, t, te } = useI18n()
 const localePath = useLocalePath()
 const route = useRoute()
 const { collection, published, showDrafts } = useLocalizedContent()
@@ -40,16 +40,26 @@ const share = computed(() => [
   { label: 'LinkedIn', href: `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url.value)}` }
 ])
 
-const copied = ref(false)
+// The button label shows success; a live region announces both outcomes, and a failure is
+// also shown, since the label has no room for it
+const copyState = ref<'idle' | 'copied' | 'failed'>('idle')
+let copyTimer: ReturnType<typeof setTimeout> | undefined
 async function copyLink() {
+  clearTimeout(copyTimer)
   try {
     await navigator.clipboard.writeText(url.value)
-    copied.value = true
-    setTimeout(() => (copied.value = false), 2000)
+    copyState.value = 'copied'
+    copyTimer = setTimeout(() => (copyState.value = 'idle'), 2000)
   } catch {
-    // clipboard blocked: the address bar still has the URL
+    // Clipboard blocked: the address bar still has the URL, and the message says so
+    copyState.value = 'failed'
   }
 }
+const copyMessage = computed(() => ({
+  idle: '',
+  copied: t('page.linkCopied'),
+  failed: t('page.linkCopyFailed')
+})[copyState.value])
 
 useSchemaOrg([
   defineArticle({
@@ -84,10 +94,10 @@ useSeo({
         :to="localePath('/blog')"
         class="back mono"
       >
-        ← {{ t('page.backToPosts') }}
+        <span aria-hidden="true">←</span> {{ t('page.backToPosts') }}
       </NuxtLink>
       <p class="eyebrow eyebrow--accent">
-        <time :datetime="new Date(post.date).toISOString().slice(0, 10)">{{ formatDate(post.date, locale) }}</time>
+        <time :datetime="new Date(post.date).toISOString().slice(0, 10)">{{ formatDate(post.date, localeProperties.language) }}</time>
         <template v-if="post.minRead">
           · {{ t('page.minRead', { min: post.minRead }) }}
         </template>
@@ -157,7 +167,7 @@ useSeo({
             class="pill"
             @click="copyLink"
           >
-            {{ copied ? t('page.linkCopied') : t('page.copyLink') }}
+            {{ copyState === 'copied' ? t('page.linkCopied') : t('page.copyLink') }}
           </button>
           <a
             v-for="target in share"
@@ -167,13 +177,21 @@ useSeo({
             target="_blank"
             rel="noopener"
           >{{ target.label }}</a>
+          <!-- Always mounted, so the change is announced; visible only for a failure -->
+          <p
+            class="copy-status"
+            :class="{ 'sr-only': copyState !== 'failed' }"
+            role="status"
+          >
+            {{ copyMessage }}
+          </p>
         </div>
       </aside>
     </div>
 
     <nav
       class="section siblings"
-      :aria-label="t('page.backToPosts')"
+      :aria-label="t('page.postNav')"
     >
       <NuxtLink
         v-if="siblings.previous"
@@ -311,6 +329,13 @@ useSeo({
 .share .pill {
   cursor: pointer;
   text-decoration: none;
+}
+
+.share .copy-status {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.4;
+  color: var(--muted);
 }
 
 .siblings {

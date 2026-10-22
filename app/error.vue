@@ -9,7 +9,7 @@ import type { NuxtError } from '#app'
  */
 const props = defineProps<{ error: NuxtError }>()
 
-const { t } = useI18n()
+const { t, localeProperties } = useI18n()
 const localePath = useLocalePath()
 const { mode } = useMode()
 const { showPlaceholders } = useRuntimeConfig().public
@@ -22,6 +22,8 @@ const notFound = computed(() => status.value === 404)
 // on a white page with both mode variants showing
 useHead(() => ({
   htmlAttrs: {
+    // app.vue's useLocaleHead never runs here, so a 404 under /es would have no language
+    'lang': localeProperties.value.language,
     'data-mode': mode.value,
     'class': mode.value === 'night' ? 'dark' : 'light',
     'data-placeholders': showPlaceholders ? 'on' : 'off'
@@ -55,6 +57,10 @@ onMounted(() => document.getElementById('main')?.focus({ preventScroll: true }))
 
 <template>
   <div class="error">
+    <a
+      href="#main"
+      class="skip-link"
+    >{{ t('a11y.skipToContent') }}</a>
     <header class="top">
       <NuxtLink
         :to="localePath('/')"
@@ -232,6 +238,7 @@ onMounted(() => document.getElementById('main')?.focus({ preventScroll: true }))
   align-items: flex-start;
   gap: 18px;
   margin-top: auto;
+  /* Focused by script on mount, never by Tab, so no control loses its ring */
   outline: none;
 }
 

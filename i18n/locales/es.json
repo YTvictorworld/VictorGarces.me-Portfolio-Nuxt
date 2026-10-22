@@ -54,12 +54,12 @@
   },
   "blog": {
     "eyebrow": "Blog",
-    "searchPlaceholder": "Buscar artículos...",
+    "searchPlaceholder": "Buscar artículos…",
     "postsFound": "{count} artículo encontrado | {count} artículos encontrados",
     "noResults": "No hay artículos que coincidan con tu búsqueda.",
     "clearSearch": "Limpiar búsqueda",
     "allPosts": "Todos los artículos",
-    "minRead": "{min} min de lectura",
+    "minRead": "{min} min de lectura",
     "thanks": "¡Gracias por leer!",
     "backToPosts": "Volver a los artículos",
     "readPost": "Leer el artículo",
@@ -87,7 +87,7 @@
   "home": {
     "ofTotal": "{shown} de {total}",
     "more": "{n} más",
-    "readMin": "Leer · {min} min",
+    "readMin": "Leer · {min} min",
     "toNow": "a hoy",
     "stack": "Stack",
     "allProjects": "Ver todos los proyectos",
@@ -108,7 +108,8 @@
     "photos": "{n} fotos",
     "to": "a",
     "pause": "Pausar",
-    "resume": "Reanudar"
+    "resume": "Reanudar",
+    "morePhotos": "{n} fotos más"
   },
   "film": {
     "kind": {
@@ -176,9 +177,11 @@
     "nextPhoto": "Foto siguiente",
     "photoOf": "Foto {n} de {total}",
     "search": "Buscar",
-    "minRead": "{min} min",
+    "minRead": "{min} min",
     "openPhotoNamed": "Abrir foto {n} de {total}: {alt}",
-    "forOrg": "Para"
+    "forOrg": "Para",
+    "linkCopyFailed": "No se pudo copiar el enlace. Cópialo desde la barra de direcciones.",
+    "postNav": "Artículos anterior y siguiente"
   },
   "form": {
     "topic": "Tema",
@@ -200,7 +203,7 @@
     "sending": "Enviando…",
     "success": "Gracias. Tu mensaje va en camino; suelo responder en menos de 24 horas.",
     "error": "Algo salió mal. Escríbeme a {email}.",
-    "required": "Este campo es obligatorio",
+    "required": "Completa este campo para enviar tu mensaje",
     "invalidEmail": "Escribe un correo válido",
     "consent": "Lo que envías llega a mi correo a través de Web3Forms y solo se usa para responderte.",
     "emailFallback": "Abrir tu app de correo",
@@ -261,5 +264,9 @@
   "schema": {
     "jobDev": "Desarrollador full-stack",
     "jobFilm": "Cineasta y fotógrafo"
+  },
+  "lang": {
+    "en": "Inglés",
+    "es": "Español"
   }
 }

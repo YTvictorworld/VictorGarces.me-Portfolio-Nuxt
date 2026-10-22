@@ -58,12 +58,14 @@ const statusLabel = computed(() => props.project.status && props.project.status 
         v-if="href"
         :to="href"
         class="stretched"
+        translate="no"
       >
         {{ project.title }}
       </NuxtLink>
-      <template v-else>
-        {{ project.title }}
-      </template>
+      <span
+        v-else
+        translate="no"
+      >{{ project.title }}</span>
     </h3>
     <p class="summary">
       {{ project.oneLiner }}
@@ -101,9 +103,32 @@ const statusLabel = computed(() => props.project.status && props.project.status 
   transition: transform var(--t-card) var(--ease-out-quart), border-color var(--t-card) var(--ease-out-quart);
 }
 
-.linked:hover {
+/* Hover only where it can end: on touch it would stick after a tap */
+@media (hover: hover) {
+  .linked:hover {
+    transform: translateY(-2px);
+    border-color: color-mix(in oklab, var(--accent) 40%, var(--border));
+  }
+
+  .linked:hover .case :deep(.arrow) {
+    transform: translateX(4px);
+  }
+}
+
+/* Keyboard focus gets the hover treatment, and the ring goes around the card the link covers */
+.linked:has(.stretched:focus-visible) {
   transform: translateY(-2px);
   border-color: color-mix(in oklab, var(--accent) 40%, var(--border));
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.linked:has(.stretched:focus-visible) .case :deep(.arrow) {
+  transform: translateX(4px);
+}
+
+.linked:has(.stretched:focus-visible) .stretched:focus-visible {
+  outline: none;
 }
 
 .cover {
@@ -173,10 +198,6 @@ const statusLabel = computed(() => props.project.status && props.project.status 
   display: inline-flex;
   align-items: center;
   gap: 6px;
-}
-
-.linked:hover .case :deep(.arrow) {
-  transform: translateX(4px);
 }
 
 @media (max-width: 767px) {

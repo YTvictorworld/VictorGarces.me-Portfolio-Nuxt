@@ -11,6 +11,10 @@ if (!page.value) {
   throw createError({ statusCode: 404, statusMessage: 'Page not found', fatal: true })
 }
 
+// Category titles are free copy, and an id must be one token: no spaces, no accents
+const headingId = (title: string) => `bag-${title.normalize('NFD').replace(/\p{Diacritic}/gu, '')
+  .toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')}`
+
 useSeo({ title: t('bag.title'), description: t('bag.description') })
 </script>
 
@@ -26,10 +30,10 @@ useSeo({ title: t('bag.title'), description: t('bag.description') })
       v-for="category in page.categories"
       :key="category.title"
       class="section"
-      :aria-labelledby="`bag-${category.title}`"
+      :aria-labelledby="headingId(category.title)"
     >
       <h2
-        :id="`bag-${category.title}`"
+        :id="headingId(category.title)"
         class="h2"
       >
         {{ category.title }}

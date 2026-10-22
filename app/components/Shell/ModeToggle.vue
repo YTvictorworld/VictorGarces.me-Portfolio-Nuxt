@@ -56,6 +56,13 @@ function onClick(event: MouseEvent) {
   background: var(--bg);
 }
 
+/* The small toggle only lives in the touch pill: a 44px tall target around the 32px pill */
+.toggle--sm::before {
+  content: '';
+  position: absolute;
+  inset: -7px 0;
+}
+
 .toggle:hover {
   border-color: color-mix(in oklab, var(--accent) 40%, var(--border));
 }

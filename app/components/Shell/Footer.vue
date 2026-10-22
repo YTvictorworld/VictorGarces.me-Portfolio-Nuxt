@@ -10,7 +10,7 @@ const year = useState('footer-year', () => new Date().getFullYear())
 <template>
   <footer class="footer">
     <p class="credits">
-      © {{ year }} {{ siteName }} · {{ t('footer.city') }}<span class="night-only"> · {{ t('footer.originalWork') }}</span>
+      © {{ year }} <span translate="no">{{ siteName }}</span> · {{ t('footer.city') }}<span class="night-only"> · {{ t('footer.originalWork') }}</span>
     </p>
     <nav
       v-if="legal.length"
@@ -55,9 +55,24 @@ const year = useState('footer-year', () => new Date().getFullYear())
 }
 
 .links a {
+  position: relative;
   color: var(--muted);
   text-decoration: none;
   transition: color var(--t-micro) var(--ease-out);
+}
+
+/* The links are bare text: an invisible 24px target (44px on touch) centred on each one,
+   no wider than half the gap so neighbours never overlap */
+.links a::before {
+  content: '';
+  position: absolute;
+  inset: min(0px, calc(50% - 12px)) -8px;
+}
+
+@media (pointer: coarse) {
+  .links a::before {
+    inset-block: min(0px, calc(50% - 22px));
+  }
 }
 
 .links a:hover {

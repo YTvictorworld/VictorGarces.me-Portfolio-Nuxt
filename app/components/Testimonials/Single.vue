@@ -22,7 +22,6 @@ const index = ref(0)
 const hovered = ref(false)
 const focused = ref(false)
 const paused = ref(false)
-const current = computed(() => props.entries[index.value])
 
 function go(step: number) {
   const count = props.entries.length
@@ -51,28 +50,27 @@ onMounted(() => {
     <p class="eyebrow">
       {{ eyebrow }}
     </p>
+    <!-- Every slide sits in the same grid cell, so the stage is as tall as the longest quote and
+         the controls below never jump on advance. Hidden slides use visibility, which also takes
+         them out of the accessibility tree. -->
     <div
       class="stage"
       :aria-live="running ? 'off' : 'polite'"
       aria-atomic="true"
     >
-      <Transition
-        name="fade"
-        mode="out-in"
+      <figure
+        v-for="(entry, i) in entries"
+        :key="entry.name"
+        class="slide"
+        :class="{ current: i === index }"
+        aria-roledescription="slide"
+        :aria-label="`${i + 1} / ${entries.length}`"
       >
-        <figure
-          v-if="current"
-          :key="index"
-          class="slide"
-          aria-roledescription="slide"
-          :aria-label="`${index + 1} / ${entries.length}`"
-        >
-          <blockquote class="display">
-            “{{ current.quote }}”
-          </blockquote>
-          <figcaption>{{ current.name }} · {{ current.context ?? current.role }}</figcaption>
-        </figure>
-      </Transition>
+        <blockquote class="display">
+          “{{ entry.quote }}”
+        </blockquote>
+        <figcaption><span translate="no">{{ entry.name }}</span> · {{ entry.context ?? entry.role }}</figcaption>
+      </figure>
     </div>
 
     <div
@@ -137,16 +135,27 @@ onMounted(() => {
 }
 
 .stage {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  display: grid;
+  justify-items: center;
 }
 
+/* Fade out, then fade in, as the out-in transition this replaces did */
 .slide {
   display: flex;
   flex-direction: column;
   gap: 18px;
+  grid-area: 1 / 1;
+  align-self: center;
   margin: 0;
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity var(--t-card) var(--ease-out), visibility 0s linear var(--t-card);
+}
+
+.slide.current {
+  visibility: visible;
+  opacity: 1;
+  transition: opacity var(--t-card) var(--ease-out) var(--t-card), visibility 0s linear var(--t-card);
 }
 
 blockquote {
@@ -184,41 +193,55 @@ figcaption {
   transform: rotate(180deg);
 }
 
+/* Bars are 8px (24px when active) with 8px between them. Each button is a 16px slot, the bar
+   plus half the gap on each side, so the targets tile the row without overlapping. The margins
+   give back the half gap at the start and the active bar's extra 16px at the end, so the row
+   keeps its old width. */
 .dots {
   display: flex;
-  align-items: center;
-  gap: 8px;
+  margin-inline: -4px 12px;
 }
 
-/* 24px hit area around a 4px bar */
+/* Layout never changes: the active bar scales and the bars after it slide, both as transforms */
 .dot {
   position: relative;
-  width: 8px;
-  height: 24px;
+  flex: none;
+  width: 16px;
+  height: 44px;
   padding: 0;
   background: none;
   border: 0;
   cursor: pointer;
-  transition: width var(--t-micro) var(--ease-out);
+  transition: transform var(--t-micro) var(--ease-out);
 }
 
+.dot.active ~ .dot {
+  transform: translateX(16px);
+}
+
+/* A 24px bar scaled to 8px. Percentage radii keep the 2px round ends once scaled. */
 .dot::before {
   content: '';
   position: absolute;
-  inset: 10px 0;
-  background: color-mix(in oklab, var(--text) 45%, var(--bg));
-  border-radius: var(--r-pill);
-}
-
-.dot.active {
+  left: 4px;
+  top: calc(50% - 2px);
   width: 24px;
+  height: 4px;
+  background: color-mix(in oklab, var(--text) 45%, var(--bg));
+  border-radius: 25% / 50%;
+  transform: scaleX(calc(1 / 3));
+  transform-origin: left center;
+  transition: transform var(--t-micro) var(--ease-out);
 }
 
 .dot.active::before {
   background: var(--accent);
+  border-radius: var(--r-pill);
+  transform: none;
 }
 
 .pause {
+  position: relative;
   padding: 6px 10px;
   background: none;
   border: 1px solid var(--border);
@@ -226,14 +249,12 @@ figcaption {
   cursor: pointer;
 }
 
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 300ms var(--ease-out);
-}
-
-.fade-enter-from,
-.fade-leave-to {
-  opacity: 0;
+@media (pointer: coarse) {
+  .pause::before {
+    content: '';
+    position: absolute;
+    inset: min(0px, calc(50% - 22px)) 0;
+  }
 }
 
 @media (max-width: 767px) {

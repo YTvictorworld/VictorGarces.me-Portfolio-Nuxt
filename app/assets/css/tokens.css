@@ -60,6 +60,10 @@
   --shadow-banner: 0 20px 50px rgba(0, 0, 0, 0.25);
   --shadow-pill: 0 10px 30px rgba(0, 0, 0, 0.25);
 
+  /* Behind modal dialogs: the mobile menu, and the lightbox, which needs more */
+  --backdrop: rgb(0 0 0 / 45%);
+  --backdrop-strong: rgb(0 0 0 / 80%);
+
   color-scheme: light;
 }
 

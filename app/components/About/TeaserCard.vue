@@ -68,7 +68,7 @@ defineProps<{
       :to="href"
       class="link-accent"
     >
-      {{ cta }} →
+      {{ cta }} <span aria-hidden="true">→</span>
     </NuxtLink>
   </section>
 </template>

@@ -68,10 +68,11 @@ useSeo({ title: page.value.title, description: page.value.description })
             :aria-label="t('page.openPhotoNamed', { n: index + 1, total: photos.length, alt: media.alt(photo) })"
             @click="open = index"
           >
+            <!-- High priority for two tiles only: more would split the bandwidth the LCP tile needs -->
             <MediaFilmImage
               :id="photo"
               sizes="(max-width: 767px) 50vw, (max-width: 1023px) 33vw, 25vw"
-              :priority="index < 4"
+              :priority="index < 2"
               decorative
             />
           </button>

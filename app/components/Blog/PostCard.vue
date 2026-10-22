@@ -7,7 +7,7 @@ defineProps<{
   href: string
 }>()
 
-const { t, locale } = useI18n()
+const { t, localeProperties } = useI18n()
 </script>
 
 <template>
@@ -15,7 +15,7 @@ const { t, locale } = useI18n()
     <time
       class="mono"
       :datetime="new Date(date).toISOString().slice(0, 10)"
-    >{{ formatDate(date, locale) }}</time>
+    >{{ formatDate(date, localeProperties.language) }}</time>
     <h3 class="title">
       <NuxtLink
         :to="href"
@@ -45,9 +45,24 @@ const { t, locale } = useI18n()
   transition: transform var(--t-card) var(--ease-out-quart), border-color var(--t-card) var(--ease-out-quart);
 }
 
-.post:hover {
+/* Hover only where it can end: on touch it would stick after a tap */
+@media (hover: hover) {
+  .post:hover {
+    transform: translateY(-2px);
+    border-color: color-mix(in oklab, var(--accent) 40%, var(--border));
+  }
+}
+
+/* Keyboard focus gets the hover treatment, and the ring goes around the card the link covers */
+.post:has(.stretched:focus-visible) {
   transform: translateY(-2px);
   border-color: color-mix(in oklab, var(--accent) 40%, var(--border));
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.post:has(.stretched:focus-visible) .stretched:focus-visible {
+  outline: none;
 }
 
 .title {
