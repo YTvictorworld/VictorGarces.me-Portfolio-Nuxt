@@ -25,3 +25,6 @@ logs
 
 # Originals handed over by hand; `pnpm media:ingest` turns them into public/media/photos
 media-src
+
+# Personal Claude Code settings; the shared ones in .claude/settings.json are committed
+.claude/settings.local.json

@@ -2,7 +2,7 @@
 
 Personal portfolio of Víctor Garcés: developer (Vue/Nuxt front-end; C#/.NET, SQL, Docker, AWS back-end) and filmmaker based in Santo Domingo, Dominican Republic. The site itself is the primary work sample: hiring managers read the code and `git log`. It deploys to GitHub Pages at https://victorgarces.me.
 
-Read this file first. Then `docs/PLAN.md` (order of work, plus the **owner decisions that override every other doc**) and `docs/DESIGN.md` before touching any UI. `docs/AUDIT.md` lists every known gap in the handoff, grouped by milestone: read the section for the milestone you are working on. `docs/MIGRATION.md` maps every piece of the old site to its new home.
+Read this file first. Then `docs/PLAN.md` (order of work, plus the **owner decisions that override every other doc**) `docs/DESIGN.md` and `docs/UI-GUIDELINES.md` before touching any UI. `docs/AUDIT.md` lists every known gap in the handoff, grouped by milestone: read the section for the milestone you are working on. `docs/MIGRATION.md` maps every piece of the old site to its new home.
 
 ## Status
 Dual-mode refactor in progress on branch `refactor/dual-mode`, milestone by milestone (`docs/PLAN.md`). M0 to M7 are done: the landing, both homes, every inner page, the legal pages, the error page, the SEO layer and the bundle cut. Still to come: the media pipeline (M8), release (M9) and the animated heroes (M10, SVG rather than 3D, see PLAN).
@@ -33,6 +33,7 @@ Both modes share components and content sources. Only the Home pages differ stru
 - Performance: LCP under 2.5 s on 4G; initial JS on the Home pages is tracked against the baseline in `docs/MIGRATION.md`; 3D and video code is lazy-loaded and never blocks first paint.
 - Every nav entry must resolve to a real page or a real in-page anchor. A dead link costs more credibility than a missing section.
 - The media pipeline is a separate repo (`victorgarces-media-pipeline`); this repo only reads its manifest.
+- Design skills (taste-skill and the like) never override the approved design. The artboards in `design/` and the tokens are final; a skill may inform work that has no artboard (the M10 SVG heroes) but never changes an artboard's copy, layout, palette or type, and never adds a library the stack does not list.
 
 ## Gotchas (learned the hard way)
 - Content `post.path` carries the collection prefix (`/en/blog/x`), which is NOT the route in the default locale. Always build links with `localePath('/blog/' + slug)`; the same applies to projects (`/dev/work/`) and films (`/film/films/`).
@@ -72,7 +73,8 @@ content.schemas.ts             zod schemas for every collection and the media ma
 scripts/media-ingest.mjs       local stand-in for the media pipeline (`pnpm media:ingest`)
 content/media/manifest.json    pulled from the pipeline by `pnpm media:pull` (M8)
 design/                        approved artboards (reference only)
-docs/                          plan, design system, audit, migration map, handoff snippets
+docs/                          plan, design system, UI guidelines, audit, migration map, handoff snippets
+.claude/skills/               project skills; web-design-guidelines reviews UI against docs/UI-GUIDELINES.md
 ```
 
 ## Working style
