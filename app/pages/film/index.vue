@@ -93,15 +93,16 @@ useSeo({
       :href="filmHref(film.path)"
     />
 
-    <Reveal v-if="photos.length">
-      <PhotoFilmstrip
-        :photos="photos"
-        :eyebrow="s.stills?.eyebrow"
-        :title="s.stills?.title"
-        :cta="s.stills?.cta"
-        :href="photographyHref"
-      />
-    </Reveal>
+    <!-- No Reveal: the strip has its own scroll scene, and a pin measured inside an element that
+         is still sliding in would start 24px late -->
+    <PhotoFilmstrip
+      v-if="photos.length"
+      :photos="photos"
+      :eyebrow="s.stills?.eyebrow"
+      :title="s.stills?.title"
+      :cta="s.stills?.cta"
+      :href="photographyHref"
+    />
 
     <Reveal v-if="reel || secondFilm || filmsHref">
       <section

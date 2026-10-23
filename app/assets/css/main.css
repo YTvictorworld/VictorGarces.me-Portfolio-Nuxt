@@ -33,6 +33,11 @@ html {
   -webkit-tap-highlight-color: color-mix(in oklab, var(--accent) 20%, transparent);
 }
 
+/* ScrollSmoother does its own easing; a CSS smooth scroll on top would fight it */
+html[data-smooth] {
+  scroll-behavior: auto;
+}
+
 /* No rubber-band bounce with a mouse or trackpad. Touch keeps it, and pull-to-refresh with it. */
 @media (pointer: fine) {
   html {

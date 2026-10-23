@@ -40,7 +40,7 @@ A few things I've noticed that don't make the hype reels:
 
 > AI is a fast, confident, occasionally wrong pair programmer. The value isn't that it writes; it's that it lets me spend my attention on the parts that were always the actual job.
 
-This very site is a small example. Every animation here is hand-rolled instead of pulled from a library, because I wanted to own the decision and understand the trade-off. AI helped me move faster through the plumbing; the choices are still mine.
+This very site is a small example. Most of its motion is hand-rolled CSS, and the one library, GSAP, is kept for the scroll scenes CSS cannot do yet and loads only on the pages that use them. I wanted to own each of those decisions and understand the trade-off. AI helped me move faster through the plumbing; the choices are still mine.
 
 ## What changed on the timeline
 

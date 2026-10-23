@@ -28,6 +28,7 @@ watch(menuOpen, (open) => {
 
 <template>
   <header
+    id="site-header"
     ref="headerRef"
     class="header"
     :style="styles"

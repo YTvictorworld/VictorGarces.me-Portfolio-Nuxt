@@ -131,6 +131,15 @@ Instead: **scroll-linked SVG heroes**, hand-built.
 - Check: the hero code is in a lazy chunk only; CPU idle under 5 % at rest; `prefers-reduced-motion`
   disables the scrub and renders the static frame; the blog post line about hand-rolled animation
   is revisited if a library lands.
+- **Owner decision (2026-10-22): GSAP, with ScrollTrigger, DrawSVG and ScrollSmoother.** Chosen after
+  a lab of six techniques. Distribution: the day hero pins and assembles its exploded layers into a
+  page, then draws a browser window around it; the night hero pins while a horizon draws, the moon
+  sinks and the frames drift apart; the night stills strip pins and slides sideways
+  (`containerAnimation`). ScrollSmoother runs on `/dev/**` and `/film/**` only, never on touch or
+  reduced motion, and not on shared pages, whose sticky sidebars it would break. Everything loads
+  from `app/utils/gsap.ts` in a lazy chunk (core 26.4 KiB gz) and only above 1024 px; the
+  prerendered markup is every scene's resting state. The blog line about hand-rolled animation was
+  updated to say where the library is used.
 
 ## Technical checklist (from the brief) → milestone
 privacy M5 · media compression M8 (pipeline) + M2/M4 (@nuxt/image) · terms M5 · sitemap.xml M6 · meta titles M6 · real contact M4 · cookie notice M5 · alt on images M2 · custom 404 M5 · mobile breakpoints M3 · analytics M6 · favicon M6 · Open Graph M6 · reduced motion M7 · JSON-LD M6 · RSS M6 · CV M9 · Sentry M9 · 3D M10.

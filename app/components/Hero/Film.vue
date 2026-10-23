@@ -21,16 +21,43 @@ const props = defineProps<{
 const { t } = useI18n()
 const front = computed(() => props.photos[0])
 const back = computed(() => props.photos[1])
+
+const hero = ref<HTMLElement | null>(null)
+
+/**
+ * Night falls as you scroll: the hero holds still, the moon sinks below a horizon that draws
+ * itself across the stage, the frames drift apart and dim, and the copy lifts away.
+ */
+useScrollScene(hero, ({ gsap, root }) => {
+  const $ = (selector: string) => root.querySelectorAll(selector)
+  const header = Number.parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--header-h')) || 0
+  gsap.set($('.horizon, .dusk'), { opacity: 1 })
+  gsap.timeline({
+    defaults: { ease: 'none' },
+    scrollTrigger: { trigger: root, start: `top ${header}px`, end: '+=700', pin: true, scrub: 0.6 }
+  })
+    .from($('.horizon path'), { drawSVG: '50% 50%', duration: 0.5 }, 0)
+    .from($('.dusk'), { opacity: 0, duration: 0.5 }, 0)
+    .to($('.glow--core'), { yPercent: 190, duration: 1 }, 0)
+    .to($('.glow--wide'), { yPercent: 55, opacity: 0.03, duration: 1 }, 0)
+    .to($('.label'), { opacity: 0, duration: 0.2 }, 0)
+    .to($('.frame--film'), { xPercent: -8, yPercent: -12, rotation: -3, opacity: 0.25, duration: 1 }, 0)
+    .to($('.frame--mid'), { xPercent: 16, yPercent: 10, rotation: 4, opacity: 0.2, duration: 1 }, 0)
+    .to($('.frame--small'), { xPercent: 8, yPercent: 60, rotation: 2, opacity: 0.1, duration: 1 }, 0)
+    .to($('.copy'), { y: -48, opacity: 0, duration: 0.6 }, 0.4)
+})
 </script>
 
 <template>
   <section
+    ref="hero"
     class="hero"
     aria-labelledby="hero-title"
   >
-    <!-- DESIGN: static composition until the procedural moon stage lands in M10 -->
+    <!-- M10: SVG and CSS instead of TresJS (owner decision). The scroll scene lives in the
+         script; this composition is its resting state. -->
     <ShellPlaceholder
-      source="moon + floating frames · TresJS · M10"
+      source="scroll scene · M10"
       class="stage"
     >
       <div
@@ -40,6 +67,14 @@ const back = computed(() => props.photos[1])
       >
         <span class="glow glow--wide" />
         <span class="glow glow--core" />
+        <!-- Below the horizon the moon fades into the night. Both are hidden at rest. -->
+        <span class="dusk" />
+        <svg
+          class="horizon"
+          viewBox="0 0 800 4"
+          preserveAspectRatio="none"
+          aria-hidden="true"
+        ><path d="M0 2 H800" /></svg>
         <div class="frame frame--film">
           <FilmRoomArt />
         </div>
@@ -192,6 +227,34 @@ const back = computed(() => props.photos[1])
   top: 11.3%;
   width: 22.5%;
   opacity: 0.12;
+}
+
+.dusk {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 62%;
+  bottom: -10%;
+  background: linear-gradient(to bottom, color-mix(in oklab, var(--bg) 70%, transparent), var(--bg) 35%);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.horizon {
+  position: absolute;
+  left: 0;
+  top: 62%;
+  width: 100%;
+  height: 4px;
+  overflow: visible;
+  opacity: 0;
+}
+
+.horizon path {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
 }
 
 .frame {

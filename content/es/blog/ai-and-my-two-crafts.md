@@ -40,7 +40,7 @@ Algunas cosas que he notado y que no salen en los reels del hype:
 
 > La IA es un pair programmer rápido, seguro de sí mismo y ocasionalmente equivocado. El valor no es que escriba; es que me deja gastar mi atención en las partes que siempre fueron el verdadero trabajo.
 
-Este mismo sitio es un pequeño ejemplo. Cada animación aquí está hecha a mano en vez de sacada de una librería, porque quería ser dueño de la decisión y entender el trade-off. La IA me ayudó a avanzar más rápido por la fontanería; las decisiones siguen siendo mías.
+Este mismo sitio es un pequeño ejemplo. Casi todo su movimiento es CSS hecho a mano, y la única librería, GSAP, queda para las escenas de scroll que CSS todavía no puede hacer y solo se carga en las páginas que las usan. Quería ser dueño de cada una de esas decisiones y entender el trade-off. La IA me ayudó a avanzar más rápido por la fontanería; las decisiones siguen siendo mías.
 
 ## Qué cambió en la línea de tiempo
 

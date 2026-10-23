@@ -21,11 +21,58 @@ const width = (id: string) => {
   const photo = media.photo(id)
   return photo ? Math.round(300 * photo.width / photo.height) : 200
 }
+
+const section = ref<HTMLElement | null>(null)
+
+/**
+ * On desktop the strip stops being a scroller: the section holds still and the vertical scroll
+ * slides the stills sideways, each one growing to full size as it reaches the middle. The native
+ * scroller, with snap and keyboard access, is what phones and reduced motion keep.
+ */
+useScrollScene(section, ({ gsap, root }) => {
+  const strip = root.querySelector<HTMLElement>('.strip')
+  if (!strip) return
+  root.classList.add('is-scrubbed')
+  const distance = () => strip.scrollWidth - strip.clientWidth
+  if (distance() <= 0) {
+    root.classList.remove('is-scrubbed')
+    return
+  }
+  // No longer scrollable, so no longer a tab stop
+  strip.setAttribute('tabindex', '-1')
+
+  const slide = gsap.to(strip, {
+    x: () => -distance(),
+    ease: 'none',
+    scrollTrigger: {
+      trigger: root,
+      start: 'center center',
+      end: () => `+=${distance()}`,
+      pin: true,
+      scrub: 0.6,
+      invalidateOnRefresh: true
+    }
+  })
+  for (const still of root.querySelectorAll('.still')) {
+    gsap.fromTo(still, { scale: 0.88, opacity: 0.55 }, {
+      scale: 1,
+      opacity: 1,
+      ease: 'none',
+      scrollTrigger: { trigger: still, containerAnimation: slide, start: 'left 95%', end: 'left 60%', scrub: true }
+    })
+  }
+
+  return () => {
+    root.classList.remove('is-scrubbed')
+    strip.setAttribute('tabindex', '0')
+  }
+})
 </script>
 
 <template>
   <section
     id="photo"
+    ref="section"
     class="strip-section"
     aria-labelledby="stills-title"
   >
@@ -81,6 +128,20 @@ const width = (id: string) => {
 
 .head {
   padding: 0 var(--gutter);
+}
+
+/* Scrubbed by the scroll scene: the strip overflows the section, which clips it */
+.is-scrubbed {
+  overflow-x: clip;
+}
+
+.is-scrubbed .strip {
+  overflow: visible;
+  scroll-snap-type: none;
+}
+
+.is-scrubbed .still {
+  transform-origin: center bottom;
 }
 
 .strip {

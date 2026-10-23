@@ -12,10 +12,42 @@ defineProps<{
   /** CV download, only when the file exists */
   cv?: string | null
 }>()
+
+/** Offsets that bring each exploded layer into one stacked page, in SVG units */
+const ASSEMBLE: Record<string, { x: number, y: number }> = {
+  nav: { x: -60, y: 40 },
+  hero: { x: -30, y: 12 },
+  cards: { x: 0, y: -18 },
+  code: { x: 30, y: -48 },
+  footer: { x: 60, y: -72 }
+}
+
+const hero = ref<HTMLElement | null>(null)
+
+/**
+ * The page builds itself as you scroll: the hero holds still, the exploded layers close into
+ * one page, the guides fade, and a browser window draws itself around the result.
+ */
+useScrollScene(hero, ({ gsap, root }) => {
+  const header = Number.parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--header-h')) || 0
+  const scene = gsap.timeline({
+    defaults: { ease: 'none' },
+    scrollTrigger: { trigger: root, start: `top ${header}px`, end: '+=600', pin: true, scrub: 0.6 }
+  })
+
+  for (const [layer, offset] of Object.entries(ASSEMBLE)) {
+    scene.to(root.querySelector(`.layer--${layer}`), { ...offset, ease: 'power2.inOut', duration: 0.7 }, 0)
+  }
+  scene
+    .to(root.querySelectorAll('.guide'), { opacity: 0, duration: 0.3 }, 0)
+    .set(root.querySelector('.chrome'), { opacity: 1 }, 0.55)
+    .from(root.querySelectorAll('.chrome > *'), { drawSVG: 0, duration: 0.45, stagger: 0.05 }, 0.55)
+})
 </script>
 
 <template>
   <section
+    ref="hero"
     class="hero"
     aria-labelledby="hero-title"
   >
@@ -46,9 +78,9 @@ defineProps<{
       </div>
     </div>
 
-    <!-- DESIGN: static drawing until the GLB and the scroll-scrubbed 3D stage land in M10 -->
+    <!-- M10: SVG instead of the 3D GLB (owner decision). The scroll scene lives in the script. -->
     <ShellPlaceholder
-      source="GLB from Claude Design · M10"
+      source="SVG scroll scene · M10"
       class="stage"
     >
       <HeroPageExplodedStatic />

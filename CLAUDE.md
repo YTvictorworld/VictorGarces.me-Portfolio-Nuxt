@@ -20,7 +20,7 @@ Both modes share components and content sources. Only the Home pages differ stru
 - **@nuxt/content 3**: collections are **per locale** (`<name>_en` / `<name>_es` from `content/en/` and `content/es/`); the one single-locale file is `content/profile.yml` (email, city, socials), so the email lives in one place. Schemas live in `content.schemas.ts`; Content v3 does **not** run them, so a hook in `nuxt.config.ts` validates every file and fails the build (see `docs/CONTENT.md`).
 - **@nuxtjs/i18n**: English at `/` (default, `prefix_except_default`), Spanish under `/es`. UI strings in `i18n/locales/{en,es}.json`; routes always go through `localePath()`.
 - **@nuxtjs/seo** (sitemap, robots, og-image, schema-org, link-checker), **@nuxt/scripts** (cookieless analytics), **@nuxt/image**, **@vueuse/nuxt**, **@nuxt/eslint**. `@nuxt/fonts` is its own module, configured through the `fonts` key.
-- **gsap** is the only tweening library. **media-chrome** + **hls-video-element** for video. **@tresjs/*** is added only in the final 3D milestone.
+- **gsap** is the only animation library: ScrollTrigger, DrawSVG and ScrollSmoother, loaded lazily through `loadGsap()` (`app/utils/gsap.ts`) and used through `useScrollScene()`. Everything else moves with CSS. **media-chrome** + **hls-video-element** for video. No 3D (owner decision, see PLAN M10).
 
 ## Hard rules
 - Keep every module the current site has: hero, about, experience, blog, testimonials, FAQ, contact, bag, footer. Nothing is removed, only re-themed and, in Filmmaker, reordered. (The old "projects" and "speaking" files were template leftovers, not modules.)
@@ -52,6 +52,8 @@ Both modes share components and content sources. Only the Home pages differ stru
 - A newly added composable fails `pnpm generate`'s typecheck with "Cannot find name" until `pnpm typecheck` has run once on its own. Run it first after adding one.
 - vue-i18n reads a bare `@` as its linked-message syntax, so `you@example.com` in a locale file throws "Invalid linked format" and the page 500s at prerender. Escape literal at signs: `you{'@'}example.com`.
 - `eslint --fix` rewrites `slot="media"` into `<template #media>`, which never reaches media-chrome (a custom element reads the real DOM attribute). `Media/FilmPlayer.vue` keeps an inline `eslint-disable` block around that element.
+- ScrollSmoother (`plugins/smooth-scroll.client.ts`) transforms `#smooth-content`, so nothing fixed or sticky may live inside it on `/dev/**` or `/film/**`: the header and the mode pill sit outside it in `layouts/default.vue`, and the header turns fixed under `html[data-smooth]`. Scroll scenes must be built with `useScrollScene()`, which waits for the page's smoother; a pin created before it exists is of the wrong kind.
+- In a scoped `<style>`, Vue keeps only the `:global()` part of a selector, so `:global(html[data-x]) .thing` styles `<html>` itself. Rules that hang off `<html>` go in an unscoped block with an exact selector.
 - Tailwind v4 scans every project file: `design/` and `docs/` are excluded with `@source not` in `main.css`.
 - `gltf-transform optimize` with default flags merges the named `layer_*` meshes; use the exact command in `docs/3D.md`.
 
