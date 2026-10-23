@@ -26,5 +26,5 @@ logs
 # Originals handed over by hand; `pnpm media:ingest` turns them into public/media/photos
 media-src
 
-# Personal Claude Code settings; the shared ones in .claude/settings.json are committed
+# Machine-specific Claude Code settings (which plugins are on, for one); only .claude/skills is shared
 .claude/settings.local.json
