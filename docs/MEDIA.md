@@ -1,12 +1,12 @@
 # Media
 
-The AWS pipeline lives in its own repo (`victorgarces-media-pipeline`, CDK). This repo only consumes `https://media.victorgarces.me/manifest.json`, copied into `content/media/manifest.json` by `pnpm media:pull` (a small script in `scripts/media-pull.ts`, run before `pnpm generate`). Until the pipeline exists, a hand-written manifest with a few local files in `public/media/` keeps the components working; `Media/*` components must not care where the URL points.
+The AWS pipeline lives in its own repo (`victorgarces-media-pipeline`, CDK). This repo only consumes `https://media.victorgarces.net/manifest.json`, copied into `content/media/manifest.json` by `pnpm media:pull` (a small script in `scripts/media-pull.ts`, run before `pnpm generate`). Until the pipeline exists, a hand-written manifest with a few local files in `public/media/` keeps the components working; `Media/*` components must not care where the URL points.
 
 ## manifest.json
 ```json
 {
   "version": 1,
-  "base": "https://media.victorgarces.me/public",
+  "base": "https://media.victorgarces.net/public",
   "photos": {
     "events-2025-09": {
       "series": "events-2025",
@@ -44,6 +44,6 @@ URL for a photo rendition: `${base}/${path}-${size}.${format}`. `alt` in the man
 
 ## Rules
 - Never hotlink from Vimeo, YouTube or Instagram inside the site; external links only.
-- `Content-Security-Policy`: allow `media.victorgarces.me` for `img-src`, `media-src` and `connect-src` (HLS segments).
+- `Content-Security-Policy`: allow `media.victorgarces.net` for `img-src`, `media-src` and `connect-src` (HLS segments).
 - Photography page loads the first 6 images eager, the rest lazy.
 - Every `FilmImage` on the film pages has `loading="lazy"` except the hero poster.

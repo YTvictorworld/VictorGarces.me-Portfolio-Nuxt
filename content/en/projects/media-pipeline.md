@@ -42,6 +42,6 @@ The Filmmaker side of this site shows photos and films. The site itself is stati
 
 ## What I'm building
 
-Originals will go into S3. A Lambda function will write AVIF and WebP versions of every photo at 480, 960, 1440 and 2048 pixels, plus a blurhash. MediaConvert will encode each film as HLS in 1080, 720, 480 and 360, with a poster and a short muted preview. CloudFront will serve everything from media.victorgarces.me, and the pipeline will publish a manifest that this site reads when it builds.
+Originals will go into S3. A Lambda function will write AVIF and WebP versions of every photo at 480, 960, 1440 and 2048 pixels, plus a blurhash. MediaConvert will encode each film as HLS in 1080, 720, 480 and 360, with a poster and a short muted preview. CloudFront will serve everything from media.victorgarces.net, and the pipeline will publish a manifest that this site reads when it builds.
 
 Until then, a local script writes the AVIF and WebP versions, the blurhash and the manifest in the same format, so the site already works against the final contract.

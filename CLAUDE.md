@@ -1,6 +1,6 @@
-# victorgarces.me · Developer / Filmmaker
+# victorgarces.net · Developer / Filmmaker
 
-Personal portfolio of Víctor Garcés: developer (Vue/Nuxt front-end; C#/.NET, SQL, Docker, AWS back-end) and filmmaker based in Santo Domingo, Dominican Republic. The site itself is the primary work sample: hiring managers read the code and `git log`. It deploys to GitHub Pages at https://victorgarces.me.
+Personal portfolio of Víctor Garcés: developer (Vue/Nuxt front-end; C#/.NET, SQL, Docker, AWS back-end) and filmmaker based in Santo Domingo, Dominican Republic. The site itself is the primary work sample: hiring managers read the code and `git log`. It deploys to GitHub Pages at https://victorgarces.net.
 
 Read this file first. Then `docs/PLAN.md` (order of work, plus the **owner decisions that override every other doc**) `docs/DESIGN.md` and `docs/UI-GUIDELINES.md` before touching any UI. `docs/AUDIT.md` lists every known gap in the handoff, grouped by milestone: read the section for the milestone you are working on. `docs/MIGRATION.md` maps every piece of the old site to its new home.
 

@@ -14,7 +14,7 @@ There is no analytics on this site today: nothing counts your visit. If that cha
 
 ## Contact form
 
-When you use the contact form, what you enter is sent to hello@victorgarces.me: your name, your email, the topic you choose, your message and, depending on the topic, the timeline or the date and place. It is used only to reply to you.
+When you use the contact form, what you enter is sent to hello@victorgarces.net: your name, your email, the topic you choose, your message and, depending on the topic, the timeline or the date and place. It is used only to reply to you.
 
 The form is handled by [Web3Forms](https://web3forms.com/privacy), a third-party service. Your browser sends the message to it directly, so it sees your IP address, and it stores the submission before forwarding it to me. If no form service is configured, the button opens your own email app instead and nothing passes through a third party.
 
@@ -32,7 +32,7 @@ There are no YouTube or Instagram embeds. Links to those platforms open them in 
 
 ## Your rights
 
-You can ask for a copy or the deletion of anything you sent through the form by writing to hello@victorgarces.me.
+You can ask for a copy or the deletion of anything you sent through the form by writing to hello@victorgarces.net.
 
 ## Changes
 

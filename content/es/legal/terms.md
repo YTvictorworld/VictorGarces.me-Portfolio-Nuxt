@@ -22,4 +22,4 @@ El sitio y su contenido se ofrecen tal como están. Intento que todo sea correct
 
 ## Contacto
 
-Preguntas sobre estos términos: hello@victorgarces.me.
+Preguntas sobre estos términos: hello@victorgarces.net.

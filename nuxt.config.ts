@@ -117,7 +117,7 @@ export default defineNuxtConfig({
   },
 
   site: {
-    url: 'https://victorgarces.me',
+    url: 'https://victorgarces.net',
     name: 'Víctor Garcés'
   },
 
@@ -226,7 +226,7 @@ export default defineNuxtConfig({
   },
 
   i18n: {
-    baseUrl: 'https://victorgarces.me',
+    baseUrl: 'https://victorgarces.net',
     defaultLocale: 'en',
     strategy: 'prefix_except_default',
     locales: [

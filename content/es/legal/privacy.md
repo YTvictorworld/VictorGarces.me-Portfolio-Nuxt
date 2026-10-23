@@ -14,7 +14,7 @@ Hoy este sitio no tiene analítica: nada cuenta tu visita. Si eso cambia, esta p
 
 ## Formulario de contacto
 
-Cuando usas el formulario de contacto, lo que escribes se envía a hello@victorgarces.me: tu nombre, tu correo, el tema que eliges, tu mensaje y, según el tema, el plazo o la fecha y el lugar. Solo se usa para responderte.
+Cuando usas el formulario de contacto, lo que escribes se envía a hello@victorgarces.net: tu nombre, tu correo, el tema que eliges, tu mensaje y, según el tema, el plazo o la fecha y el lugar. Solo se usa para responderte.
 
 El formulario lo gestiona [Web3Forms](https://web3forms.com/privacy), un servicio de terceros. Tu navegador le envía el mensaje directamente, así que ve tu dirección IP, y guarda el envío antes de reenviármelo. Si no hay ningún servicio configurado, el botón abre tu propia aplicación de correo y nada pasa por un tercero.
 
@@ -32,7 +32,7 @@ No hay videos de YouTube ni publicaciones de Instagram incrustados. Los enlaces 
 
 ## Tus derechos
 
-Puedes pedir una copia o la eliminación de lo que enviaste por el formulario escribiendo a hello@victorgarces.me.
+Puedes pedir una copia o la eliminación de lo que enviaste por el formulario escribiendo a hello@victorgarces.net.
 
 ## Cambios
 

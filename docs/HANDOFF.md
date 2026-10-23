@@ -1,4 +1,4 @@
-# Handoff · victorgarces.me dual-mode refactor
+# Handoff · victorgarces.net dual-mode refactor
 
 - `CLAUDE.md` → put at the repo root. Instructions Claude Code reads on every session.
 - `PROMPT-CLAUDE-CODE.md` → the first message to paste, then one line per milestone.

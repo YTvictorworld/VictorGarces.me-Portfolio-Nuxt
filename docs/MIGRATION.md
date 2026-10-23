@@ -116,7 +116,7 @@ Night gets four film questions ("Before you book") written in M2 from facts alre
 
 | entry | lands in |
 |---|---|
-| `global.email` the previous personal address (also in both `index.yml`, both `blog.yml` and the closing line of all 4 post bodies) | `hello@victorgarces.me` (owner decision), stored once in the single-locale `content/profile.yml` (email, city, timezone, socials); `content/{en,es}/contact.yml` holds only the translated labels (topics, budgets, timelines, response time). Post closing lines link to `/contact`. |
+| `global.email` the previous personal address (also in both `index.yml`, both `blog.yml` and the closing line of all 4 post bodies) | `hello@victorgarces.net` (owner decision), stored once in the single-locale `content/profile.yml` (email, city, timezone, socials); `content/{en,es}/contact.yml` holds only the translated labels (topics, budgets, timelines, response time). Post closing lines link to `/contact`. |
 | `contact.intro` "I usually reply within 24 hours" | `contact_*.responseTime` ("usually within 24 hours"); it was also the /contact meta description, now the D-Contact lead |
 | `contact.location` "Santo Domingo, Dominican Republic · Working with clients worldwide" | `content/profile.yml` `city` + `timezone`; "Working with clients worldwide" moves into the aside line |
 | `global.meetingLink` (LinkedIn) | `contact_*.socials` |
@@ -189,7 +189,7 @@ Night gets four film questions ("Before you book") written in M2 from facts alre
 | `/blog` "Get in touch" button | See §3 Blog. |
 
 ## 7. Open items for the owner (non-blocking)
-- **Mailbox:** `hello@victorgarces.me` needs MX records before merging to `master`; until then the live site keeps the Gmail address.
+- **Mailbox:** `hello@victorgarces.net` needs MX records before merging to `master`; until then the live site keeps the Gmail address.
 - **Positioning:** the design says "Front-end developer and Software Engineering student"; the current site says "Full-stack developer … studying Computer Science", and the experience list includes a back-end role at Sigmedic (2025 to now; the design also lists Sigmedic as a 2026 beta project). The design copy is used unless you say otherwise, applied to every place that states it: hero, about story and teaser, `/dev` SEO, the default title, JSON-LD `jobTitle`, FAQ Q1/Q2 and the post author descriptions.
 - **Years** for the four design experience entries and the PLERD start year are unknown, so they are stored as `null` (nothing renders) until you give them.
 - **Socials:** answered 2026-09-23. `@vgfilmx` is the film-specific Instagram and is what the night side and the night OG card link to; the personal account is not linked from the site. Still open: whether a YouTube channel should be listed, and the Twitter/X handle `YTvictorworld` in the posts' front matter.

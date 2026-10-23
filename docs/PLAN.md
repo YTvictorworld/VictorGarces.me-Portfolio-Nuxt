@@ -5,7 +5,7 @@ Work in this order. Each milestone ends with `pnpm lint && pnpm typecheck && pnp
 ## Owner decisions (2026-09-22)
 These override anything else in `docs/` and `design/`.
 1. **Palette:** the handoff tokens (`docs/snippets/tokens.css`) replace the old Ember orange + pure black brand, including the body film grain.
-2. **Email:** `hello@victorgarces.me` everywhere, stored once in the contact collection. The mailbox (MX records) must exist before this branch merges to `master` (M9 gate).
+2. **Email:** `hello@victorgarces.net` everywhere, stored once in the contact collection. The mailbox (MX records) must exist before this branch merges to `master` (M9 gate).
 3. **No embeds:** no YouTube or Instagram embeds, only outbound links. So there is **no cookie consent banner**; `/cookies` is a static notice. Privacy §5 is rewritten accordingly.
 4. **No captcha:** the contact form posts to Web3Forms (free plan) with its honeypot field only.
 5. **Nuxt 4.5 + Nuxt UI 4** (done in M0).
@@ -106,11 +106,11 @@ Found in the audit (`docs/AUDIT.md`, ids in brackets). Where they conflict with 
 - Owner decision (2026-09-23) that moves M10: **the heroes are SVG, not 3D.** The handoff's TresJS/three approach is dropped, and with it the `three + TresJS under 200 KB` problem the audit flagged as unachievable. M10 builds scroll-linked SVG motion instead, with references gathered first. Whether that needs GSAP or CSS scroll-driven animations is decided there.
 
 ## M8 · Media pipeline hookup
-- `scripts/media-pull.ts`, `pnpm media:pull` in the generate script, CSP meta for `media.victorgarces.me`, real manifest.
+- `scripts/media-pull.ts`, `pnpm media:pull` in the generate script, CSP meta for `media.victorgarces.net`, real manifest.
 - Check: photography page serves AVIF with WebP fallback; film page plays HLS in Chrome and Safari.
 
 ## M9 · Release
-- Sentry (optional, only if DSN set), CV PDF in `public/`, redirects for changed slugs, final Lighthouse and axe pass, MX records for `hello@victorgarces.me` confirmed, merge to `master` (deploys through Actions).
+- Sentry (optional, only if DSN set), CV PDF in `public/`, redirects for changed slugs, final Lighthouse and axe pass, MX records for `hello@victorgarces.net` confirmed, merge to `master` (deploys through Actions).
 
 ## M10 · Animated heroes (SVG, not 3D)
 **Owner decision (2026-09-23): the handoff's 3D is dropped.** No GLB, no three, no @tresjs/*. The

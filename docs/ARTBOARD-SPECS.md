@@ -98,7 +98,7 @@ Day Open Graph template (1200x630) for nuxt-og-image, 'OgDay' in PAGES.md. Annot
 
 **Sections:**
 - Canvas 1200x630, bg #F7F7F4, text #151617
-- Grid minmax(0,1fr) 360px, gap 40, align-items center, pad 64 72. Left column gap 20: eyebrow 'DEVELOPER · SANTO DOMINGO, DO' mono 12 #1F7A63 ls .06em; name 'Víctor Garcés' Albert Sans 700 64/1 -0.02em; paragraph 22/1.55 #5F6266; 'victorgarces.me' mono 16 #5F6266 mt 12
+- Grid minmax(0,1fr) 360px, gap 40, align-items center, pad 64 72. Left column gap 20: eyebrow 'DEVELOPER · SANTO DOMINGO, DO' mono 12 #1F7A63 ls .06em; name 'Víctor Garcés' Albert Sans 700 64/1 -0.02em; paragraph 22/1.55 #5F6266; 'victorgarces.net' mono 16 #5F6266 mt 12
 - Right: SVG 360x360, exploded page translated (60,40): nav bar 200x18 rx9 #1F7A63; hero 200x70 rx14 #FFFFFF with 2px #1F7A63 stroke; 3 cards 60x50 rx10 #E6F1EC with accent stroke; footer block 200x60 rx12 #151617
 - Annotation absolute right 20 bottom 16, mono 10 #5F6266 (not part of the image)
 
@@ -107,14 +107,14 @@ Day Open Graph template (1200x630) for nuxt-og-image, 'OgDay' in PAGES.md. Annot
 - `(no chip drawn) lead paragraph` → props.subtitle ← page description (blog.description, projects.oneLiner, i18n)
 - `(no chip drawn) eyebrow 'DEVELOPER · SANTO DOMINGO, DO'` → no prop defined. Could be i18n plus contact.city **(no schema field)** — PAGES.md only defines { title, subtitle }
 
-**Final copy:** "DEVELOPER · SANTO DOMINGO, DO", "Víctor Garcés", "Vue, Nuxt, .NET and AWS. Case studies, code and a blog.", "victorgarces.me"
+**Final copy:** "DEVELOPER · SANTO DOMINGO, DO", "Víctor Garcés", "Vue, Nuxt, .NET and AWS. Case studies, code and a blog.", "victorgarces.net"
 
 **Colors not in tokens:** none (#F7F7F4, #151617, #1F7A63, #5F6266, #FFFFFF, #E6F1EC)
 
 **Fonts:** Albert Sans 700 64px (name), 400 22px (lead), Source Code Pro 12px (eyebrow), 16px (domain), 10px (annotation)
 
 **Links/routes:**
-- 'victorgarces.me' is display text and matches SITE_URL in app/utils/site.ts. No hrefs.
+- 'victorgarces.net' is display text and matches SITE_URL in app/utils/site.ts. No hrefs.
 - Rendered per route by nuxt-og-image (PAGES.md: defineOgImageComponent('OgDay' | 'OgNight', { title, subtitle }), fonts from public/fonts, which does not exist)
 
 ## handoff/design/S-OG-Film.dc.html (night)
@@ -122,7 +122,7 @@ Night Open Graph template (1200x630), 'OgNight'. Same grid as OG-Dev with a moon
 
 **Sections:**
 - Canvas 1200x630, bg #121010, text #F1EBE3
-- Grid 1fr 360px, gap 40, center, pad 64 72. Left column gap 20: eyebrow 'FILMMAKER · @VGFILMX' mono 12 #E2A15B ls .06em; name 'Víctor Garcés' Newsreader italic 500 64/1, no tracking; paragraph 22/1.55 Albert Sans #A69C91; 'victorgarces.me' mono 16 #A69C91 mt 12
+- Grid 1fr 360px, gap 40, center, pad 64 72. Left column gap 20: eyebrow 'FILMMAKER · @VGFILMX' mono 12 #E2A15B ls .06em; name 'Víctor Garcés' Newsreader italic 500 64/1, no tracking; paragraph 22/1.55 Albert Sans #A69C91; 'victorgarces.net' mono 16 #A69C91 mt 12
 - Right: SVG 360x360. Glow circles at (250,90), r90 #E2A15B op .14 and r34 op .25. Frame 280x118 rx16 #1C1817 with halves #6A2A24/#25314F op .5 and a #0B0908 silhouette ellipse. Lower card 220x70 rx14 #262120
 - Annotation bottom-right mono 10 #A69C91 (not part of the image)
 
@@ -132,14 +132,14 @@ Night Open Graph template (1200x630), 'OgNight'. Same grid as OG-Dev with a moon
 - `(no chip drawn) '@VGFILMX' in eyebrow` → contact.socials[mode film].handle (Instagram) — The field exists but PAGES.md does not wire it, and the handle conflicts with the live site's Instagram (the personal account)
 - `(no chip drawn) frame illustration` → static illustration, or the film poster from the manifest? **(no schema field)** — No slot for a real still, so film pages share a generic frame
 
-**Final copy:** "FILMMAKER · @VGFILMX", "Víctor Garcés", "Short films and event photography from Santo Domingo.", "victorgarces.me"
+**Final copy:** "FILMMAKER · @VGFILMX", "Víctor Garcés", "Short films and event photography from Santo Domingo.", "victorgarces.net"
 
 **Colors not in tokens:** #6A2A24 (opacity .5) frame left half; #25314F (opacity .5) frame right half; #0B0908 silhouette ellipse. These three are not placeholders here: the illustration is drawn as final, so they would be shipped as hard-coded hex.
 
 **Fonts:** Newsreader italic 500 64px (the OG renderer needs a static italic 500 instance), Albert Sans 400 22px, Source Code Pro 12/16/10px
 
 **Links/routes:**
-- 'victorgarces.me' display text only, no hrefs
+- 'victorgarces.net' display text only, no hrefs
 
 ## handoff/design/F-Home-Dev.dc.html (day)
 Desktop (1440 px) Developer home, /dev (pages/dev/index.vue), day mode. Order: header, hero + 3D stage, featured work (3 cards + More tile), about teaser, experience timeline, latest 3 posts, 3 testimonials, FAQ, dark contact block, footer.
@@ -179,7 +179,7 @@ Desktop (1440 px) Developer home, /dev (pages/dev/index.vue), day mode. Order: h
 - `(unchipped) footer city 'Santo Domingo, DO'` → contact.city
 - `(unchipped) hero eyebrow/h1/lead/CTA labels and section h2s` → none: no home/hero collection; must be i18n keys **(no schema field)**
 
-**Final copy:** "Víctor Garcés", "Day", "Night", "aria: Switch to Filmmaker, night mode", "Work", "About", "Experience", "Blog", "Contact", "EN / ES", "aria: Switch language to Spanish", "DEVELOPER · DAY · SANTO DOMINGO, DO", "Thin, end to end. Then hardened.", "Front-end developer and Software Engineering student. Vue and Nuxt on the front, .NET on the back, AWS underneath.", "See the work", "Download CV", "aria: Exploded view of a web page: header, hero, cards and code layers separated in depth", "SELECTED WORK · 3 OF [N]", "Projects I keep coming back to", "All projects", "Ada System", "Local-first, multi-agent personal assistant with a pixel-art office and Spanish voice control.", "Sigmedic", "Personal health record for the Dominican Republic, with patient and doctor profiles.", "Media pipeline", "Serverless image and HLS pipeline on AWS that serves the Filmmaker side of this site.", "2026 / creator; 2026 · beta / full-stack; 2026 / infra", "tags: local-first, multi-agent, health records, .net, lambda, cdk", "Repo", "Live", "Case study", "aria: See all projects", "MORE WORK", "Client sites, experiments and older builds", "ABOUT", "Software Engineering student by night, freelance developer by day, filmmaker on weekends.", "More about me →", "STACK", "Vue, Nuxt, TypeScript, .NET, EF Core, AWS, SQLite", "EXPERIENCE", "Where I've worked and studied", "Freelance developer / Web apps and platforms for clients, Vue/Nuxt and .NET.", "Director of Communications & Marketing · La Voz Juvenil RD / Brand, content and team coordination for a youth leadership organization.", "Software Engineering · UNAPEC / Evening classes, Santo Domingo.", "Technical degree, Development and Administration of Computer Applications / Instituto Politécnico Francisco José Peynado.", "to now", "BLOG · LATEST 3", "Notes from building things", "All posts", "Read · [N] min", "TESTIMONIALS", "What people I've worked with say", "FAQ", "Questions I get before a project", "CONTACT", "hello@victorgarces.me", "GitHub", "LinkedIn", "About me", "Quick message", "What are you building? (input placeholder)", "Send", "© 2026 Víctor Garcés · Santo Domingo, DO", "Privacy", "Terms", "Cookies", "NOT copy (designer annotations in copy slots): 'Whole tile is a link to /work. Hover: the stack fans out and the arrow slides right.'; 'scroll 0 %: page assembled · 100 % of hero: layers exploded'; 'hover: tilts toward the cursor · reduced motion: static'; 'CV: placeholder · public/cv-victor-garces.pdf'; ' · Web3Forms + Turnstile' suffix on the label"
+**Final copy:** "Víctor Garcés", "Day", "Night", "aria: Switch to Filmmaker, night mode", "Work", "About", "Experience", "Blog", "Contact", "EN / ES", "aria: Switch language to Spanish", "DEVELOPER · DAY · SANTO DOMINGO, DO", "Thin, end to end. Then hardened.", "Front-end developer and Software Engineering student. Vue and Nuxt on the front, .NET on the back, AWS underneath.", "See the work", "Download CV", "aria: Exploded view of a web page: header, hero, cards and code layers separated in depth", "SELECTED WORK · 3 OF [N]", "Projects I keep coming back to", "All projects", "Ada System", "Local-first, multi-agent personal assistant with a pixel-art office and Spanish voice control.", "Sigmedic", "Personal health record for the Dominican Republic, with patient and doctor profiles.", "Media pipeline", "Serverless image and HLS pipeline on AWS that serves the Filmmaker side of this site.", "2026 / creator; 2026 · beta / full-stack; 2026 / infra", "tags: local-first, multi-agent, health records, .net, lambda, cdk", "Repo", "Live", "Case study", "aria: See all projects", "MORE WORK", "Client sites, experiments and older builds", "ABOUT", "Software Engineering student by night, freelance developer by day, filmmaker on weekends.", "More about me →", "STACK", "Vue, Nuxt, TypeScript, .NET, EF Core, AWS, SQLite", "EXPERIENCE", "Where I've worked and studied", "Freelance developer / Web apps and platforms for clients, Vue/Nuxt and .NET.", "Director of Communications & Marketing · La Voz Juvenil RD / Brand, content and team coordination for a youth leadership organization.", "Software Engineering · UNAPEC / Evening classes, Santo Domingo.", "Technical degree, Development and Administration of Computer Applications / Instituto Politécnico Francisco José Peynado.", "to now", "BLOG · LATEST 3", "Notes from building things", "All posts", "Read · [N] min", "TESTIMONIALS", "What people I've worked with say", "FAQ", "Questions I get before a project", "CONTACT", "hello@victorgarces.net", "GitHub", "LinkedIn", "About me", "Quick message", "What are you building? (input placeholder)", "Send", "© 2026 Víctor Garcés · Santo Domingo, DO", "Privacy", "Terms", "Cookies", "NOT copy (designer annotations in copy slots): 'Whole tile is a link to /work. Hover: the stack fans out and the arrow slides right.'; 'scroll 0 %: page assembled · 100 % of hero: layers exploded'; 'hover: tilts toward the cursor · reduced motion: static'; 'CV: placeholder · public/cv-victor-garces.pdf'; ' · Web3Forms + Turnstile' suffix on the label"
 
 **Bracketed samples:** [N] (3 OF [N], [N] more), [screenshot · command center], [screenshot · patient profile], [s3 → lambda → cloudfront], [portrait], [Two lines from the current About section, verbatim. Placeholder · content/about.md], [YEAR] to now (x3), [YEAR], [DATE], [Existing post title 01..03], [Post excerpt, two lines.], Read · [N] min, [Testimonial 01..03 from the current site, verbatim.], [Name], [Role, company], [Existing FAQ question 01..04], [Answer from the current FAQ, verbatim.]
 
@@ -201,7 +201,7 @@ Desktop (1440 px) Developer home, /dev (pages/dev/index.vue), day mode. Order: h
 - More about me → #about-page → /dev/about (defined)
 - All posts #all-posts → /blog (defined, stored mode)
 - Post cards #post-1..3 → /blog/[slug] (defined, stored mode)
-- mailto:hello@victorgarces.me
+- mailto:hello@victorgarces.net
 - GitHub #github / LinkedIn #linkedin → contact.socials (external)
 - About me #about-page → /dev/about (defined)
 - Footer #privacy #terms #cookies → /privacy /terms /cookies (defined)
@@ -236,7 +236,7 @@ Mobile (390 px) Developer home, /dev below 768 px. Condensed single column: head
 - `(unchipped) '[N] more projects'` → count(projects) minus shown (2 here, 3 on desktop)
 - `(unchipped) experience title 'Communications & Marketing · La Voz Juvenil RD'` → experience title/org (desktop title starts 'Director of...'; no short field) **(no schema field)**
 
-**Final copy:** "Víctor Garcés", "EN", "aria: Switch language to Spanish", "aria: Open menu", "DEVELOPER · DAY", "Thin, end to end. Then hardened.", "Vue and Nuxt on the front, .NET on the back, AWS underneath.", "See the work", "CV", "Selected work", "All", "Ada System", "Local-first, multi-agent assistant.", "Sigmedic", "Personal health record for the DR.", "more projects →", "About", "Student by night, developer by day, filmmaker on weekends.", "More about me →", "Experience", "Freelance developer", "Communications & Marketing · La Voz Juvenil RD", "Software Engineering · UNAPEC", "to now", "Blog", "All posts", "Testimonials", "swipe for more", "FAQ", "CONTACT", "hello@victorgarces.me", "Or use the form →", "© 2026 Víctor Garcés · Santo Domingo, DO", "Privacy", "Terms", "Cookies", "Day · Developer", "aria: Switch mode", "Night"
+**Final copy:** "Víctor Garcés", "EN", "aria: Switch language to Spanish", "aria: Open menu", "DEVELOPER · DAY", "Thin, end to end. Then hardened.", "Vue and Nuxt on the front, .NET on the back, AWS underneath.", "See the work", "CV", "Selected work", "All", "Ada System", "Local-first, multi-agent assistant.", "Sigmedic", "Personal health record for the DR.", "more projects →", "About", "Student by night, developer by day, filmmaker on weekends.", "More about me →", "Experience", "Freelance developer", "Communications & Marketing · La Voz Juvenil RD", "Software Engineering · UNAPEC", "to now", "Blog", "All posts", "Testimonials", "swipe for more", "FAQ", "CONTACT", "hello@victorgarces.net", "Or use the form →", "© 2026 Víctor Garcés · Santo Domingo, DO", "Privacy", "Terms", "Cookies", "Day · Developer", "aria: Switch mode", "Night"
 
 **Bracketed samples:** [static render of the exploded page · no 3D on phones], [N] more projects, [YEAR] to now (x3), [DATE] · [tag], [Existing post title 01], [Existing post title 02], [Testimonial 01, verbatim.], [Name] · [Role] · swipe for more, [FAQ question 01], [FAQ question 02]
 
@@ -256,7 +256,7 @@ Mobile (390 px) Developer home, /dev below 768 px. Condensed single column: head
 - More about me → D-About = /dev/about (defined)
 - All posts → D-Blog = /blog (defined, stored mode)
 - Post cards → D-Post = /blog/[slug] (defined, stored mode)
-- mailto:hello@victorgarces.me
+- mailto:hello@victorgarces.net
 - Or use the form → D-Contact = /contact (defined; no ?topic= specified)
 - Privacy / Terms → S-Legal = /privacy, /terms (defined)
 - Cookies → S-Cookies = /cookies (defined)
@@ -300,7 +300,7 @@ Desktop (1440x3960) Filmmaker home at /film (pages/film/index.vue), forced night
 - `placeholder · content/faq.yml, film list` → faq.entries where mode=film: q, a
 - `(unoutlined) email, Instagram, YouTube, form fields, footer city` → contact.email, contact.socials(mode film/both), contact.topics[id=film].fields, contact.city — socials.href must be z.string().url(), so a placeholder YouTube URL fails validation
 
-**Final copy:** "Víctor Garcés", "Day", "Night", "Films", "Photography", "Journal", "About", "Contact", "EN / ES", "aria: Switch to Developer, day mode", "aria: Switch language to Spanish", "FILMMAKER · NIGHT · @VGFILMX", "Stories that fit in six minutes.", "Short films and event photography from Santo Domingo. Small crews, one camera, a lot of natural light.", "Watch the reel", "All films", "aria: Night stage with a soft moon glow and floating frames", "NOW SHOWING", "One film at a time", "SHORT FILM · 2026 · 6 MIN", "¿Por qué no?", "One actress, two inner voices: ambition on one side, enjoyment on the other, in a room lit in red and blue.", "Written by / Directed by / Cast / Camera / Also as", "Víctor Garcés", "Sony a7III", "3-minute vertical cut for Reels", "00:00 / 06:04 / CC / 1080p", "Film page", "Vertical cut", "STILLS · EVENT PHOTOGRAPHY · 2025 TO 2026", "Twenty-four frames, scroll sideways", "All photography", "+19", "Reel 2026", "Showreel · 1 min 30", "aria: Open the 2026 reel", "aria: Open project", "aria: See all films and series", "MORE WORK", "Older shorts and client videos", "SERVICES & FILMOGRAPHY", "Credits", "Short films", "Event photography", "Vertical reels", "Color and edit", "2026 | ¿Por qué no? | Writer, director · short film, 6 min | + vertical cut", "2025 to now | Event photography | Photographer · conferences, launches, community events | Santo Domingo", "FROM PEOPLE IN FRONT OF THE CAMERA", "aria: Previous testimonial / Next testimonial", "JOURNAL", "Behind the scenes", "All entries →", "ABOUT", "Writer, director and the person holding the camera, most of the time.", "More about me and the gear →", "Before you book", "BOOK A SHOOT", "hello@victorgarces.me", "Instagram", "YouTube", "Date", "Place", "What happens", "Send the request", "© 2026 Víctor Garcés · Santo Domingo, DO · All films and photographs are original work", "Privacy", "Terms", "Cookies", "NOT COPY (annotations): '3D: the sun of the day mode becomes the moon: same sphere, now a light source behind floating frames, parallax on cursor', 'Web3Forms + Turnstile', 'still 0N · ratio'"
+**Final copy:** "Víctor Garcés", "Day", "Night", "Films", "Photography", "Journal", "About", "Contact", "EN / ES", "aria: Switch to Developer, day mode", "aria: Switch language to Spanish", "FILMMAKER · NIGHT · @VGFILMX", "Stories that fit in six minutes.", "Short films and event photography from Santo Domingo. Small crews, one camera, a lot of natural light.", "Watch the reel", "All films", "aria: Night stage with a soft moon glow and floating frames", "NOW SHOWING", "One film at a time", "SHORT FILM · 2026 · 6 MIN", "¿Por qué no?", "One actress, two inner voices: ambition on one side, enjoyment on the other, in a room lit in red and blue.", "Written by / Directed by / Cast / Camera / Also as", "Víctor Garcés", "Sony a7III", "3-minute vertical cut for Reels", "00:00 / 06:04 / CC / 1080p", "Film page", "Vertical cut", "STILLS · EVENT PHOTOGRAPHY · 2025 TO 2026", "Twenty-four frames, scroll sideways", "All photography", "+19", "Reel 2026", "Showreel · 1 min 30", "aria: Open the 2026 reel", "aria: Open project", "aria: See all films and series", "MORE WORK", "Older shorts and client videos", "SERVICES & FILMOGRAPHY", "Credits", "Short films", "Event photography", "Vertical reels", "Color and edit", "2026 | ¿Por qué no? | Writer, director · short film, 6 min | + vertical cut", "2025 to now | Event photography | Photographer · conferences, launches, community events | Santo Domingo", "FROM PEOPLE IN FRONT OF THE CAMERA", "aria: Previous testimonial / Next testimonial", "JOURNAL", "Behind the scenes", "All entries →", "ABOUT", "Writer, director and the person holding the camera, most of the time.", "More about me and the gear →", "Before you book", "BOOK A SHOOT", "hello@victorgarces.net", "Instagram", "YouTube", "Date", "Place", "What happens", "Send the request", "© 2026 Víctor Garcés · Santo Domingo, DO · All films and photographs are original work", "Privacy", "Terms", "Cookies", "NOT COPY (annotations): '3D: the sun of the day mode becomes the moon: same sphere, now a light source behind floating frames, parallax on cursor', 'Web3Forms + Turnstile', 'still 0N · ratio'"
 
 **Bracketed samples:** [Actress], [Project or client video], [Format · year], [N] more, [YEAR], [Title], [Role · format], [note], "[Testimonial from an event or film client, verbatim, two lines at most.]", [Name] · [Event or project], [DATE] · on set / [DATE] · writing, [Blog post tagged film, title 01], [Blog post tagged film, title 02], [One-line excerpt.], [Two lines from the current About section, film version. Placeholder · content/about.md], [lens], [light], [edit + color app], [FAQ question 01] to [FAQ question 04], [Answer, verbatim.]
 
@@ -326,7 +326,7 @@ Desktop (1440x3960) Filmmaker home at /film (pages/film/index.vue), forced night
 - #all-posts -> /film/journal : defined
 - #post-1, #post-2 -> /blog/[slug] : defined (stored mode)
 - #about-page -> /film/about : defined
-- mailto:hello@victorgarces.me
+- mailto:hello@victorgarces.net
 - #instagram, #youtube -> external, from contact.socials
 - #privacy, #terms, #cookies -> /privacy, /terms, /cookies : defined
 
@@ -358,7 +358,7 @@ Mobile (390x1780) Filmmaker home at /film, forced night mode.
 - `(no chip) testimonial '[Name] · [Event] · 1 of 3'` → testimonials(film/both) name, role; the count is derived
 - `(no chip) '[N] more films'` → count(films)
 
-**Final copy:** "Víctor Garcés", "EN", "aria: Switch language to Spanish", "aria: Open menu", "FILMMAKER · NIGHT", "Stories that fit in six minutes.", "Short films and event photography from Santo Domingo.", "Watch the reel", "Now showing", "¿Por qué no?", "Short film · 2026 · 6 min · vertical cut available", "Stills", "All", "swipe · 24 frames", "More work", "Reel 2026", "Showreel · 1 min 30", "Credits", "2026 | ¿Por qué no?", "2025+ | Event photography", "Journal", "BOOK A SHOOT", "hello@victorgarces.me", "Date, place, what happens →", "© 2026 Víctor Garcés · Santo Domingo, DO", "Privacy", "Terms", "Cookies", "Day · Developer", "Night", "aria: Switch mode"
+**Final copy:** "Víctor Garcés", "EN", "aria: Switch language to Spanish", "aria: Open menu", "FILMMAKER · NIGHT", "Stories that fit in six minutes.", "Short films and event photography from Santo Domingo.", "Watch the reel", "Now showing", "¿Por qué no?", "Short film · 2026 · 6 min · vertical cut available", "Stills", "All", "swipe · 24 frames", "More work", "Reel 2026", "Showreel · 1 min 30", "Credits", "2026 | ¿Por qué no?", "2025+ | Event photography", "Journal", "BOOK A SHOOT", "hello@victorgarces.net", "Date, place, what happens →", "© 2026 Víctor Garcés · Santo Domingo, DO", "Privacy", "Terms", "Cookies", "Day · Developer", "Night", "aria: Switch mode"
 
 **Bracketed samples:** [16:9 · own player], [N] more films, [YEAR], [Title], "[Testimonial, verbatim.]", [Name] · [Event] · 1 of 3, [DATE] · on set, [Blog post tagged film, title 01], [Blog post tagged film, title 02]
 
@@ -376,7 +376,7 @@ Mobile (390x1780) Filmmaker home at /film, forced night mode.
 - N-Films.dc.html ('[N] more films') -> /film/films : defined
 - N-Journal.dc.html (Journal 'All') -> /film/journal : defined
 - D-Post.dc.html x2 -> /blog/[slug] : defined (stored mode, may render day)
-- mailto:hello@victorgarces.me
+- mailto:hello@victorgarces.net
 - D-Contact.dc.html ('Date, place, what happens') -> /contact : defined; should carry ?topic=film
 - S-Legal.dc.html x2 (Privacy, Terms) -> /privacy and /terms : defined (both point to the same artboard)
 - S-Cookies.dc.html -> /cookies : defined
@@ -455,7 +455,7 @@ Mobile (390x1780) Filmmaker home at /film, forced night mode.
 - `NEXT PROJECT 'Sigmedic' (no chip)` → projects.next (slug) -> the referenced project's title — next is optional and has no fallback rule
 - `email in dark card (no chip)` → contact.email
 
-**Final copy:** "← All projects", "CASE STUDY · ADA SYSTEM (template 'CASE STUDY · {title}')", "A personal assistant that lives on your machine, not in a tab.", "Local-first, multi-agent, with a pixel-art office and Spanish voice control.", "Title and one-liner come from the front matter. (designer note appended to the lead)", "ROLE", "YEAR", "STATUS", "STACK", "LINKS", "Creator, full-stack", "2026", "In progress", "Python, SQLite, Vue", "Repo · Demo", "01", "02", "03", "04", "Context", "What I built", "Decisions", "Result", "Who it is for and why it exists. Two short paragraphs, no jargon. (writing guideline written as copy)", "NEXT PROJECT", "Sigmedic", "→", "BUILDING SOMETHING SIMILAR?", "hello@victorgarces.me", "Contact", "© 2026 Víctor Garcés · Santo Domingo, DO", "Privacy", "Terms", "Cookies"
+**Final copy:** "← All projects", "CASE STUDY · ADA SYSTEM (template 'CASE STUDY · {title}')", "A personal assistant that lives on your machine, not in a tab.", "Local-first, multi-agent, with a pixel-art office and Spanish voice control.", "Title and one-liner come from the front matter. (designer note appended to the lead)", "ROLE", "YEAR", "STATUS", "STACK", "LINKS", "Creator, full-stack", "2026", "In progress", "Python, SQLite, Vue", "Repo · Demo", "01", "02", "03", "04", "Context", "What I built", "Decisions", "Result", "Who it is for and why it exists. Two short paragraphs, no jargon. (writing guideline written as copy)", "NEXT PROJECT", "Sigmedic", "→", "BUILDING SOMETHING SIMILAR?", "hello@victorgarces.net", "Contact", "© 2026 Víctor Garcés · Santo Domingo, DO", "Privacy", "Terms", "Cookies"
 
 **Bracketed samples:** [hero image, 16:9, or muted screen recording], [screenshot or diagram], [Decision 1], [Decision 2], [Decision 3], [Decision 4], [Why, one line. Placeholder · decisions[] in front matter], [screenshot]
 
@@ -608,7 +608,7 @@ Mobile (390x1780) Filmmaker home at /film, forced night mode.
 - `Elsewhere rows (no chip)` → contact.socials[{label, handle, href (url()), mode}] — href must pass z.string().url(), but the LinkedIn and YouTube seeds are bracketed
 - `consent line, success and error states (annotation only)` → i18n strings (not drawn) **(no schema field)**
 
-**Final copy:** "CONTACT", "Tell me what you are building.", "One form for both modes. The topic changes the fields: a project needs a budget range, a shoot needs a date and a place. (borderline: reads like a design note)", "Topic", "Web project", "Film or photo", "Just saying hi", "Name", "Your name", "Email", "you@example.com", "Budget range", "Pick one", "Timeline", "When do you need it", "Message", "What it is, who it is for, what exists already", "Send", "Cloudflare Turnstile · invisible unless challenged (annotation)", "Web3Forms endpoint · success and error states inline, no redirect · consent line links to Privacy (annotation)", "OR JUST EMAIL", "hello@victorgarces.me", "Santo Domingo, DO · GMT-4 · replies within [N] days", "ELSEWHERE", "GitHub", "@YTvictorworld", "LinkedIn", "Instagram", "@vgfilmx", "YouTube", "© 2026 Víctor Garcés · Santo Domingo, DO", "Privacy", "Terms", "Cookies"
+**Final copy:** "CONTACT", "Tell me what you are building.", "One form for both modes. The topic changes the fields: a project needs a budget range, a shoot needs a date and a place. (borderline: reads like a design note)", "Topic", "Web project", "Film or photo", "Just saying hi", "Name", "Your name", "Email", "you@example.com", "Budget range", "Pick one", "Timeline", "When do you need it", "Message", "What it is, who it is for, what exists already", "Send", "Cloudflare Turnstile · invisible unless challenged (annotation)", "Web3Forms endpoint · success and error states inline, no redirect · consent line links to Privacy (annotation)", "OR JUST EMAIL", "hello@victorgarces.net", "Santo Domingo, DO · GMT-4 · replies within [N] days", "ELSEWHERE", "GitHub", "@YTvictorworld", "LinkedIn", "Instagram", "@vgfilmx", "YouTube", "© 2026 Víctor Garcés · Santo Domingo, DO", "Privacy", "Terms", "Cookies"
 
 **Bracketed samples:** [N] days, [handle], [channel]
 
@@ -620,7 +620,7 @@ Mobile (390x1780) Filmmaker home at /film, forced night mode.
 - Nav: /dev/work, /dev/about, Experience -> /dev/about, /blog, /contact
 - EN / ES -> #lang (/es/contact)
 - Send -> #send (form POST to the Web3Forms endpoint from env; external)
-- mailto:hello@victorgarces.me
+- mailto:hello@victorgarces.net
 - GitHub -> #github, LinkedIn -> #linkedin, Instagram -> #instagram, YouTube -> #youtube (external, from contact.socials.href)
 - Consent line -> /privacy (defined, but the line itself is not drawn)
 - /contact?topic=film preselects the film topic (PAGES); not drawn
@@ -856,7 +856,7 @@ Shell/CookieBanner, shown as a day EN variant and a night ES variant. Canvas 144
 - `(bracket) Last updated [DATE]` → legal.updated
 - `(no chip) eyebrow / h1` → legal.title
 
-**Final copy:** "LEGAL · PRIVACY", "Privacy", "Last updated [DATE].", "Terms", "Cookies", "SECTIONS", "1. What this site collects", "Very little. No accounts, no tracking pixels.", "2. Analytics", "Cookieless analytics (Umami or Cloudflare Web Analytics): page views and referrers, no personal data, no cookies.", "3. Contact form", "Name, email and message go to Web3Forms and then to hello@victorgarces.me. Turnstile checks you are human.", "4. Media and CDN", "Images and video are served from media.victorgarces.me on AWS CloudFront; standard access logs, kept [N] days.", "5. Embeds", "YouTube and Instagram embeds load only after you accept them in the cookie banner.", "6. Your rights", "Ask for a copy or deletion of anything you sent through the form: hello@victorgarces.me.", "7. Changes", "This page shows its last-updated date at the top.", "aria-label: Switch to Filmmaker, night mode"
+**Final copy:** "LEGAL · PRIVACY", "Privacy", "Last updated [DATE].", "Terms", "Cookies", "SECTIONS", "1. What this site collects", "Very little. No accounts, no tracking pixels.", "2. Analytics", "Cookieless analytics (Umami or Cloudflare Web Analytics): page views and referrers, no personal data, no cookies.", "3. Contact form", "Name, email and message go to Web3Forms and then to hello@victorgarces.net. Turnstile checks you are human.", "4. Media and CDN", "Images and video are served from media.victorgarces.net on AWS CloudFront; standard access logs, kept [N] days.", "5. Embeds", "YouTube and Instagram embeds load only after you accept them in the cookie banner.", "6. Your rights", "Ask for a copy or deletion of anything you sent through the form: hello@victorgarces.net.", "7. Changes", "This page shows its last-updated date at the top.", "aria-label: Switch to Filmmaker, night mode"
 
 **Bracketed samples:** [DATE], [N] days
 

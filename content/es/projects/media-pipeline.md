@@ -42,6 +42,6 @@ El lado cineasta de este sitio muestra fotos y películas. El sitio es estático
 
 ## Qué estoy construyendo
 
-Los originales irán a S3. Una función Lambda generará versiones AVIF y WebP de cada foto a 480, 960, 1440 y 2048 píxeles, además de un blurhash. MediaConvert codificará cada película en HLS a 1080, 720, 480 y 360, con un póster y una vista previa corta sin sonido. CloudFront servirá todo desde media.victorgarces.me, y el pipeline publicará un manifiesto que este sitio lee al compilar.
+Los originales irán a S3. Una función Lambda generará versiones AVIF y WebP de cada foto a 480, 960, 1440 y 2048 píxeles, además de un blurhash. MediaConvert codificará cada película en HLS a 1080, 720, 480 y 360, con un póster y una vista previa corta sin sonido. CloudFront servirá todo desde media.victorgarces.net, y el pipeline publicará un manifiesto que este sitio lee al compilar.
 
 Mientras tanto, un script local genera las versiones AVIF y WebP, el blurhash y el manifiesto en el mismo formato, así que el sitio ya funciona con el contrato final.
