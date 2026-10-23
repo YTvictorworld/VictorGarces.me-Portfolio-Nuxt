@@ -153,8 +153,9 @@ watch(menuOpen, (open) => {
           :class="key === 'day' ? 'day-only' : 'night-only'"
         >
           <li
-            v-for="item in items"
+            v-for="(item, index) in items"
             :key="item.path"
+            :style="{ '--i': index }"
           >
             <NuxtLink
               :to="item.to"
@@ -163,11 +164,20 @@ watch(menuOpen, (open) => {
               :aria-current="isActive(item) ? 'page' : undefined"
               @click="menuOpen = false"
             >
-              {{ item.label }}
+              <span
+                class="menu-index"
+                aria-hidden="true"
+              >{{ String(index + 1).padStart(2, '0') }}</span>
+              <span class="menu-label">{{ item.label }}</span>
+              <UiArrow class="menu-arrow" />
             </NuxtLink>
           </li>
         </ul>
       </nav>
+      <p class="menu-foot eyebrow">
+        <span class="day-only">{{ t('og.dev.eyebrow') }}</span>
+        <span class="night-only">{{ t('og.film.eyebrow') }}</span>
+      </p>
     </dialog>
   </header>
 </template>
@@ -284,34 +294,55 @@ watch(menuOpen, (open) => {
 
 /* Slides in from the right, like the panel it replaces */
 .menu {
-  width: min(360px, 86vw);
+  flex-direction: column;
+  width: min(420px, 100vw);
   max-width: none;
   height: 100%;
   max-height: none;
   margin: 0 0 0 auto;
-  padding: 24px var(--gutter);
+  padding: 20px var(--gutter) calc(28px + env(safe-area-inset-bottom, 0px));
   color: var(--text);
   background: var(--bg);
   border: 0;
   border-left: 1px solid var(--border);
+  box-shadow: -24px 0 60px rgb(0 0 0 / 18%);
   overscroll-behavior: contain;
+}
+
+.menu[open] {
+  display: flex;
 }
 
 .menu::backdrop {
   background: var(--backdrop);
 }
 
-/* The panel slides in from the edge it is attached to and the page dims behind it, both ways.
+/* A modal (this menu or the lightbox) keeps the page behind it still. Here rather than in the
+   lightbox because the header is on every page, so the rule is always loaded. */
+:global(html:has(dialog:modal)) {
+  overflow: hidden;
+}
+
+/* Motion. The panel arrives on the sheet curve, a fast start that settles slowly, and the page
+   dims behind it; the contents follow a beat later, one link after another. Closing is quicker
+   and accelerates away, the way a drawer is pushed shut, with no stagger.
+
    A dialog leaves the top layer the moment it closes, so display and overlay transition as
    discrete properties to keep it there until the slide out has finished. Browsers without
-   @starting-style just show and hide it, and reduced motion cuts every duration to nothing. */
+   @starting-style just show and hide it; reduced motion zeroes --t-sheet, so it is instant. */
 .menu,
 .menu::backdrop {
   transition:
-    transform var(--t-card) var(--ease-out),
-    opacity var(--t-card) var(--ease-out),
-    overlay var(--t-card) allow-discrete,
-    display var(--t-card) allow-discrete;
+    transform var(--t-sheet) var(--ease-sheet),
+    opacity var(--t-sheet) var(--ease-sheet),
+    overlay var(--t-sheet) allow-discrete,
+    display var(--t-sheet) allow-discrete;
+}
+
+.menu:not([open]),
+.menu:not([open])::backdrop {
+  transition-duration: calc(var(--t-sheet) * 0.6);
+  transition-timing-function: var(--ease-in);
 }
 
 .menu:not([open]) {
@@ -332,22 +363,41 @@ watch(menuOpen, (open) => {
   }
 }
 
-/* The links follow the panel by a beat, so the menu reads as arriving rather than appearing */
+.menu-head,
+.menu-list li,
+.menu-foot {
+  transition:
+    opacity calc(var(--t-sheet) * 0.8) var(--ease-out),
+    transform calc(var(--t-sheet) * 0.8) var(--ease-sheet);
+}
+
+.menu-head {
+  transition-delay: calc(var(--t-sheet) * 0.15);
+}
+
 .menu-list li {
-  transition: opacity var(--t-card) var(--ease-out) 60ms, transform var(--t-card) var(--ease-out) 60ms;
+  transition-delay: calc(var(--t-sheet) * 0.2 + var(--i, 0) * var(--t-sheet) * 0.07);
+}
+
+.menu-foot {
+  transition-delay: calc(var(--t-sheet) * 0.55);
 }
 
 @starting-style {
+  .menu[open] .menu-head,
+  .menu[open] .menu-foot {
+    opacity: 0;
+  }
+
   .menu[open] .menu-list li {
     opacity: 0;
-    transform: translateX(16px);
+    transform: translateY(14px);
   }
 }
 
-/* A modal (this menu or the lightbox) keeps the page behind it still. Here rather than in the
-   lightbox because the header is on every page, so the rule is always loaded. */
-:global(html:has(dialog:modal)) {
-  overflow: hidden;
+/* Leaving, everything goes with the panel at once */
+.menu:not([open]) :is(.menu-head, .menu-list li, .menu-foot) {
+  transition-delay: 0s;
 }
 
 .menu-head {
@@ -355,7 +405,7 @@ watch(menuOpen, (open) => {
   align-items: center;
   justify-content: space-between;
   gap: 16px;
-  margin-bottom: 12px;
+  margin-bottom: 28px;
 }
 
 .menu-head p {
@@ -374,6 +424,11 @@ watch(menuOpen, (open) => {
   border: 1px solid var(--border);
   border-radius: 50%;
   cursor: pointer;
+  transition: transform var(--t-card) var(--ease-out), border-color var(--t-card) var(--ease-out);
+}
+
+.menu-close:active {
+  transform: scale(0.94);
 }
 
 /* 44px touch target around the 40px circle, without changing what is drawn */
@@ -389,20 +444,65 @@ watch(menuOpen, (open) => {
   margin: 0;
   padding: 0;
   list-style: none;
+  border-top: 1px solid var(--border);
 }
 
+/* The mode's display face: Albert Sans by day, Newsreader italic by night */
 .menu-link {
-  display: block;
-  padding: 14px 0;
-  font-size: 20px;
-  font-weight: 500;
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  padding: 18px 0;
+  font-family: var(--font-display);
+  font-style: var(--display-style);
+  font-weight: var(--display-weight);
+  font-size: clamp(28px, 8.5vw, 36px);
+  line-height: 1.1;
+  letter-spacing: var(--display-tracking);
   color: var(--text);
   text-decoration: none;
   border-bottom: 1px solid var(--border);
 }
 
-.menu-link.active {
+.menu-index {
+  flex: none;
+  width: 2ch;
+  font-family: var(--font-mono);
+  font-style: normal;
+  font-weight: 400;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+}
+
+.menu-label {
+  flex: 1;
+  min-width: 0;
+}
+
+.menu-arrow {
+  align-self: center;
+  color: var(--muted);
+  opacity: 0;
+  transform: translateX(-6px);
+  transition: opacity var(--t-card) var(--ease-out), transform var(--t-card) var(--ease-out);
+}
+
+.menu-link:active .menu-arrow,
+.menu-link.active .menu-arrow {
+  opacity: 1;
+  transform: none;
+}
+
+.menu-link.active,
+.menu-link.active .menu-index,
+.menu-link.active .menu-arrow {
   color: var(--accent);
+}
+
+.menu-foot {
+  margin: auto 0 0;
+  padding-top: 32px;
 }
 
 /* Below 1024 px the nav and the toggle move to the menu and the bottom mode pill */
