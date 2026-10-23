@@ -1,6 +1,4 @@
 <script setup lang="ts">
-definePageMeta({ fullBleed: true })
-
 const { t, locale } = useI18n()
 const { collection } = useLocalizedContent()
 

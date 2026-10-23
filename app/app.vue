@@ -10,7 +10,6 @@ useHead(() => ({
   htmlAttrs: {
     ...localeHead.value.htmlAttrs,
     'data-mode': mode.value,
-    'class': mode.value === 'night' ? 'dark' : 'light',
     'data-placeholders': showPlaceholders ? 'on' : 'off'
   },
   meta: [

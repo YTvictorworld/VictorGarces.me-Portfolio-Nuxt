@@ -36,17 +36,6 @@ const draft = z.boolean().default(false)
 /** YAML dates arrive as Date objects or ISO strings depending on quoting. */
 const date = z.coerce.date()
 
-// Legacy page-header buttons (content/{en,es}/pages/blog.yml until M4 rebuilds /blog)
-const button = z.object({
-  label: text,
-  icon: z.string().optional(),
-  to: z.string().optional(),
-  color: z.enum(['primary', 'neutral', 'success', 'warning', 'error', 'info']).optional(),
-  size: z.enum(['xs', 'sm', 'md', 'lg', 'xl']).optional(),
-  variant: z.enum(['solid', 'outline', 'subtle', 'soft', 'ghost', 'link']).optional(),
-  target: z.enum(['_blank', '_self']).optional()
-})
-
 export const schemas = {
   projects: z.object({
     title: text,
@@ -213,7 +202,6 @@ export const schemas = {
     seo: z.object({ title: optionalText, description: optionalText }).optional(),
     eyebrow: optionalText,
     lead: optionalText,
-    links: z.array(button).default([]),
     sections: z.record(z.string(), z.object({
       eyebrow: optionalText,
       title: optionalText,

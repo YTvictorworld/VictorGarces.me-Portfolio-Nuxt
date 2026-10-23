@@ -4,8 +4,6 @@ import type { Mode } from '~/utils/mode'
 function applyToDocument(value: Mode) {
   const root = document.documentElement
   root.setAttribute('data-mode', value)
-  root.classList.toggle('dark', value === 'night')
-  root.classList.toggle('light', value !== 'night')
 }
 
 /**
@@ -44,7 +42,6 @@ export function useMode() {
 
   return {
     mode: readonly(mode),
-    isDay: computed(() => mode.value === 'day'),
     isNight: computed(() => mode.value === 'night'),
     announcement,
     setMode,

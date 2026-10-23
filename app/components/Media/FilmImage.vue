@@ -2,13 +2,12 @@
 /**
  * A photo from the media manifest: AVIF then WebP renditions, intrinsic size to avoid layout
  * shift, and the blurhash's average color behind it while it loads. Alt comes from the
- * manifest (Spanish when available) unless `alt` overrides it; `decorative` hides it.
+ * manifest (Spanish when available); `decorative` hides it.
  */
 const props = withDefaults(defineProps<{
   id: string
   /** CSS sizes attribute, e.g. "(max-width: 767px) 100vw, 33vw" */
   sizes?: string
-  alt?: string
   decorative?: boolean
   /** Eager + high fetch priority, for the LCP image */
   priority?: boolean
@@ -38,7 +37,7 @@ const fallback = computed(() => photo.value ? media.photoSrc(props.id, photo.val
     >
     <img
       :src="fallback"
-      :alt="decorative ? '' : media.alt(id, alt)"
+      :alt="decorative ? '' : media.alt(id)"
       :width="photo.width"
       :height="photo.height"
       :loading="priority ? 'eager' : 'lazy'"

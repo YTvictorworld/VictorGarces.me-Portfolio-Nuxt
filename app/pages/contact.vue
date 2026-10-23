@@ -1,6 +1,4 @@
 <script setup lang="ts">
-definePageMeta({ fullBleed: true })
-
 type FieldName = 'name' | 'email' | 'budget' | 'timeline' | 'date' | 'place' | 'message'
 
 const { locale, t } = useI18n()

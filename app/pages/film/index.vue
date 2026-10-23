@@ -1,6 +1,4 @@
 <script setup lang="ts">
-definePageMeta({ fullBleed: true })
-
 const { locale, t, te } = useI18n()
 const localePath = useLocalePath()
 const router = useRouter()

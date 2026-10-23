@@ -25,7 +25,6 @@ useHead(() => ({
     // app.vue's useLocaleHead never runs here, so a 404 under /es would have no language
     'lang': localeProperties.value.language,
     'data-mode': mode.value,
-    'class': mode.value === 'night' ? 'dark' : 'light',
     'data-placeholders': showPlaceholders ? 'on' : 'off'
   },
   meta: [

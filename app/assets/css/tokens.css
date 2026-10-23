@@ -18,10 +18,6 @@
   --danger: #B3261E;
   --ph: rgba(31, 122, 99, 0.55);
 
-  /* Ends of the neutral scale that Nuxt UI and Tailwind `neutral-*` / `primary-*` derive from */
-  --scale-light: var(--surface);
-  --scale-dark: var(--text);
-
   --font-body: 'Albert Sans', system-ui, sans-serif;
   --font-display: 'Albert Sans', system-ui, sans-serif;
   --font-mono: 'Source Code Pro', ui-monospace, monospace;
@@ -39,7 +35,6 @@
   --r-pill: 999px;
 
   --gutter: 64px;
-  --gap: 20px;
   --section: 40px;
   --header-h: 84px;
 
@@ -57,7 +52,6 @@
   --t-mode: 700ms;
 
   --shadow-float: 0 16px 40px rgba(21, 22, 23, 0.28);
-  --shadow-banner: 0 20px 50px rgba(0, 0, 0, 0.25);
   --shadow-pill: 0 10px 30px rgba(0, 0, 0, 0.25);
 
   /* Behind modal dialogs: the mobile menu, and the lightbox, which needs more */
@@ -82,9 +76,6 @@
   /* Lighter on the dark card, where the day red would fail contrast */
   --danger: #F2938C;
   --ph: rgba(226, 161, 91, 0.5);
-
-  --scale-light: var(--text);
-  --scale-dark: var(--bg);
 
   --font-display: 'Newsreader', Georgia, serif;
   --display-style: italic;
@@ -116,7 +107,7 @@
 }
 
 @media (max-width: 767px) {
-  :root, [data-mode='day'], [data-mode='night'] { --gutter: 20px; --gap: 12px; --section: 24px; --h1-home: 42px; --h1-page: 34px; --h2: 26px; }
+  :root, [data-mode='day'], [data-mode='night'] { --gutter: 20px; --section: 24px; --h1-home: 42px; --h1-page: 34px; --h2: 26px; }
 }
 
 /* Compact header (menu button + bottom mode pill) below 1024 px */

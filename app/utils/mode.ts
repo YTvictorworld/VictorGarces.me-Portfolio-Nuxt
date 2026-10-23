@@ -1,7 +1,5 @@
 export type Mode = 'day' | 'night'
 
-export const MODES: readonly Mode[] = ['day', 'night']
-
 /** localStorage key for the visitor's chosen mode. No cookie: nothing server-side reads it. */
 export const MODE_STORAGE_KEY = 'vg-mode'
 
@@ -75,4 +73,4 @@ export function siblingPath(path: string): string {
  */
 export const MODE_PREPAINT_SCRIPT = `(function(){try{var d=document.documentElement,p=location.pathname.replace(${LOCALE_PREFIX.toString()},'')||'/',m=null;${
   FORCED.map(rule => `if(${rule.pattern.toString()}.test(p))m='${rule.mode}';`).join('')
-}var s=null;try{s=localStorage.getItem('${MODE_STORAGE_KEY}')}catch(e){}if(s!=='day'&&s!=='night')s=null;if(${LANDING.toString()}.test(p)&&s){d.setAttribute('data-returning','');m=s;setTimeout(function(){d.removeAttribute('data-returning')},4000)}m=m||s||'day';d.setAttribute('data-mode',m);d.classList.toggle('dark',m==='night');d.classList.toggle('light',m!=='night')}catch(e){}})()`
+}var s=null;try{s=localStorage.getItem('${MODE_STORAGE_KEY}')}catch(e){}if(s!=='day'&&s!=='night')s=null;if(${LANDING.toString()}.test(p)&&s){d.setAttribute('data-returning','');m=s;setTimeout(function(){d.removeAttribute('data-returning')},4000)}m=m||s||'day';d.setAttribute('data-mode',m)}catch(e){}})()`

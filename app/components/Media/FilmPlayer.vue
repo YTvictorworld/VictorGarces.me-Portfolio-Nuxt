@@ -11,10 +11,9 @@ const props = withDefaults(defineProps<{
   /** Manifest photo used as the poster */
   poster?: string
   title?: string
-  variant?: 'full' | 'inline'
   /** Eager, high-priority poster, for the player that is the page's LCP */
   priority?: boolean
-}>(), { variant: 'full', priority: false })
+}>(), { priority: false })
 
 const { t, te } = useI18n()
 // The track menu shows a language name, not the raw code from the manifest
@@ -33,10 +32,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div
-    class="player"
-    :class="`player--${variant}`"
-  >
+  <div class="player">
     <template v-if="ready && loaded">
       <media-controller :aria-label="title">
         <!-- A real slot attribute: media-controller is a custom element, not a Vue component,

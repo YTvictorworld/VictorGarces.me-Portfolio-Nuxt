@@ -84,9 +84,8 @@ export function useMediaManifest() {
     return entry ? photoSrc(id, Math.max(...entry.sizes), format) : undefined
   }
 
-  /** Content can override the manifest's alt; Spanish uses `alt_es` when present. */
-  function alt(id: string, override?: string) {
-    if (override) return override
+  /** The manifest's alt, in Spanish when `alt_es` is present. */
+  function alt(id: string) {
     const entry = manifest.photos[id]
     if (!entry) return ''
     return locale.value === 'es' && entry.alt_es ? entry.alt_es : entry.alt

@@ -33,35 +33,15 @@
     "terms": "Términos",
     "cookies": "Cookies"
   },
-  "hero": {
-    "available": "Disponible para nuevos proyectos",
-    "unavailable": "No disponible por el momento"
-  },
   "about": {
-    "eyebrow": "Quién soy",
     "downloadCv": "Descargar CV",
     "stack": "Stack"
   },
-  "experience": {
-    "eyebrow": "Trayectoria"
-  },
-  "testimonials": {
-    "eyebrow": "Testimonios",
-    "title": "Palabras de quienes han trabajado conmigo"
-  },
-  "faq": {
-    "eyebrow": "Preguntas"
-  },
   "blog": {
-    "eyebrow": "Blog",
     "searchPlaceholder": "Buscar artículos…",
-    "postsFound": "{count} artículo encontrado | {count} artículos encontrados",
     "noResults": "No hay artículos que coincidan con tu búsqueda.",
     "clearSearch": "Limpiar búsqueda",
     "allPosts": "Todos los artículos",
-    "minRead": "{min} min de lectura",
-    "thanks": "¡Gracias por leer!",
-    "backToPosts": "Volver a los artículos",
     "readPost": "Leer el artículo",
     "tag": {
       "ai": "IA",
@@ -143,10 +123,7 @@
     "infra": "Infraestructura",
     "client": "Clientes",
     "experiment": "Experimentos",
-    "archive": "Archivo",
-    "short": "Cortometrajes",
-    "reel": "Reels",
-    "vertical": "Vertical"
+    "archive": "Archivo"
   },
   "page": {
     "backToWork": "Todos los proyectos",
@@ -171,7 +148,6 @@
     "credits": "Créditos",
     "stills": "Fotogramas",
     "runtime": "Duración",
-    "openPhoto": "Abrir la foto {n} de {total}",
     "closeLightbox": "Cerrar",
     "previousPhoto": "Foto anterior",
     "nextPhoto": "Foto siguiente",
@@ -194,7 +170,6 @@
     "timeline": "Plazo",
     "timelinePlaceholder": "Para cuándo lo necesitas",
     "date": "Fecha",
-    "datePlaceholder": "Cuándo es",
     "place": "Lugar",
     "placePlaceholder": "Dónde es",
     "message": "Mensaje",

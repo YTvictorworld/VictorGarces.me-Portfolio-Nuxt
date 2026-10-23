@@ -11,14 +11,11 @@
  * container (it would only be a PNG wearing the extension).
  */
 import { mkdirSync, writeFileSync } from 'node:fs'
-import { createRequire } from 'node:module'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import sharp from 'sharp'
 
-const require = createRequire(import.meta.url)
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..')
-// sharp arrives as a transitive dependency of @nuxt/image, so resolve it by path
-const sharp = require(resolve(root, 'node_modules/.pnpm/sharp@0.35.4_@types+node@26.6.2/node_modules/sharp'))
 
 const DAY = { bg: '#F7F7F4', stroke: '#1F7A63' }
 const NIGHT = { bg: '#121010', stroke: '#E2A15B' }
