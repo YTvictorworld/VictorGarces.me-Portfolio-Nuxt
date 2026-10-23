@@ -70,7 +70,12 @@ export function siblingPath(path: string): string {
 /**
  * Inline script that sets `data-mode` on <html> before first paint, so a returning
  * night visitor never sees a flash of day. Same rules as `forcedModeFor` + storage.
+ *
+ * It also sends a visitor whose language cookie (@nuxtjs/i18n's `i18n_redirected`, see
+ * nuxt.config) is not English from `/` to their locale before anything renders. Left to the i18n
+ * module, that redirect happens after hydration: the English landing flashes, and hydrating it
+ * in Spanish is a mismatch.
  */
-export const MODE_PREPAINT_SCRIPT = `(function(){try{var d=document.documentElement,p=location.pathname.replace(${LOCALE_PREFIX.toString()},'')||'/',m=null;${
+export const MODE_PREPAINT_SCRIPT = `(function(){try{var c=document.cookie.match(/(?:^|; )i18n_redirected=([a-z]{2})(?:;|$)/);if(location.pathname==='/'&&c&&c[1]!=='en'){location.replace('/'+c[1]+location.search+location.hash);return}var d=document.documentElement,p=location.pathname.replace(${LOCALE_PREFIX.toString()},'')||'/',m=null;${
   FORCED.map(rule => `if(${rule.pattern.toString()}.test(p))m='${rule.mode}';`).join('')
 }var s=null;try{s=localStorage.getItem('${MODE_STORAGE_KEY}')}catch(e){}if(s!=='day'&&s!=='night')s=null;if(${LANDING.toString()}.test(p)&&s){d.setAttribute('data-returning','');m=s;setTimeout(function(){d.removeAttribute('data-returning')},4000)}m=m||s||'day';d.setAttribute('data-mode',m)}catch(e){}})()`

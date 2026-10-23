@@ -3,7 +3,7 @@ const { t } = useI18n()
 </script>
 
 <template>
-  <div class="pill">
+  <div class="pill mode-pill">
     <span
       class="label label--day"
       aria-hidden="true"
@@ -57,5 +57,15 @@ const { t } = useI18n()
   .pill {
     display: flex;
   }
+}
+</style>
+
+<!-- Unscoped: the rule hangs off <html>, and a scoped :global() keeps only that part -->
+<style>
+/* While a field has focus the pill would sit on the very thing being typed into, and on a phone
+   on the keyboard's toolbar too. It comes back as soon as the field is left. */
+html:has(:is(input, textarea, select):focus) .mode-pill {
+  visibility: hidden;
+  opacity: 0;
 }
 </style>
