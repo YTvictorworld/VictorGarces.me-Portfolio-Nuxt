@@ -100,7 +100,16 @@
     },
     "alsoAs": "Also as",
     "verticalCut": "{runtime} vertical cut for Reels",
-    "camera": "Camera"
+    "camera": "Camera",
+    "albums": {
+      "showcase": "Selected photographs",
+      "albums": "{n} albums",
+      "openAlbum": "Open {title}, {n} photos",
+      "back": "All albums",
+      "undated": "Earlier",
+      "year": "Filter by year",
+      "closeAlbum": "Close {title}"
+    }
   },
   "project": {
     "status": {

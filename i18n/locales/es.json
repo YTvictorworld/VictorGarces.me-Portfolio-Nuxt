@@ -100,7 +100,16 @@
     },
     "alsoAs": "También en",
     "verticalCut": "Versión vertical de {runtime} para Reels",
-    "camera": "Cámara"
+    "camera": "Cámara",
+    "albums": {
+      "showcase": "Fotografías seleccionadas",
+      "albums": "{n} álbumes",
+      "openAlbum": "Abrir {title}, {n} fotos",
+      "back": "Todos los álbumes",
+      "undated": "Anteriores",
+      "year": "Filtrar por año",
+      "closeAlbum": "Cerrar {title}"
+    }
   },
   "project": {
     "status": {

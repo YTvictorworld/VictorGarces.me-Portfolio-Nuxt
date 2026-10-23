@@ -15,6 +15,7 @@ export interface ManifestPhoto {
   sizes: number[]
   formats: Array<'avif' | 'webp'>
   path: string
+  featured?: boolean
 }
 
 export interface ManifestVideo {
@@ -34,7 +35,26 @@ export interface MediaManifest {
   base: string
   photos: Record<string, ManifestPhoto>
   videos: Record<string, ManifestVideo>
-  series: Record<string, { title: string, title_es?: string, photos: string[] }>
+  series: Record<string, ManifestSeries>
+}
+
+export interface ManifestSeries {
+  title: string
+  title_es?: string
+  /** `2025`, `2025-09` or `2025-09-14`, from the album's folder name */
+  date?: string
+  cover?: string
+  photos: string[]
+}
+
+/** An album as the photography page lists it */
+export interface Album {
+  id: string
+  title: string
+  date?: string
+  year?: string
+  cover: string
+  photos: string[]
 }
 
 const manifest = manifestJson as MediaManifest
@@ -120,5 +140,34 @@ export function useMediaManifest() {
     }
   }
 
-  return { manifest, photo, photoSrc, srcset, largest, alt, placeholderColor, video, series }
+  /**
+   * Every album with at least one photo, newest first. An album with no date in its folder
+   * name goes after the dated ones, by title; an equal date also falls back to the title.
+   */
+  function albums(): Album[] {
+    return Object.keys(manifest.series)
+      .map((id): Album | undefined => {
+        const entry = manifest.series[id]!
+        const listed = series(id)
+        if (!listed?.photos.length) return undefined
+        const cover = entry.cover && listed.photos.includes(entry.cover) ? entry.cover : listed.photos[0]!
+        // The cover leads the album everywhere: on the fan and as the first photo once it opens
+        const photos = [cover, ...listed.photos.filter(photo => photo !== cover)]
+        return { id, title: listed.title, date: entry.date, year: entry.date?.slice(0, 4), cover, photos }
+      })
+      .filter((album): album is Album => !!album)
+      .sort((a, b) => (b.date ?? '').localeCompare(a.date ?? '') || a.title.localeCompare(b.title))
+  }
+
+  /**
+   * The photos in the photography page's showcase: the ones uploaded as `featured`, in album
+   * order, or the newest albums' covers until something is featured, so it is never empty.
+   */
+  function showcase(limit = 12): string[] {
+    const ordered = albums().flatMap(album => album.photos)
+    const featured = ordered.filter(id => manifest.photos[id]?.featured)
+    return (featured.length ? featured : albums().map(album => album.cover)).slice(0, limit)
+  }
+
+  return { manifest, photo, photoSrc, srcset, largest, alt, placeholderColor, video, series, albums, showcase }
 }

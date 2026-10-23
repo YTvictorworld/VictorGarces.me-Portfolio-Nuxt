@@ -1,5 +1,6 @@
 import type { gsap as Gsap } from 'gsap'
 import type { DrawSVGPlugin as DrawSVG } from 'gsap/DrawSVGPlugin'
+import type { Flip as FlipPlugin } from 'gsap/Flip'
 import type { ScrollSmoother as Smoother } from 'gsap/ScrollSmoother'
 import type { ScrollTrigger as Trigger } from 'gsap/ScrollTrigger'
 
@@ -36,4 +37,15 @@ export function loadGsap() {
     return { gsap, ScrollTrigger, ScrollSmoother, DrawSVGPlugin }
   })
   return kit
+}
+
+let flip: Promise<GsapKit & { Flip: typeof FlipPlugin }> | undefined
+
+/** Flip on top of the kit, for layout changes that animate; only the photography albums use it. */
+export function loadFlip() {
+  flip ??= Promise.all([loadGsap(), import('gsap/Flip')]).then(([kit, { Flip }]) => {
+    kit.gsap.registerPlugin(Flip)
+    return { ...kit, Flip }
+  })
+  return flip
 }

@@ -41,7 +41,8 @@ every visitor to save one rebuild per upload. A burst of uploads cancels into on
       "blurhash": "LKO2?U%2Tw=w]~RBVZRi};RPxuwH",
       "sizes": [480, 960, 1440, 2048],
       "formats": ["avif", "webp"],
-      "path": "photos/events-2025-09"
+      "path": "photos/events-2025-09",
+      "featured": true
     }
   },
   "videos": {
@@ -57,7 +58,7 @@ every visitor to save one rebuild per upload. A burst of uploads cancels into on
     }
   },
   "series": {
-    "events-2025": { "title": "Events 2025", "title_es": "Eventos 2025", "photos": ["events-2025-09"] }
+    "events-2025": { "title": "Events 2025", "title_es": "Eventos 2025", "date": "2025-09", "cover": "events-2025-09", "photos": ["events-2025-09"] }
   }
 }
 ```
@@ -72,7 +73,12 @@ Rules, enforced by `manifestSchema` and `checkManifest` in `content.schemas.ts`,
 - `aspect` is `W:H` with integers (`16:9`, `9:16`), never `16 / 9`.
 - Every photo has `alt` (3 characters or more); `alt_es` is used on Spanish pages when present.
 - A video is `pending` until it has `hls`; components then show the poster and "coming soon".
-- A series can only list photos that exist in the manifest.
+- A series can only list photos that exist in the manifest, and its `cover`, when present, is one of them.
+- A series is an album on `/film/photography`. `date` (`YYYY`, `YYYY-MM` or `YYYY-MM-DD`) orders the
+  albums newest first and groups them by year; an album without one is listed last. `cover` is the
+  photo in front of the album's fan and the first one when it opens; without it, the first photo.
+- `featured` photos fill the showcase at the top of `/film/photography`. With none featured, the
+  newest albums' covers do.
 
 `media:pull` validates before it writes. A manifest that fails stops the deploy at that step and
 leaves the last good one in place; the live site is untouched.

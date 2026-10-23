@@ -258,7 +258,9 @@ export const manifestSchema = z.object({
     blurhash: text,
     sizes: z.array(z.number().int().positive()).min(1),
     formats: z.array(z.enum(['avif', 'webp'])).min(1),
-    path: text
+    path: text,
+    /** Shown in the photography page's showcase (`featured` metadata on upload) */
+    featured: z.boolean().optional()
   })),
   videos: z.record(z.string(), z.object({
     title: text,
@@ -275,6 +277,10 @@ export const manifestSchema = z.object({
   series: z.record(z.string(), z.object({
     title: text,
     title_es: optionalText,
+    /** The album's date, from its folder name: a year, a month or a day. Albums sort by it. */
+    date: z.string().regex(/^\d{4}(?:-\d{2}(?:-\d{2})?)?$/).optional(),
+    /** The photo on the album's card; the first one when absent */
+    cover: optionalText,
     photos: z.array(text)
   }))
 })
@@ -288,6 +294,7 @@ export function checkManifest(manifest: MediaManifest): string[] {
     for (const photo of entry.photos) {
       if (!manifest.photos[photo]) errors.push(`series "${id}" lists missing photo "${photo}"`)
     }
+    if (entry.cover && !entry.photos.includes(entry.cover)) errors.push(`series "${id}" has cover "${entry.cover}", which is not one of its photos`)
   }
   for (const [id, video] of Object.entries(manifest.videos)) {
     if (video.status === 'ready' && !video.hls) errors.push(`video "${id}" is ready but has no hls`)
