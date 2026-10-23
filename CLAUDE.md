@@ -73,7 +73,7 @@ content/{en,es}/               per-locale collections, see content.config.ts and
 content/profile.yml            single-locale facts: email, city, timezone, socials
 content.schemas.ts             zod schemas for every collection and the media manifest
 scripts/media-ingest.mjs       local stand-in for the media pipeline (`pnpm media:ingest`)
-content/media/manifest.json    pulled from the pipeline by `pnpm media:pull` (M8)
+content/media/manifest.json    pulled from the pipeline by `pnpm media:pull` (scripts/media-pull.mjs, validates first); docs/MEDIA.md has the contract, secrets and rollout
 design/                        approved artboards (reference only)
 docs/                          plan, design system, UI guidelines, audit, migration map, handoff snippets
 .claude/skills/               project skills; web-design-guidelines reviews UI against docs/UI-GUIDELINES.md

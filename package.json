@@ -17,6 +17,7 @@
     "lint:fix": "eslint . --fix",
     "typecheck": "nuxt typecheck",
     "media:ingest": "node scripts/media-ingest.mjs",
+    "media:pull": "node scripts/media-pull.mjs",
     "serve": "npx serve .output/public",
     "build:serve": "pnpm generate && pnpm serve",
     "favicons": "node scripts/make-favicons.mjs"

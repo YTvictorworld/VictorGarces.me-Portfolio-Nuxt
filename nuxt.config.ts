@@ -7,6 +7,21 @@ const production = process.env.NODE_ENV === 'production'
 const MANIFEST_FILE = new URL('./content/media/manifest.json', import.meta.url)
 
 /**
+ * The media host, once the manifest comes from the pipeline (`pnpm media:pull`). Every page with
+ * a photo then talks to it first, so the connection is opened before the first image is asked
+ * for. While the manifest still points at this site's own /media there is nothing to open.
+ */
+function mediaOrigin(): string | undefined {
+  try {
+    const { base } = JSON.parse(readFileSync(MANIFEST_FILE, 'utf8')) as { base?: string }
+    return base && /^https?:\/\//.test(base) ? new URL(base).origin : undefined
+  } catch {
+    return undefined
+  }
+}
+const MEDIA_ORIGIN = mediaOrigin()
+
+/**
  * Content validation. @nuxt/content turns an error thrown while parsing into a warning and
  * silently drops the file, so every problem is also collected here and `build:done` fails a
  * production build if any are left. In `nuxt dev` the file stays out, with the warning.
@@ -102,7 +117,8 @@ export default defineNuxtConfig({
         { rel: 'icon', type: 'image/png', sizes: '32x32', href: '/favicon-32.png' },
         { rel: 'icon', type: 'image/png', sizes: '16x16', href: '/favicon-16.png' },
         { rel: 'apple-touch-icon', sizes: '180x180', href: '/apple-touch-icon.png' },
-        { rel: 'manifest', href: '/manifest.webmanifest' }
+        { rel: 'manifest', href: '/manifest.webmanifest' },
+        ...(MEDIA_ORIGIN ? [{ rel: 'preconnect' as const, href: MEDIA_ORIGIN }] : [])
       ]
     }
   },
