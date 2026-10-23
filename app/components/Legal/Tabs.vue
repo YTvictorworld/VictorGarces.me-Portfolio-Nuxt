@@ -35,19 +35,10 @@ const { legal, isActive } = useNav()
   padding: 16px var(--gutter) 0;
 }
 
+/* The 44px touch target comes from the shared .pill rule in ui.css */
 .pill {
-  position: relative;
   height: 38px;
   text-decoration: none;
-}
-
-/* 44px touch target around the 38px pill; the 8px row gap keeps neighbours apart */
-@media (pointer: coarse) {
-  .pill::before {
-    content: '';
-    position: absolute;
-    inset: -4px 0;
-  }
 }
 
 .pill:hover {

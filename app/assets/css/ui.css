@@ -103,6 +103,18 @@
     border-radius: var(--r-card);
   }
 
+  /* A card whose whole surface is one link (.stretched): keyboard focus tints the border like
+     hover does and draws the ring around the card, not around the title the link sits on */
+  .card:has(.stretched:focus-visible) {
+    border-color: color-mix(in oklab, var(--accent) 40%, var(--border));
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+
+  .card:has(.stretched:focus-visible) .stretched:focus-visible {
+    outline: none;
+  }
+
   .link-accent {
     font-size: 14px;
     font-weight: 600;

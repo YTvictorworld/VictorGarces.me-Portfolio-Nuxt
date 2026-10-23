@@ -38,8 +38,12 @@ useScrollScene(section, ({ gsap, root }) => {
     root.classList.remove('is-scrubbed')
     return
   }
-  // No longer scrollable, so no longer a tab stop
+  // No longer scrollable, so no longer a tab stop. The "+N" tile sits off screen inside a clipped
+  // box nobody can scroll, so it leaves the tab order too; "All photography" in the heading goes
+  // to the same page.
   strip.setAttribute('tabindex', '-1')
+  const more = root.querySelector<HTMLElement>('.still--more a')
+  more?.setAttribute('tabindex', '-1')
 
   const slide = gsap.to(strip, {
     x: () => -distance(),
@@ -65,6 +69,7 @@ useScrollScene(section, ({ gsap, root }) => {
   return () => {
     root.classList.remove('is-scrubbed')
     strip.setAttribute('tabindex', '0')
+    more?.removeAttribute('tabindex')
   }
 })
 </script>

@@ -28,13 +28,12 @@ const hero = ref<HTMLElement | null>(null)
  * Night falls as you scroll: the hero holds still, the moon sinks below a horizon that draws
  * itself across the stage, the frames drift apart and dim, and the copy lifts away.
  */
-useScrollScene(hero, ({ gsap, root }) => {
+useScrollScene(hero, ({ gsap, root, headerOffset }) => {
   const $ = (selector: string) => root.querySelectorAll(selector)
-  const header = Number.parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--header-h')) || 0
   gsap.set($('.horizon, .dusk'), { opacity: 1 })
   gsap.timeline({
     defaults: { ease: 'none' },
-    scrollTrigger: { trigger: root, start: `top ${header}px`, end: '+=700', pin: true, scrub: 0.6 }
+    scrollTrigger: { trigger: root, start: () => `top ${headerOffset()}px`, end: '+=700', pin: true, scrub: 0.6 }
   })
     .from($('.horizon path'), { drawSVG: '50% 50%', duration: 0.5 }, 0)
     .from($('.dusk'), { opacity: 0, duration: 0.5 }, 0)

@@ -79,16 +79,9 @@ const playable = computed(() => Boolean(props.href && props.video && media.video
   }
 }
 
-/* Keyboard focus gets the hover treatment, and the ring goes around the card the link covers */
+/* Keyboard focus lifts like hover; the ring and the tint come from ui.css */
 .linked:has(.stretched:focus-visible) {
   transform: translateY(-2px);
-  border-color: color-mix(in oklab, var(--accent) 40%, var(--border));
-  outline: 2px solid var(--accent);
-  outline-offset: 2px;
-}
-
-.linked:has(.stretched:focus-visible) .stretched:focus-visible {
-  outline: none;
 }
 
 .poster {

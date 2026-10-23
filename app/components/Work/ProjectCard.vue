@@ -115,20 +115,13 @@ const statusLabel = computed(() => props.project.status && props.project.status 
   }
 }
 
-/* Keyboard focus gets the hover treatment, and the ring goes around the card the link covers */
+/* Keyboard focus lifts and nudges the arrow like hover; the ring and the tint come from ui.css */
 .linked:has(.stretched:focus-visible) {
   transform: translateY(-2px);
-  border-color: color-mix(in oklab, var(--accent) 40%, var(--border));
-  outline: 2px solid var(--accent);
-  outline-offset: 2px;
 }
 
 .linked:has(.stretched:focus-visible) .case :deep(.arrow) {
   transform: translateX(4px);
-}
-
-.linked:has(.stretched:focus-visible) .stretched:focus-visible {
-  outline: none;
 }
 
 .cover {

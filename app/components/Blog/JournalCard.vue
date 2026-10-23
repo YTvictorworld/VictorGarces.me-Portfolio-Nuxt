@@ -69,17 +69,6 @@ const { localeProperties } = useI18n()
   }
 }
 
-/* Keyboard focus gets the hover tint, and the ring goes around the card the link covers */
-.entry:has(.stretched:focus-visible) {
-  border-color: color-mix(in oklab, var(--accent) 40%, var(--border));
-  outline: 2px solid var(--accent);
-  outline-offset: 2px;
-}
-
-.entry:has(.stretched:focus-visible) .stretched:focus-visible {
-  outline: none;
-}
-
 .cover {
   display: block;
   width: 100%;

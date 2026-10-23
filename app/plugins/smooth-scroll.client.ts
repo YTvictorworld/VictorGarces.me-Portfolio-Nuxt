@@ -8,9 +8,9 @@ const SMOOTH_PATH = /^(?:\/es)?\/(?:dev|film)(?:\/|$)/
  *
  * The scroll itself stays native, so find-in-page, the keyboard and the scrollbar all work; the
  * content follows it with a short glide. It is created per page, once the page transition and
- * the router's scroll have finished, and killed before every navigation, so the new page starts
- * where it should instead of gliding there from the old one. It never runs on touch screens or
- * under reduced motion.
+ * the router's scroll have finished, and killed when a navigation is confirmed, so the new page
+ * starts where it should instead of gliding there from the old one. It never runs on touch
+ * screens or under reduced motion.
  *
  * Shared pages (blog, legal, contact) are left out on purpose: their sticky sidebars would stop
  * working inside the transformed content.
@@ -18,35 +18,57 @@ const SMOOTH_PATH = /^(?:\/es)?\/(?:dev|film)(?:\/|$)/
 export default defineNuxtPlugin((nuxtApp) => {
   const router = useRouter()
   let smoother: ScrollSmoother | undefined
+  /** Bumped by every confirmed navigation, so a start() that outlived its page does nothing */
+  let generation = 0
   let startedFor: string | undefined
   let settle!: () => void
   let settled = new Promise<void>(resolve => (settle = resolve))
 
+  /**
+   * Kills the smoother but leaves data-smooth alone: the header stays fixed and the content keeps
+   * its padding while the old page fades out, instead of jumping up by the header's height.
+   * start() settles the attribute for the next page.
+   */
   function stop() {
     smoother?.kill()
     smoother = undefined
-    document.documentElement.removeAttribute('data-smooth')
   }
 
   async function start(path: string) {
+    const ticket = generation
+    const done = settle
     if (SMOOTH_PATH.test(path) && matchMedia(SMOOTH_QUERY).matches && document.getElementById('smooth-wrapper')) {
       const { ScrollSmoother, ScrollTrigger } = await loadGsap()
-      // The visitor may have navigated again while GSAP was loading
-      if (router.currentRoute.value.path !== path) return
+      // Another navigation was confirmed while GSAP was loading: that page starts its own
+      if (ticket !== generation) return
       document.documentElement.setAttribute('data-smooth', '')
       smoother = ScrollSmoother.create({
         wrapper: '#smooth-wrapper',
         content: '#smooth-content',
         smooth: 1,
-        effects: true
+        // No data-speed or data-lag anywhere yet, so there is nothing for effects to scan
+        effects: false
       })
       ScrollTrigger.refresh()
+      // create() moves the native scroll: back to where the router aimed, without a glide. Late
+      // web fonts reflow the text above an anchor, so the target is taken again once they load.
+      reapplyScrollIntent(smoother)
+      const created = smoother
+      document.fonts.ready.then(() => {
+        if (smoother !== created) return
+        ScrollTrigger.refresh()
+        reapplyScrollIntent(created)
+      })
+    } else {
+      document.documentElement.removeAttribute('data-smooth')
     }
-    settle()
+    done()
   }
 
-  router.beforeEach((to, from) => {
-    if (to.path === from.path) return
+  // afterEach, not beforeEach: an aborted or failed navigation leaves the current page as it was
+  router.afterEach((to, from, failure) => {
+    if (failure || to.path === from.path) return
+    generation++
     stop()
     startedFor = undefined
     settled = new Promise<void>(resolve => (settle = resolve))
@@ -56,10 +78,11 @@ export default defineNuxtPlugin((nuxtApp) => {
     const path = router.currentRoute.value.path
     if (startedFor === path) return
     startedFor = path
+    const ticket = generation
     // After the out-in transition and the router's scroll to the top, which wait for the same
     await nuxtApp['~transitionPromise']
     await new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)))
-    if (router.currentRoute.value.path === path) await start(path)
+    if (ticket === generation) await start(path)
   })
 
   return {

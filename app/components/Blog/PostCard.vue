@@ -53,16 +53,9 @@ const { t, localeProperties } = useI18n()
   }
 }
 
-/* Keyboard focus gets the hover treatment, and the ring goes around the card the link covers */
+/* Keyboard focus lifts like hover; the ring and the tint come from ui.css */
 .post:has(.stretched:focus-visible) {
   transform: translateY(-2px);
-  border-color: color-mix(in oklab, var(--accent) 40%, var(--border));
-  outline: 2px solid var(--accent);
-  outline-offset: 2px;
-}
-
-.post:has(.stretched:focus-visible) .stretched:focus-visible {
-  outline: none;
 }
 
 .title {

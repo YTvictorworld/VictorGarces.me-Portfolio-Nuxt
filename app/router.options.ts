@@ -7,8 +7,8 @@ import { START_LOCATION } from 'vue-router'
  *
  * The default returns `{ left: 0, top: 0 }` with no behaviour, so `scroll-behavior: smooth` on
  * <html> turned every navigation into a visible scroll back to the top, after the page
- * transition had already finished. A new page and a Back restore are now instant; only an
- * in-page anchor scrolls smoothly, and not even that under reduced motion.
+ * transition had already finished. A new page, an anchor on another page and a Back restore are
+ * now instant; only an anchor on the same page scrolls smoothly, and not under reduced motion.
  */
 function anchorBehavior(): ScrollBehavior {
   return window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth'
@@ -31,9 +31,21 @@ function anchor(hash: string) {
   return { el: hash, top: anchorOffset(hash), behavior: anchorBehavior() }
 }
 
+/**
+ * Where a new page starts. An anchor on another page is landed on, not travelled to. The same
+ * target is recorded as the scroll intent, which the smoother and the scroll scenes re-apply once
+ * they have changed the layout (utils/scroll-intent.ts).
+ */
 function position(to: RouteLocationNormalized, saved: { left: number, top: number } | null) {
-  if (saved) return { ...saved, behavior: 'instant' as const }
-  if (to.hash) return anchor(to.hash)
+  if (saved) {
+    setScrollIntent({ top: saved.top })
+    return { ...saved, behavior: 'instant' as const }
+  }
+  if (to.hash) {
+    setScrollIntent({ top: 0, hash: to.hash })
+    return { ...anchor(to.hash), behavior: 'instant' as const }
+  }
+  setScrollIntent({ top: 0 })
   return { left: 0, top: 0, behavior: 'instant' as const }
 }
 
@@ -42,7 +54,12 @@ export default <RouterConfig>{
     // Same page: only a hash change scrolls. A query change (the filters) keeps the position.
     if (to.path.replace(/\/$/, '') === from.path.replace(/\/$/, '')) {
       if (from.hash && !to.hash) return saved ?? { left: 0, top: 0, behavior: 'instant' }
-      if (to.hash) return anchor(to.hash)
+      if (to.hash) {
+        // Also how a direct load with a hash arrives: hydration first rewrites the URL without
+        // it, then restores it as a same-page change. The smoother and the scenes come later.
+        setScrollIntent({ top: 0, hash: to.hash })
+        return useNuxtApp().isHydrating ? { ...anchor(to.hash), behavior: 'instant' as const } : anchor(to.hash)
+      }
       return false
     }
 

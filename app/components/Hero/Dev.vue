@@ -28,11 +28,10 @@ const hero = ref<HTMLElement | null>(null)
  * The page builds itself as you scroll: the hero holds still, the exploded layers close into
  * one page, the guides fade, and a browser window draws itself around the result.
  */
-useScrollScene(hero, ({ gsap, root }) => {
-  const header = Number.parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--header-h')) || 0
+useScrollScene(hero, ({ gsap, root, headerOffset }) => {
   const scene = gsap.timeline({
     defaults: { ease: 'none' },
-    scrollTrigger: { trigger: root, start: `top ${header}px`, end: '+=600', pin: true, scrub: 0.6 }
+    scrollTrigger: { trigger: root, start: () => `top ${headerOffset()}px`, end: '+=600', pin: true, scrub: 0.6 }
   })
 
   for (const [layer, offset] of Object.entries(ASSEMBLE)) {

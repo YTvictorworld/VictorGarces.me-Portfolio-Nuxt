@@ -60,7 +60,7 @@ onMounted(() => {
     >
       <figure
         v-for="(entry, i) in entries"
-        :key="entry.name"
+        :key="i"
         class="slide"
         :class="{ current: i === index }"
         aria-roledescription="slide"
@@ -88,7 +88,7 @@ onMounted(() => {
       <div class="dots">
         <button
           v-for="(entry, i) in entries"
-          :key="entry.name"
+          :key="i"
           type="button"
           class="dot"
           :class="{ active: i === index }"
