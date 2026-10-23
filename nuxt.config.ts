@@ -1,4 +1,6 @@
-import { existsSync, readdirSync, readFileSync } from 'node:fs'
+import { existsSync, readdirSync, readFileSync, watch, type FSWatcher } from 'node:fs'
+import { fileURLToPath } from 'node:url'
+import type { NuxtHooks } from 'nuxt/schema'
 import { checkManifest, manifestSchema, validateContentFile, type MediaManifest } from './content.schemas'
 import { MODE_PREPAINT_SCRIPT } from './app/utils/mode'
 import tailwindcss from '@tailwindcss/vite'
@@ -80,6 +82,50 @@ function checkLocaleParity() {
   const es = list('es')
   const missing = [...[...en].filter(f => !es.has(f)).map(f => `content/es/${f} (translation of content/en/${f})`), ...[...es].filter(f => !en.has(f)).map(f => `content/en/${f} (original of content/es/${f})`)]
   if (missing.length) console.error(problem('Missing translations:', missing))
+}
+
+/**
+ * @nuxt/content tells Vite to ignore everything under content/, the media manifest included, so
+ * `pnpm media:watch` rewriting it would never reach a running dev server. This watches that one
+ * file and passes the change on. Dev server only.
+ */
+type ViteServer = Parameters<NuxtHooks['vite:serverCreated']>[0]
+interface ManifestFollow { servers: Map<'client' | 'server', ViteServer>, watcher?: FSWatcher }
+
+// Nuxt runs one Vite server for the browser and one for server rendering, each with its own
+// module graph, and both have to drop the old manifest or the page renders new and hydrates
+// old. Kept on globalThis because Nuxt re-imports this file on every config change, and a
+// second watcher would keep calling servers that are already closed.
+const follow: ManifestFollow = ((globalThis as { __mediaManifestFollow?: ManifestFollow }).__mediaManifestFollow ??= { servers: new Map() })
+
+function manifestChanged(file: string) {
+  for (const [role, server] of follow.servers) {
+    // The browser reloads the page rather than patching components in place: the manifest feeds
+    // the whole page, and a hot patch that lands mid-transition throws inside Vue
+    if (role === 'client') {
+      for (const mod of server.moduleGraph.getModulesByFile(file) ?? []) server.moduleGraph.invalidateModule(mod)
+      server.ws.send({ type: 'full-reload' })
+    } else {
+      server.watcher.emit('change', file)
+    }
+  }
+}
+
+function followManifest(role: 'client' | 'server', server: ViteServer) {
+  follow.servers.set(role, server)
+  if (follow.watcher) return
+
+  // Vite keys its module graphs by forward-slash paths
+  const file = fileURLToPath(MANIFEST_FILE).replace(/\\/g, '/')
+  const name = file.slice(file.lastIndexOf('/') + 1)
+  let pending: ReturnType<typeof setTimeout> | undefined
+  // The folder, not the file: `git checkout` replaces the file, which ends a watch on the file
+  // itself. Windows also reports one write as several events, folded here into one reload.
+  follow.watcher = watch(fileURLToPath(new URL('.', MANIFEST_FILE)), (_, changed) => {
+    if (changed !== name) return
+    clearTimeout(pending)
+    pending = setTimeout(() => manifestChanged(file), 150)
+  })
 }
 
 export default defineNuxtConfig({
@@ -182,6 +228,9 @@ export default defineNuxtConfig({
   },
 
   hooks: {
+    'vite:serverCreated'(server, { isClient }) {
+      if (!production) followManifest(isClient ? 'client' : 'server', server)
+    },
     // @nuxt/content does not validate files against the collection schemas: this does
     'modules:done'() {
       loadManifest()

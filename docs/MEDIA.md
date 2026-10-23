@@ -119,12 +119,19 @@ Principles that hold whatever the specifics:
 ## Local development against the emulator
 
 ```bash
-MEDIA_MANIFEST_URL=http://localhost:4566/victorgarces-media-local/public/manifest.json pnpm media:pull
+# One terminal: follow the emulator's manifest, Ctrl+C to stop
+MEDIA_MANIFEST_URL=http://localhost:4566/victorgarces-media-local/public/manifest.json pnpm media:watch
+
+# Another: the dev server reloads whenever the manifest changes
 pnpm dev
 ```
 
-Restore the committed manifest before committing (`git checkout content/media/manifest.json`):
-the committed file is the fallback for local work and forks, and CI always pulls a fresh one.
+`media:watch` polls every two seconds and writes only a manifest that passes the same checks as
+`media:pull`; one that would fail is reported and skipped, and the watch carries on through an
+emulator restart. On Ctrl+C it puts back the manifest that was on disk when it started, because
+the committed file is the fallback for local work and forks and CI always pulls a fresh one. If
+it was killed rather than stopped, restore it by hand (`git checkout content/media/manifest.json`).
+`media:pull` with the same variable does a single copy, and leaves restoring to you.
 
 ## What the pipeline has to do for this side
 
