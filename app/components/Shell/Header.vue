@@ -301,6 +301,49 @@ watch(menuOpen, (open) => {
   background: var(--backdrop);
 }
 
+/* The panel slides in from the edge it is attached to and the page dims behind it, both ways.
+   A dialog leaves the top layer the moment it closes, so display and overlay transition as
+   discrete properties to keep it there until the slide out has finished. Browsers without
+   @starting-style just show and hide it, and reduced motion cuts every duration to nothing. */
+.menu,
+.menu::backdrop {
+  transition:
+    transform var(--t-card) var(--ease-out),
+    opacity var(--t-card) var(--ease-out),
+    overlay var(--t-card) allow-discrete,
+    display var(--t-card) allow-discrete;
+}
+
+.menu:not([open]) {
+  transform: translateX(100%);
+}
+
+.menu:not([open])::backdrop {
+  opacity: 0;
+}
+
+@starting-style {
+  .menu[open] {
+    transform: translateX(100%);
+  }
+
+  .menu[open]::backdrop {
+    opacity: 0;
+  }
+}
+
+/* The links follow the panel by a beat, so the menu reads as arriving rather than appearing */
+.menu-list li {
+  transition: opacity var(--t-card) var(--ease-out) 60ms, transform var(--t-card) var(--ease-out) 60ms;
+}
+
+@starting-style {
+  .menu[open] .menu-list li {
+    opacity: 0;
+    transform: translateX(16px);
+  }
+}
+
 /* A modal (this menu or the lightbox) keeps the page behind it still. Here rather than in the
    lightbox because the header is on every page, so the rule is always loaded. */
 :global(html:has(dialog:modal)) {
