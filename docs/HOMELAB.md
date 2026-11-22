@@ -27,7 +27,7 @@ compiles anything: Arcane pulls the image and runs `deploy/compose.yaml`.
    - Repository: `https://github.com/YTvictorworld/VictorGarces.me-Portfolio-Nuxt.git`
    - Branch: `master`
    - Compose File Path: `deploy/compose.yaml`
-3. **The project's `.env` in Arcane:** `SITE_PORT=8080`. `SITE_TAG` pins a commit's image
+3. **The project's `.env` in Arcane:** `SITE_PORT=8081` (the default). `SITE_TAG` pins a commit's image
    (`sha-074d6d4`, say) instead of `latest`, which is how to go back to an earlier build.
 4. **Updates:** a push to `master` builds a new image in a couple of minutes. Arcane picks it up
    on its next scheduled pull and redeploy, or straight away with *Redeploy*.
@@ -35,7 +35,7 @@ compiles anything: Arcane pulls the image and runs `deploy/compose.yaml`.
 ## NixOS
 
 - Docker comes from `virtualisation.docker.enable = true;`. Arcane only needs the socket.
-- Docker publishes ports with its own iptables rules, ahead of NixOS's firewall: `8080` answers
+- Docker publishes ports with its own iptables rules, ahead of NixOS's firewall: `8081` answers
   on the network even if `networking.firewall.allowedTCPPorts` does not list it. For a public
   website behind a home router that is harmless, but it is worth knowing.
 - With a Cloudflare tunnel or a reverse proxy on the same machine, nothing needs opening on the
@@ -47,7 +47,7 @@ compiles anything: Arcane pulls the image and runs `deploy/compose.yaml`.
 git clone https://github.com/YTvictorworld/VictorGarces.me-Portfolio-Nuxt.git site && cd site
 cp .env.example .env          # and fill it in
 docker compose up -d --build  # builds the image on this machine
-curl -I http://localhost:8080 # 200
+curl -I http://localhost:8081 # 200
 ```
 
 The build takes a minute or two on first run and less afterwards: the dependency download is
@@ -59,7 +59,7 @@ The container speaks plain HTTP. Whatever is in front of it owns the domain and 
 
 - **Cloudflare Tunnel** (no port opened on the router, works behind CGNAT). One tunnel for the
   whole homelab is simpler than one per project: run `cloudflared` once (its own Arcane project,
-  with `network_mode: host`) and add a public hostname `garceslab.me` → `http://localhost:8080`
+  with `network_mode: host`) and add a public hostname `garceslab.me` → `http://localhost:8081`
   in Cloudflare Zero Trust. Outside Arcane, the `tunnel` profile in `compose.yaml` does the same
   for this site alone: put the token in `.env` and `docker compose --profile tunnel up -d`.
   A tunnel's public hostnames only work for domains whose DNS Cloudflare runs: point
