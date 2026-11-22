@@ -1,0 +1,24 @@
+# Everything the build makes or the machine holds: the image builds from sources only
+node_modules
+.nuxt
+.output
+.data
+.nitro
+.cache
+dist
+*.log
+
+# Not part of the site
+.git
+.github
+.claude
+docs
+media-src
+deploy-static.ps1
+Dockerfile
+compose.yaml
+.dockerignore
+
+# Secrets and per-machine settings
+.env
+.env.*

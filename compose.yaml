@@ -1,0 +1,56 @@
+# The site on the homelab. Settings come from .env (copy .env.example), never from this file.
+#
+#   docker compose up -d --build             the site, on http://<homelab>:${SITE_PORT}
+#   docker compose --profile tunnel up -d    plus a Cloudflare tunnel, with no port opened
+#
+# docs/HOMELAB.md covers the reverse proxy, the tunnel and updating.
+
+services:
+  site:
+    build:
+      context: .
+      args:
+        NUXT_PUBLIC_WEB3FORMS_KEY: ${WEB3FORMS_KEY:-}
+        MEDIA_MANIFEST_URL: ${MEDIA_MANIFEST_URL:-}
+    image: garceslab/site:latest
+    container_name: garceslab-site
+    restart: unless-stopped
+    ports:
+      - "${SITE_PORT:-8080}:8080"
+    # Nothing in the container is meant to change after the build
+    read_only: true
+    tmpfs:
+      - /data
+      - /config
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    mem_limit: 128m
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://127.0.0.1:8080/"]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+
+  # Optional: publishes the site through Cloudflare without opening a port on the router, which
+  # also works behind CGNAT. The public hostname and its target (http://site:8080) are set in the
+  # Cloudflare dashboard, under the tunnel the token belongs to.
+  tunnel:
+    profiles: ["tunnel"]
+    image: cloudflare/cloudflared:latest
+    container_name: garceslab-tunnel
+    restart: unless-stopped
+    command: tunnel --no-autoupdate run
+    # Compose reads the whole file even when this profile is off, so a missing token cannot be
+    # an error here; cloudflared refuses to start without one, which is where it shows
+    environment:
+      TUNNEL_TOKEN: ${TUNNEL_TOKEN:-}
+    depends_on:
+      site:
+        condition: service_healthy
+    read_only: true
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true

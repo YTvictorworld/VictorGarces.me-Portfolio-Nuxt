@@ -1,0 +1,43 @@
+# Serves the prerendered site from /srv. Plain HTTP on :8080: the homelab's reverse proxy or the
+# Cloudflare tunnel in front of it terminates TLS and owns the domain.
+{
+	admin off
+	auto_https off
+	# Access logs only on the proxy in front, which sees the real client
+}
+
+:8080 {
+	root * /srv
+	encode zstd gzip
+
+	# Nuxt links have no trailing slash; every page is a folder with an index.html
+	try_files {path} {path}/index.html {path}.html
+
+	header {
+		X-Content-Type-Options nosniff
+		Referrer-Policy strict-origin-when-cross-origin
+		X-Frame-Options DENY
+		Permissions-Policy "camera=(), microphone=(), geolocation=(), interest-cohort=()"
+		-Server
+	}
+
+	# Hashed bundles and fonts never change meaning: a new build gives them new names
+	@immutable path /_nuxt/* /_fonts/*
+	header @immutable Cache-Control "public, max-age=31536000, immutable"
+
+	# Photos and social cards change rarely and keep their names when they do
+	@media path /media/* /images/* /_og/* /_ipx/*
+	header @media Cache-Control "public, max-age=86400"
+
+	# Pages and their payloads are checked on every visit, so a new build shows at once
+	@pages path *.html */ / *_payload.json
+	header @pages Cache-Control "public, max-age=0, must-revalidate"
+
+	file_server
+
+	# The site's own 404, not Caddy's empty one
+	handle_errors 404 {
+		rewrite * /404.html
+		file_server
+	}
+}
