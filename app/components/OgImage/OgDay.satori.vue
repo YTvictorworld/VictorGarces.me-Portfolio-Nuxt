@@ -36,7 +36,7 @@ withDefaults(defineProps<{
         {{ description }}
       </div>
       <div style="font-family: 'Source Code Pro', monospace; font-size: 16px; color: #5F6266; margin-top: 12px;">
-        victorgarces.net
+        garceslab.me
       </div>
     </div>
 

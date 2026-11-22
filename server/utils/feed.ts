@@ -1,7 +1,7 @@
 import type { H3Event } from 'h3'
 import { queryCollection } from '@nuxt/content/server'
 
-const SITE_URL = 'https://victorgarces.net'
+const SITE_URL = 'https://garceslab.me'
 const SITE_NAME = 'Víctor Garcés'
 
 const escape = (value: string) => value

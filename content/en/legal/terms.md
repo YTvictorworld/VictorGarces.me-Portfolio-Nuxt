@@ -22,4 +22,4 @@ The site and its content are provided as they are. I try to keep everything accu
 
 ## Contact
 
-Questions about these terms: hello@victorgarces.net.
+Questions about these terms: hello@garceslab.me.

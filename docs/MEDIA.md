@@ -12,11 +12,11 @@ care where the URLs point.
 ```
 upload ─► S3 originals/ ─► Lambdas (images, video + MediaConvert) ─► sidecars/ ─► manifest Lambda
                                                                                      │
-                     public/ ─► CloudFront ─► https://media.victorgarces.net ◄───────┤ writes manifest.json
+                     public/ ─► CloudFront ─► https://media.garceslab.me ◄───────┤ writes manifest.json
                                                                                      │
                                          GitHub repository_dispatch "media-updated" ◄┘ only if it changed
                                                          │
-          .github/workflows/deploy.yml ─► pnpm media:pull ─► pnpm generate ─► gh-pages ─► victorgarces.net
+          .github/workflows/deploy.yml ─► pnpm media:pull ─► pnpm generate ─► gh-pages ─► garceslab.me
 ```
 
 The site is rebuilt when media changes rather than reading the manifest at runtime. Prerendering
@@ -30,7 +30,7 @@ every visitor to save one rebuild per upload. A burst of uploads cancels into on
 ```json
 {
   "version": 1,
-  "base": "https://media.victorgarces.net",
+  "base": "https://media.garceslab.me",
   "photos": {
     "events-2025-09": {
       "series": "events-2025",
@@ -148,7 +148,7 @@ it was killed rather than stopped, restore it by hand (`git checkout content/med
 - Make sure the build sees the new file: either do not cache `/manifest.json` at the edge
   (nothing but the build ever reads it, so caching saves nothing), or invalidate it before
   dispatching.
-- Allow `https://victorgarces.net` in CORS, for the HLS playlists and segments.
+- Allow `https://garceslab.me` in CORS, for the HLS playlists and segments.
 - Serve renditions with `Cache-Control: public, max-age=31536000, immutable`; a changed photo gets
   a new id.
 
@@ -167,7 +167,7 @@ it was killed rather than stopped, restore it by hand (`git checkout content/med
 ## Rules
 
 - Never hotlink from Vimeo, YouTube or Instagram inside the site; external links only.
-- The media host is first-party (`media.victorgarces.net`), so it does not break the
+- The media host is first-party (`media.garceslab.me`), so it does not break the
   zero-third-party-origins rule. `nuxt.config.ts` adds a `preconnect` to it as soon as the
   manifest's `base` is absolute.
 - If a Content-Security-Policy is ever added, allow the media host for `img-src`, `media-src` and

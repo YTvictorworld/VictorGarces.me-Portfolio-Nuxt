@@ -2,7 +2,7 @@
  * Copies the media pipeline's manifest into content/media/manifest.json, which is the only thing
  * the site reads (docs/MEDIA.md). Run before `pnpm generate`; CI does it on every deploy.
  *
- *   MEDIA_MANIFEST_URL=https://media.victorgarces.net/manifest.json pnpm media:pull
+ *   MEDIA_MANIFEST_URL=https://media.garceslab.me/manifest.json pnpm media:pull
  *
  * The URL is public on purpose: the manifest is served from the CDN like any photo, so there is
  * no secret here and nothing to leak. Without the variable the committed manifest is kept, which
