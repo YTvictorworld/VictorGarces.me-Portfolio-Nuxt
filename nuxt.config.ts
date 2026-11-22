@@ -306,7 +306,7 @@ export default defineNuxtConfig({
   ogImage: {
     defaults: { width: 1200, height: 630 },
     // Every card is rendered during the build, so the runtime generator would only ship dead
-    // code and a route that GitHub Pages cannot serve anyway
+    // code and a route that a static host cannot serve anyway
     zeroRuntime: true
   },
 

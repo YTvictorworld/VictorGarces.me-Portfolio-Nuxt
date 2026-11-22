@@ -1,7 +1,7 @@
 ---
 title: Privacidad
 description: Qué recoge este sitio, para qué, y cómo pedir una copia o su eliminación.
-updated: 2026-09-22
+updated: 2026-11-21
 ---
 
 ## Qué recoge este sitio
@@ -24,7 +24,7 @@ Una entrada en el almacenamiento local recuerda si elegiste el lado desarrollado
 
 ## Alojamiento y multimedia
 
-El sitio está alojado en GitHub Pages. Como la mayoría de los servicios de alojamiento, GitHub puede registrar datos técnicos como direcciones IP para mantener el servicio seguro; consulta la [Declaración de privacidad general de GitHub](https://docs.github.com/es/site-policy/privacy-policies/github-general-privacy-statement). Las imágenes y los videos se sirven desde este sitio.
+El sitio se sirve desde un servidor que gestiono yo, y su servidor web no guarda registros de acceso. Los servicios de red que tiene delante, que responden por el dominio y llevan la conexión a internet, pueden tratar datos técnicos como direcciones IP para entregar el sitio y mantenerlo seguro. Las imágenes y los videos se sirven desde este sitio.
 
 ## Contenido incrustado
 

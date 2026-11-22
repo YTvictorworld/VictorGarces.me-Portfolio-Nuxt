@@ -1,7 +1,7 @@
 ---
 title: Privacy
 description: What this site collects, why, and how to ask for a copy or deletion.
-updated: 2026-09-22
+updated: 2026-11-21
 ---
 
 ## What this site collects
@@ -24,7 +24,7 @@ One entry in local storage remembers whether you chose the Developer or the Film
 
 ## Hosting and media
 
-The site is hosted on GitHub Pages. Like most hosts, GitHub may log technical data such as IP addresses to keep the service secure; see the [GitHub General Privacy Statement](https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement). Images and video are served from this site.
+The site is served from a server I run myself, and its web server keeps no access logs. The network services in front of it, which answer for the domain and carry the connection to the internet, may process technical data such as IP addresses to deliver the site and keep it secure. Images and video are served from this site.
 
 ## Embeds
 

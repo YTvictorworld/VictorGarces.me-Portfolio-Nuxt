@@ -2,7 +2,7 @@
 # files and a web server, about 120 MB with no Node at runtime, and uses about 15 MB of RAM.
 # `docker compose up -d --build`; docs/HOMELAB.md has the rest.
 
-# ---- Build: the same Node and pnpm as .github/workflows/deploy.yml ------------------------------
+# ---- Build: Node 22 and pnpm 10.14, the versions the site is developed with ---------------------
 FROM node:22-bookworm-slim AS build
 
 ENV PNPM_HOME=/pnpm \

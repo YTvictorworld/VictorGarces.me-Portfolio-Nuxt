@@ -1,6 +1,6 @@
 # garceslab.me · Developer / Filmmaker
 
-Personal portfolio of Víctor Garcés: developer (Vue/Nuxt front-end; C#/.NET, SQL, Docker, AWS back-end) and filmmaker based in Santo Domingo, Dominican Republic. The site itself is the primary work sample: hiring managers read the code and `git log`. It deploys to GitHub Pages at https://garceslab.me.
+Personal portfolio of Víctor Garcés: developer (Vue/Nuxt front-end; C#/.NET, SQL, Docker, AWS back-end) and filmmaker based in Santo Domingo, Dominican Republic. The site itself is the primary work sample: hiring managers read the code and `git log`. It is self-hosted at https://garceslab.me, as a container on the owner's homelab.
 
 Read this file first. Then `docs/PLAN.md` (order of work, plus the **owner decisions that override every other doc**) `docs/DESIGN.md` and `docs/UI-GUIDELINES.md` before touching any UI. `docs/AUDIT.md` lists every known gap in the handoff, grouped by milestone: read the section for the milestone you are working on. `docs/MIGRATION.md` maps every piece of the old site to its new home.
 
@@ -15,7 +15,7 @@ Two switchable modes that change the whole look:
 Both modes share components and content sources. Only the Home pages differ structurally. The approved design lives in `design/` as self-contained HTML artboards (reference only, never served); `docs/COMPONENTS.md` maps every artboard to components and `docs/ARTBOARD-SPECS.md` has the extracted values.
 
 ## Stack
-- **Nuxt 4.5**, `ssr: true` + nitro `static` preset: every route is prerendered, deployed to GitHub Pages by `.github/workflows/deploy.yml` on push to `master`. Node 22 (Nuxt 4.5 declares `^22.19`; 22.18 works locally).
+- **Nuxt 4.5**, `ssr: true` + nitro `static` preset: every route is prerendered and served by Caddy in a container on the owner's homelab: `.github/workflows/container.yml` builds the image on push to `master` and publishes it to GHCR, and Arcane pulls it (`docs/HOMELAB.md`). Node 22 (Nuxt 4.5 declares `^22.19`; 22.18 works locally).
 - **Tailwind CSS v4**, wired directly through `@tailwindcss/vite`. Nuxt UI was removed in M7: only three of its components were still in use, while its stylesheet was 247 KiB of which 500 of 526 selectors were never matched. Every component is styled through the tokens and the shared classes in `ui.css`. Do not reintroduce a component library without a reason the tokens cannot serve.
 - **@nuxt/content 3**: collections are **per locale** (`<name>_en` / `<name>_es` from `content/en/` and `content/es/`); the one single-locale file is `content/profile.yml` (email, city, socials), so the email lives in one place. Schemas live in `content.schemas.ts`; Content v3 does **not** run them, so a hook in `nuxt.config.ts` validates every file and fails the build (see `docs/CONTENT.md`).
 - **@nuxtjs/i18n**: English at `/` (default, `prefix_except_default`), Spanish under `/es`. UI strings in `i18n/locales/{en,es}.json`; routes always go through `localePath()`.
@@ -40,7 +40,7 @@ Both modes share components and content sources. Only the Home pages differ stru
 - `@vueuse/motion`'s `<Motion>` (v3.0.3) threw `TypeError: reading 'state'` on vnode updates during page transitions and broke Vue's render queue. It was removed; do not reintroduce it.
 - `<MDC>` async client-side parsing never resolves on this static setup; FAQ answers use the escape-then-bold renderer in `landing/FAQ.vue`. Keep it until FAQ moves to `ContentRenderer`.
 - There is no component library and no icon module: icons are inline SVG, and the mobile menu is a native `<dialog>` (the same pattern as `Media/Lightbox`). That is deliberate, see PLAN M7.
-- GitHub Pages cannot send HTTP headers: CSP is a `<meta http-equiv>` (no `frame-ancestors`, no `report-uri`) and redirects are prerendered meta-refresh pages listed in `nitro.prerender.routes`.
+- The site stays plain static files that any host can serve: CSP is a `<meta http-equiv>` (no `frame-ancestors`, no `report-uri`) and redirects are prerendered meta-refresh pages listed in `nitro.prerender.routes`. The baseline security headers come from `deploy/Caddyfile`.
 - `deploy-static.ps1` is destructive: it deletes `.output` (and every untracked file) before copying from it, then force-pushes. Do not run it; deploys go through the Actions workflow.
 - Mode-dependent markup renders both variants with `.day-only` / `.night-only` (CSS picks by the nearest `data-mode`). Never branch templates on `mode`: prerendered pages are built in day, the pre-paint script switches them before paint, and a template branch would mismatch on hydration.
 - `useAsyncData` keys must include the locale (and slug). Nuxt shares prerendered data between pages with the same key, so a key without the locale serves English data on `/es` pages.

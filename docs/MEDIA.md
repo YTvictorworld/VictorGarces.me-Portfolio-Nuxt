@@ -16,14 +16,14 @@ upload ─► S3 originals/ ─► Lambdas (images, video + MediaConvert) ─►
                                                                                      │
                                          GitHub repository_dispatch "media-updated" ◄┘ only if it changed
                                                          │
-          .github/workflows/deploy.yml ─► pnpm media:pull ─► pnpm generate ─► gh-pages ─► garceslab.me
+     .github/workflows/container.yml ─► pnpm media:pull ─► pnpm generate ─► GHCR ─► homelab ─► garceslab.me
 ```
 
 The site is rebuilt when media changes rather than reading the manifest at runtime. Prerendering
 puts each photo's `width`, `height` and blurhash colour in the HTML, so nothing shifts while
 images load and the LCP image is in the first response; a runtime fetch would give that up for
 every visitor to save one rebuild per upload. A burst of uploads cancels into one deploy
-(`concurrency` in `deploy.yml`).
+(`concurrency` in `container.yml`).
 
 ## The contract: manifest.json
 
@@ -117,7 +117,7 @@ Principles that hold whatever the specifics:
 2. Validate the certificate, then point the media host at the CDN, both at the domain's registrar.
 3. Create the rebuild token and store it where the manifest function reads it.
 4. Upload a first photo with its `alt` metadata and confirm the public manifest lists it.
-5. Set `MEDIA_MANIFEST_URL` in this repo and run **Deploy to gh-pages** by hand once. From then on
+5. Set `MEDIA_MANIFEST_URL` in this repo and run **Build the site image** by hand once. From then on
    uploads rebuild the site on their own.
 6. Move the remaining photos to the pipeline, then delete `public/media/photos/` and
    `scripts/media-ingest.mjs`, the local stand-in.
