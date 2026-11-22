@@ -1,0 +1,31 @@
+# The site on the homelab, deployed by Arcane's Git Sync: Projects > From Git Repo, branch master,
+# Compose File Path deploy/compose.yaml. The image is built by .github/workflows/container.yml,
+# so the homelab only pulls it. Settings go in the project's .env in Arcane, never in Git.
+#
+# docs/HOMELAB.md covers Arcane, the tunnel and NixOS's firewall.
+
+services:
+  site:
+    image: ghcr.io/ytvictorworld/garceslab-site:${SITE_TAG:-latest}
+    # Every redeploy checks GHCR for a newer image, so a push to master reaches the homelab on
+    # the next sync or redeploy without touching this file
+    pull_policy: always
+    container_name: garceslab-site
+    restart: unless-stopped
+    ports:
+      - "${SITE_PORT:-8080}:8080"
+    # Nothing in the container is meant to change after the build
+    read_only: true
+    tmpfs:
+      - /data
+      - /config
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    mem_limit: 128m
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://127.0.0.1:8080/"]
+      interval: 30s
+      timeout: 3s
+      retries: 3

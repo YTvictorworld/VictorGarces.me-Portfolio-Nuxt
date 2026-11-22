@@ -1,0 +1,73 @@
+name: Build the site image
+
+# Every change to master, and every rebuild the media pipeline asks for, becomes an image on
+# GHCR. Arcane on the homelab pulls :latest and redeploys; every build also keeps its commit's tag,
+# so going back is a matter of pinning an older one.
+on:
+  push:
+    branches:
+      - master
+  # The media pipeline asks for a rebuild when its manifest changes (docs/MEDIA.md)
+  repository_dispatch:
+    types:
+      - media-updated
+  workflow_dispatch:
+
+# A burst of uploads sends a burst of dispatches. Only the newest build matters: it pulls the
+# newest manifest, so an older run still in progress is cancelled rather than queued.
+concurrency:
+  group: container
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  packages: write
+
+env:
+  # GHCR names are lower case, and the owner's login is not
+  IMAGE: ghcr.io/ytvictorworld/garceslab-site
+
+jobs:
+  image:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Tags and labels
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.IMAGE }}
+          tags: |
+            type=raw,value=latest
+            type=sha,format=short
+
+      # The Dockerfile runs `pnpm media:pull` and `pnpm generate`, so a manifest that fails its
+      # checks or a page that fails to prerender stops the build here, before anything is pushed
+      - name: Build and push
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          platforms: linux/amd64
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          # Both public by design (docs/MEDIA.md): the form key names the form, the manifest URL
+          # is the CDN's. Unset, the contact form opens the mail app and the committed manifest
+          # is used.
+          build-args: |
+            NUXT_PUBLIC_WEB3FORMS_KEY=${{ secrets.WEB3FORMS_KEY }}
+            MEDIA_MANIFEST_URL=${{ vars.MEDIA_MANIFEST_URL }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
